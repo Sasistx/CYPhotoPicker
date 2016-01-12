@@ -51,6 +51,46 @@
     [self.view addSubview:self.collectionView];
 }
 
+- (BOOL) updateSelectedImageListWithItem:(PhotoOldListItem*)item
+{
+    NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
+    if (!item.isSelected) {
+        
+        if (selectArray.count >= _imageMaxCount) {
+            
+            [self alertMaxSelection];
+            return NO;
+        }
+    }
+    
+    if (!_isOne) {
+        if ([selectArray containsObject:item.urlStr]) {
+            
+            [selectArray removeObject:item.urlStr];
+        }else {
+            [selectArray addObject:item.urlStr];
+        }
+        
+        item.isSelected = !item.isSelected;
+        [self updateImageCountView];
+    }else {
+        [selectArray removeAllObjects];
+        [selectArray addObject:item.urlStr];
+    }
+    
+    return YES;
+}
+
+- (void)updateImageCountView
+{
+    
+}
+
+- (void)alertMaxSelection
+{
+    
+}
+
 #pragma mark -
 #pragma mark - UICollectionViewDataSource
 
@@ -90,12 +130,12 @@
         [self.navigationController pushViewController:controller animated:YES];
     }else {
         PhotoOldListItem* item = _dataItems[indexPath.item];
-//        if ([self updateSelectedImageListWithItem:item]) {
-//            [self.collectionView performBatchUpdates:^{
-//                
-//                [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
-//            } completion: NULL];
-//        }
+        if ([self updateSelectedImageListWithItem:item]) {
+            [self.collectionView performBatchUpdates:^{
+                
+                [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+            } completion: NULL];
+        }
     }
 }
 

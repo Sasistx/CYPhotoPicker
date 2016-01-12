@@ -130,8 +130,8 @@
     [_collectionView reloadData];
 }
 
-- (BOOL) updateSelectedImageListWithItem:(PhotoListItem*)item {
-    
+- (BOOL) updateSelectedImageListWithItem:(PhotoListItem*)item
+{    
     NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
     if (!item.isSelected) {
         

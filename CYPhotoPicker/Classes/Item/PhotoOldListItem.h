@@ -14,6 +14,7 @@
 
 @property (nonatomic, copy) NSString* urlStr;
 @property (nonatomic, strong) UIImage* thumbImage;
+@property (nonatomic, assign) BOOL isSelected;
 
 @end
 
