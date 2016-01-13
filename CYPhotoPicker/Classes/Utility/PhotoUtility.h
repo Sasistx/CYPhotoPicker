@@ -13,6 +13,6 @@ typedef void (^PhotoFailureBlock)(NSError *error);
 
 @interface PhotoUtility : NSObject
 
-+ (void)loadChunyuPhoto:(ALAsset *)asset success:(void(^)(UIImage *image))success failure:(PhotoFailureBlock)failure;
++ (void)loadChunyuPhoto:(PhotoOldListItem *)item success:(void(^)(UIImage *image))success failure:(PhotoFailureBlock)failure;
 
 @end

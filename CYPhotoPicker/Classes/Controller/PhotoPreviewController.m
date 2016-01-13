@@ -14,14 +14,11 @@
 
 @interface PhotoPreviewController ()
 {
-    ALAsset* _alasset;
-    PHAsset* _asset;
-    UIScrollView* _scrollView;
     UIView* _backView;
 }
-//@property (nonatomic, copy) ChooseImage chooseImageBlock;
 @property (nonatomic, copy) ChoosePHAssetImage choosePHAssetImageBlock;
 @property (nonatomic, strong) UIImage* pickImage;
+@property (nonatomic, strong) UIScrollView* scrollView;
 @end
 
 @implementation PhotoPreviewController
@@ -60,49 +57,26 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
-//    _scrollView.height = viewHeight();
     
     PH_WEAK_VAR(self);
-    if (_alasset) {
-        [PhotoUtility loadChunyuPhoto:_alasset success:^(UIImage *image) {
+    if (_item) {
+        [PhotoUtility loadChunyuPhoto:_item success:^(UIImage *image) {
             
-            
+            [_self createZoomScrollViewWithImage:image];
         } failure:^(NSError *error) {
             
+            
         }];
-//        [MediaUtility loadChunyuPhoto:_item success:^(UIImage *image) {
-//            
-//            CYPhotoZoomScrollView* zoomView = [[CYPhotoZoomScrollView alloc] initWithFrame:CGRectMake(0, 0, _scrollView.width, _scrollView.height)];
-//            [zoomView setZoomImageView:image];
-//            [_scrollView addSubview:zoomView];
-//            _self.pickImage = image;
-//            
-//        } failure:^(NSError *error) {
-//            [SVProgressHUD showErrorWithStatus:@"加载图像失败"];
-//        }];
+
     }else {
         
         [[PhotoPickerManager sharedManager] syncTumbnailWithSize:PHImageManagerMaximumSize asset:_asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
             
-            PhotoZoomScrollView* zoomView = [[PhotoZoomScrollView alloc] initWithFrame:CGRectMake(0, 0, _scrollView.frame.size.width, _scrollView.frame.size.height)];
-            [zoomView setZoomImageView:resultImage];
-            [_scrollView addSubview:zoomView];
-            _self.pickImage = resultImage;
+            [_self createZoomScrollViewWithImage:resultImage];
         }];
     }
 
-    
     [_backView setFrame:CGRectMake(_backView.frame.origin.x, self.view.frame.size.height - _backView.frame.size.height, _backView.frame.size.width, _backView.frame.size.height)];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)setChoosedAssetImageBlock:(ChoosePHAssetImage)chooseBlock
-{
-    self.choosePHAssetImageBlock = chooseBlock;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -110,7 +84,24 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - 
+#pragma mark - set block
+
+- (void)setChoosedAssetImageBlock:(ChoosePHAssetImage)chooseBlock
+{
+    self.choosePHAssetImageBlock = chooseBlock;
+}
+
+#pragma mark - create zoom scroll view
+
+- (void)createZoomScrollViewWithImage:(UIImage*)image
+{
+    PhotoZoomScrollView* zoomView = [[PhotoZoomScrollView alloc] initWithFrame:CGRectMake(0, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height)];
+    [zoomView setZoomImageView:image];
+    [self.scrollView addSubview:zoomView];
+    self.pickImage = image;
+}
+
+#pragma mark -
 #pragma mark - button event
 
 - (void)cancelButtonClicked:(id)sender
@@ -124,15 +115,6 @@
     if (_choosePHAssetImageBlock) {
         _choosePHAssetImageBlock(self.pickImage);
     }
-    
-//    if (_chooseImageBlock) {
-//        _chooseImageBlock(_item);
-//    }else {
-//        
-//        if (_choosePHAssetImageBlock) {
-//            _choosePHAssetImageBlock(_self.pickImage);
-//        }
-//    }
 }
 
 @end

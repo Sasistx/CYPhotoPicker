@@ -12,8 +12,9 @@
 
 @interface PhotoOldListItem : NSObject
 
-@property (nonatomic, copy) NSString* urlStr;
+@property (nonatomic, copy) NSURL* url;
 @property (nonatomic, strong) UIImage* thumbImage;
+@property (nonatomic, strong) UIImage* originImage;
 @property (nonatomic, assign) BOOL isSelected;
 
 @end

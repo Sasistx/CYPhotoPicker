@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PhotoZoomScrollView : UIScrollView
+@interface PhotoZoomScrollView : UIScrollView <UIScrollViewDelegate>
 
 @property (nonatomic, retain) UIImageView *imageView;
 

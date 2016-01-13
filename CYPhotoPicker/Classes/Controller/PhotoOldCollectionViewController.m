@@ -29,11 +29,110 @@
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     self.title = @"全部照片";
+    
+    [self loadPhotoAsset];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)loadPhotoAsset
+{
+    if (!_dataItems) {
+        _dataItems = [NSMutableArray array];
+    }else {
+        [_dataItems removeAllObjects];
+    }
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        NSMutableArray *dataItems = [NSMutableArray array];
+        
+        ALAssetsLibraryAccessFailureBlock failureblock = ^(NSError *myerror){
+            
+            if ([myerror.localizedDescription rangeOfString:@"Global denied access"].location!=NSNotFound) {
+                NSLog(@"无法访问相册.请在'设置->定位服务'设置为打开状态.");
+            }else{
+                NSLog(@"相册访问失败.");
+            }
+        };
+        
+        // 获取图片
+        ALAssetsGroupEnumerationResultsBlock groupEnumerAtion = ^(ALAsset *result,NSUInteger index, BOOL *stop){
+            if (result!=NULL) {
+                
+                if ([[result valueForProperty:ALAssetPropertyType]isEqualToString:ALAssetTypePhoto]) {
+                    
+                    PhotoOldListItem *item = [[PhotoOldListItem alloc] init];
+                    item.url = result.defaultRepresentation.url;
+                    item.isSelected = [self itemHasBeenSelected: item];
+                    
+                    UIImage *thumbImage = [UIImage imageWithCGImage: result.thumbnail];
+                    item.thumbImage = thumbImage;
+                    
+                    [dataItems addObject:item];
+                }
+            }
+        };
+        
+        ALAssetsLibraryGroupsEnumerationResultsBlock
+        libraryGroupsEnumeration = ^(ALAssetsGroup* group,BOOL* stop){
+            
+            NSString* name = [group valueForProperty:ALAssetsGroupPropertyName];
+            NSLog(@"---name:%@", name);
+            if (group!=nil) {
+                
+                [group enumerateAssetsUsingBlock:groupEnumerAtion];
+            }
+            
+            // 获取完数据
+            NSMutableArray *resultData = [[[dataItems reverseObjectEnumerator] allObjects] mutableCopy];
+            
+            // 添加拍的照片（在相册中没有）
+            for (NSInteger i = [PhotoPickerManager sharedManager].selectedArray.count - 1; i >= 0; --i) {
+                
+                PhotoOldListItem* findItem = [PhotoPickerManager sharedManager].selectedArray[i];
+                if (findItem.originImage) {
+                    
+                    PhotoOldListItem* item = [[PhotoOldListItem alloc] init];
+                    item.isSelected = YES;
+                    
+                    // 过滤重复
+                    if ([self urlHasBeenAdded:[dataItems copy] item:item]) {
+                        
+                    } else {
+                        
+                        [resultData insertObject:item atIndex:0];
+                    }
+                }
+            }
+            
+            if (_showCamera) {
+                // 添加拍照的按钮
+                PhotoOldListItem* cameraItem = [[PhotoOldListItem alloc] init];
+                cameraItem.thumbImage = [UIImage imageNamed:@"photo_list_camera.png"];
+                [resultData insertObject: cameraItem atIndex: 0];
+            }
+            
+            // 告诉collectionModel数据加载已经完成
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.dataItems = resultData;
+                [self didFinishLoadItem];
+            });
+        };
+        
+        ALAssetsLibrary* library = [[ALAssetsLibrary alloc] init];
+        [library enumerateGroupsWithTypes:ALAssetsGroupAll
+                               usingBlock:libraryGroupsEnumeration
+                             failureBlock:failureblock];
+    });
+}
+
+- (void)didFinishLoadItem
+{
+    [_collectionView reloadData];
 }
 
 - (void)createCollectionView
@@ -64,18 +163,18 @@
     }
     
     if (!_isOne) {
-        if ([selectArray containsObject:item.urlStr]) {
+        if ([selectArray containsObject:item]) {
             
-            [selectArray removeObject:item.urlStr];
+            [selectArray removeObject:item];
         }else {
-            [selectArray addObject:item.urlStr];
+            [selectArray addObject:item];
         }
         
         item.isSelected = !item.isSelected;
         [self updateImageCountView];
     }else {
         [selectArray removeAllObjects];
-        [selectArray addObject:item.urlStr];
+        [selectArray addObject:item];
     }
     
     return YES;
@@ -137,6 +236,41 @@
             } completion: NULL];
         }
     }
+}
+
+#pragma mark - 
+#pragma mark - private method
+
+//
+// 当前的url是否已经在选中的list内
+//
+- (BOOL)itemHasBeenSelected:(PhotoOldListItem*)item
+{
+    NSMutableArray* selectedArray = [PhotoPickerManager sharedManager].selectedArray;
+    
+    for (PhotoOldListItem *existItem in selectedArray) {
+        
+        if ([existItem.url.absoluteString isEqualToString: item.url.absoluteString]) {
+            
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+// 当前的url是否重复
+- (BOOL)urlHasBeenAdded:(NSArray *)dataItems item:(PhotoOldListItem *)item {
+    
+    for (PhotoOldListItem *existItem in dataItems) {
+        
+        if ([existItem.url.absoluteString isEqualToString: item.url.absoluteString]) {
+            
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 @end

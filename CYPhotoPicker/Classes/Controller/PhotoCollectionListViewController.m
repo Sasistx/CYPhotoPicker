@@ -7,9 +7,6 @@
 //
 
 #import "PhotoCollectionListViewController.h"
-//#import "PhotoCollectionModel.h"
-//#import "ChunyuPhotoListLayout.h"
-//#import "PhotoListItem.h"
 #import "PhotoPickerManager.h"
 #import "PhotoPreviewController.h"
 #import "PhotoCollectionViewLayout.h"
