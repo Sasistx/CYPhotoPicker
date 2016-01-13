@@ -10,6 +10,7 @@
 #import "PhotoCollectionViewLayout.h"
 #import "PhotoOldListItem.h"
 #import "PhotoPreviewController.h"
+#import "PhotoUtility.h"
 
 #define OLD_CELL_IDENTIFIER @"Old_PhotoPickerCell"
 
@@ -30,12 +31,40 @@
     
     self.title = @"全部照片";
     
+    [self bottomView];
+    
+    [self updateImageCountView];
+    
     [self loadPhotoAsset];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)bottomView
+{
+    UIView* bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, self.view.frame.size.width, 50)];
+    [bottomView setBackgroundColor:[UIColor whiteColor]];
+    
+    _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_sendButton setFrame:CGRectMake(bottomView.frame.size.width - 80, 10, 70, 31)];
+    [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:kPHSendBtnColor] forState:UIControlStateNormal];
+    [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:kPHSendBtnBorderColor] forState:UIControlStateHighlighted];
+    [_sendButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
+    [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
+    [_sendButton addTarget:self action:@selector(onSendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:_sendButton];
+    
+    [self.view addSubview:bottomView];
+    
+    [_collectionView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - _sendButton.frame.size.height)];
+}
+
+- (void) updateImageCountView
+{
+    [_sendButton setTitle:[NSString stringWithFormat: @"发送 %zi/%zi", [PhotoPickerManager sharedManager].selectedArray.count, _imageMaxCount] forState:UIControlStateNormal];
 }
 
 - (void)loadPhotoAsset
@@ -180,12 +209,15 @@
     return YES;
 }
 
-- (void)updateImageCountView
+- (void)alertMaxSelection
 {
     
 }
 
-- (void)alertMaxSelection
+#pragma mark - 
+#pragma mark - button event
+
+- (void)onSendBtnPressed:(id)sender
 {
     
 }

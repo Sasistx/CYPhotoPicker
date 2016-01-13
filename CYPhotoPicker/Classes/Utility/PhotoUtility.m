@@ -13,50 +13,6 @@
 
 + (void)loadChunyuPhoto:(PhotoOldListItem *)item success:(void(^)(UIImage *image))success failure:(PhotoFailureBlock)failure
 {
-//    if(item.originImage) {
-//        success(item.originImage);
-//    } else if (item.url) {
-//
-//    }
-    
-    // 如果是相册的照片
-//    ALAssetsLibrary  *lib = [[ALAssetsLibrary alloc] init];
-//    NSURL *url = item.url;
-//    PH_WEAK_VAR(self);
-//    PH_WEAK_VAR(lib);
-//    PH_WEAK_VAR(url);
-//    [lib assetForURL:url resultBlock:^(ALAsset *asset) {
-//
-//    } failureBlock:^(NSError *error) {
-//        failure(error);
-//    }];
-    
-//    //在这里使用asset来获取图片
-//    if (asset) {
-//        ALAssetRepresentation *assetRep = [asset defaultRepresentation];
-//        CGImageRef imgRef = [assetRep fullResolutionImage];
-//        UIImage *img = [UIImage imageWithCGImage:imgRef
-//                                           scale:assetRep.scale
-//                                     orientation:(UIImageOrientation)assetRep.orientation];
-//        if (img) {
-//            success(img);
-//        }
-//        else {
-//            failure(nil);
-//        }
-//    } else {
-//        // 在iOS 8.1中,[library assetForUrl] Photo Streams 返回是nil. 改用下面这种方式转化
-//        
-////        [self getImageWithAssessLibrary:_lib url:_url onCompletion:^(UIImage *image) {
-////            if (image) {
-////                success(image);
-////            }
-////            else {
-////                failure(nil);
-////            }
-////        }];
-//    }
-    
     if (item.url) {
         // 如果是相册的照片
         ALAssetsLibrary  *lib = [[ALAssetsLibrary alloc] init];
@@ -116,6 +72,17 @@
                        }failureBlock:^(NSError *error) {
                            completion(nil);
                        }];
+}
+
++ (UIImage*)imageWithColor:(UIColor*)color
+{
+    CGSize imageSize =CGSizeMake(50,50);
+    UIGraphicsBeginImageContextWithOptions(imageSize,0, [UIScreen mainScreen].scale);
+    [color set];
+    UIRectFill(CGRectMake(0,0, imageSize.width, imageSize.height));
+    UIImage *pressedColorImg = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return pressedColorImg;
 }
 
 @end

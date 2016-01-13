@@ -70,7 +70,7 @@ static PhotoPickerManager* sharedManager = nil;
 - (void)syncGetAllSelectedOriginImages:(void (^)(NSArray* images))completion
 {
     PH_WEAK_VAR(self);
-    __block NSMutableArray* imageAssets = self.selectedArray;
+    __block NSMutableArray* imageAssets = [self.selectedArray copy];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
        
         __block NSMutableArray* images = [NSMutableArray array];

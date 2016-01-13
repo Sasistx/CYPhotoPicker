@@ -35,6 +35,9 @@
 - (void)buttonClicked:(id)sender
 {
     PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
+    [controller setPhotoCompeletionBlock:^(NSArray *images) {
+        
+    }];
     UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:navi animated:YES completion:^{
         

@@ -12,10 +12,9 @@
 #import "PhotoCollectionViewLayout.h"
 #import "PhotoCollectionViewCell.h"
 #import "PhotoListItem.h"
+#import "PhotoUtility.h"
 
 #define CELL_IDENTIFIER @"PhotoPickerCell"
-#define kSendBtnColor [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1]
-#define kSendBtnBorderColor [UIColor clearColor]
 
 @interface PhotoCollectionListViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, assign) NSInteger imageMaxCount;
@@ -40,9 +39,7 @@
     
     [self createCollectionView];
     
-    if (!_isOne) {
-        [self bottomView];
-    }
+    [self bottomView];
     
     [self updateImageCountView];
     [self loadPhotoAsset];
@@ -76,8 +73,8 @@
     
     _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_sendButton setFrame:CGRectMake(bottomView.frame.size.width - 80, 10, 70, 31)];
-    [_sendButton setBackgroundImage:[self imageWithColor:kSendBtnColor] forState:UIControlStateNormal];
-    [_sendButton setBackgroundImage:[self imageWithColor:kSendBtnBorderColor] forState:UIControlStateHighlighted];
+    [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:kPHSendBtnColor] forState:UIControlStateNormal];
+    [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:kPHSendBtnBorderColor] forState:UIControlStateHighlighted];
     [_sendButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
     [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
     [_sendButton addTarget:self action:@selector(onSendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -176,8 +173,10 @@
         PH_WEAK_VAR(self);
         [[PhotoPickerManager sharedManager] syncGetAllSelectedOriginImages:^(NSArray *images) {
             _self.dissmissBlock(images);
+            [[PhotoPickerManager sharedManager] clearSelectedArray];
         }];
     }
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
 }
 
 #pragma mark -
@@ -226,17 +225,6 @@
             } completion: NULL];
         }
     }
-}
-
-- (UIImage*)imageWithColor:(UIColor*)color
-{
-    CGSize imageSize =CGSizeMake(50,50);
-    UIGraphicsBeginImageContextWithOptions(imageSize,0, [UIScreen mainScreen].scale);
-    [color set];
-    UIRectFill(CGRectMake(0,0, imageSize.width, imageSize.height));
-    UIImage *pressedColorImg = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return pressedColorImg;
 }
 
 @end

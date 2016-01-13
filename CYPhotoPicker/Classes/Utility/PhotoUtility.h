@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CYPhotoPickerDefines.h"
+#import "PhotoOldListItem.h"
 
 typedef void (^PhotoFailureBlock)(NSError *error);
 
@@ -15,4 +16,5 @@ typedef void (^PhotoFailureBlock)(NSError *error);
 
 + (void)loadChunyuPhoto:(PhotoOldListItem *)item success:(void(^)(UIImage *image))success failure:(PhotoFailureBlock)failure;
 
++ (UIImage*)imageWithColor:(UIColor*)color;
 @end

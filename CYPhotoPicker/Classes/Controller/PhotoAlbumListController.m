@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSMutableArray* albumsArray;
 @property (nonatomic, strong) NSMutableArray* albumsPosterArray;
 @property (nonatomic, strong) UITableView* tableView;
+@property (nonatomic, copy) PhotoPickerDismissBlock dissmissBlock;
 @end
 
 @implementation PhotoAlbumListController
@@ -107,6 +108,14 @@
     }];
 }
 
+#pragma mark -
+#pragma mark - public method
+
+- (void)setPhotoCompeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
+{
+    self.dissmissBlock = dissmissBlock;
+}
+
 #pragma mark - tableview
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -137,6 +146,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     PhotoCollectionListViewController* controller = [[PhotoCollectionListViewController alloc] init];
+    controller.dissmissBlock = self.dissmissBlock;
     PhotoAlbumItem* item = _albumsArray[indexPath.row];
     controller.fetchResult = item.assetsFetchResult;
     controller.collection = item.collection;

@@ -19,6 +19,10 @@ alpha: 1]
 
 #define PH_IOSOVER(v) ([[UIDevice currentDevice].systemVersion floatValue] >= v)
 
+#define kPHSendBtnColor [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1]
+#define kPHSendBtnBorderColor [UIColor clearColor]
+
+
 #import <Photos/Photos.h>
 #import <AssetsLibrary/ALAssetsLibrary.h>
 #import <AssetsLibrary/ALAssetRepresentation.h>
