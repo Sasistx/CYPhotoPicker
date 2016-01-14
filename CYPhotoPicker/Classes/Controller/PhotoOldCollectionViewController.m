@@ -27,9 +27,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    if (_isOne) {
+        _imageMaxCount = 1;
+    }else {
+        _imageMaxCount = 9;
+    }
+    
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     self.title = @"全部照片";
+    
+    [self createCollectionView];
     
     [self bottomView];
     
@@ -75,93 +83,39 @@
         [_dataItems removeAllObjects];
     }
     
+    PH_WEAK_VAR(self);
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        NSMutableArray *dataItems = [NSMutableArray array];
+        [_self.assetGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+            
+            if(result == nil) {
+                return;
+            }
+            PhotoOldListItem *item = [[PhotoOldListItem alloc] init];
+            item.url = result.defaultRepresentation.url;
+            item.isSelected = [_self itemHasBeenSelected: item];
+            UIImage *thumbImage = [UIImage imageWithCGImage: result.thumbnail];
+            item.thumbImage = thumbImage;
+            [_self.dataItems addObject:item];
+        }];
+        NSLog(@"done enumerating photos");
         
-        ALAssetsLibraryAccessFailureBlock failureblock = ^(NSError *myerror){
+        dispatch_sync(dispatch_get_main_queue(), ^{
             
-            if ([myerror.localizedDescription rangeOfString:@"Global denied access"].location!=NSNotFound) {
-                NSLog(@"无法访问相册.请在'设置->定位服务'设置为打开状态.");
-            }else{
-                NSLog(@"相册访问失败.");
-            }
-        };
-        
-        // 获取图片
-        ALAssetsGroupEnumerationResultsBlock groupEnumerAtion = ^(ALAsset *result,NSUInteger index, BOOL *stop){
-            if (result!=NULL) {
-                
-                if ([[result valueForProperty:ALAssetPropertyType]isEqualToString:ALAssetTypePhoto]) {
-                    
-                    PhotoOldListItem *item = [[PhotoOldListItem alloc] init];
-                    item.url = result.defaultRepresentation.url;
-                    item.isSelected = [self itemHasBeenSelected: item];
-                    
-                    UIImage *thumbImage = [UIImage imageWithCGImage: result.thumbnail];
-                    item.thumbImage = thumbImage;
-                    
-                    [dataItems addObject:item];
-                }
-            }
-        };
-        
-        ALAssetsLibraryGroupsEnumerationResultsBlock
-        libraryGroupsEnumeration = ^(ALAssetsGroup* group,BOOL* stop){
             
-            NSString* name = [group valueForProperty:ALAssetsGroupPropertyName];
-            NSLog(@"---name:%@", name);
-            if (group!=nil) {
-                
-                [group enumerateAssetsUsingBlock:groupEnumerAtion];
-            }
-            
-            // 获取完数据
-            NSMutableArray *resultData = [[[dataItems reverseObjectEnumerator] allObjects] mutableCopy];
-            
-            // 添加拍的照片（在相册中没有）
-            for (NSInteger i = [PhotoPickerManager sharedManager].selectedArray.count - 1; i >= 0; --i) {
-                
-                PhotoOldListItem* findItem = [PhotoPickerManager sharedManager].selectedArray[i];
-                if (findItem.originImage) {
-                    
-                    PhotoOldListItem* item = [[PhotoOldListItem alloc] init];
-                    item.isSelected = YES;
-                    
-                    // 过滤重复
-                    if ([self urlHasBeenAdded:[dataItems copy] item:item]) {
-                        
-                    } else {
-                        
-                        [resultData insertObject:item atIndex:0];
-                    }
-                }
-            }
-            
-            if (_showCamera) {
-                // 添加拍照的按钮
-                PhotoOldListItem* cameraItem = [[PhotoOldListItem alloc] init];
-                cameraItem.thumbImage = [UIImage imageNamed:@"photo_list_camera.png"];
-                [resultData insertObject: cameraItem atIndex: 0];
-            }
-            
-            // 告诉collectionModel数据加载已经完成
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.dataItems = resultData;
-                [self didFinishLoadItem];
-            });
-        };
-        
-        ALAssetsLibrary* library = [[ALAssetsLibrary alloc] init];
-        [library enumerateGroupsWithTypes:ALAssetsGroupAll
-                               usingBlock:libraryGroupsEnumeration
-                             failureBlock:failureblock];
+            [_self didFinishLoadItem];
+        });
     });
 }
 
 - (void)didFinishLoadItem
 {
     [_collectionView reloadData];
+    if ([_dataItems count] != 0) {
+        
+        [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:([_dataItems count] - 1) inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+    }
 }
 
 - (void)createCollectionView
@@ -174,7 +128,7 @@
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     _collectionView.backgroundColor = [UIColor whiteColor];
-    [_collectionView registerClass:[PhotoOldListItem class]
+    [_collectionView registerClass:[PhotoOldListItemCell class]
         forCellWithReuseIdentifier:OLD_CELL_IDENTIFIER];
     [self.view addSubview:self.collectionView];
 }

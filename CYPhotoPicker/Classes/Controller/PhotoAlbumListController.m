@@ -11,8 +11,7 @@
 #import "PhotoAlbumListController.h"
 #import "PhotoAlbumItem.h"
 #import "PhotoCollectionListViewController.h"
-
-#define kCYAlbumItemCellHeight 60
+#import "CYPhotoPickerDefines.h"
 
 @interface PhotoAlbumListController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSMutableArray* albumsArray;
@@ -103,6 +102,7 @@
 
 - (void)cancelButtonClicked:(id)sender
 {
+    [[PhotoPickerManager sharedManager] clearSelectedArray];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
     
     }];

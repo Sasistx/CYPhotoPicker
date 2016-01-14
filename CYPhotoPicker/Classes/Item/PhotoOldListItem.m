@@ -28,7 +28,19 @@
 {
     [super shouldUpdateItemCellWithObject:obj];
     
+    __block PhotoOldListItem *item = obj;
+    if (item.thumbImage) {
+        self.thumbImageView.image = item.thumbImage;
+    }
     
+    self.selectedIcon.hidden = !item.isSelected;
+    self.blackCoverView.hidden = !item.isSelected;
+}
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    self.thumbImageView.image = nil;
 }
 
 @end

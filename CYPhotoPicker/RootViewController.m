@@ -8,6 +8,7 @@
 
 #import "RootViewController.h"
 #import "PhotoAlbumListController.h"
+#import "PhotoOldAlbumViewController.h"
 
 @interface RootViewController ()
 
@@ -34,12 +35,20 @@
 
 - (void)buttonClicked:(id)sender
 {
-    PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
-    controller.isOne = YES;
-    controller.showPreview = YES;
-    [controller setPhotoCompeletionBlock:^(NSArray *images) {
-        
-    }];
+//    PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
+//    controller.isOne = YES;
+//    controller.showPreview = YES;
+//    [controller setPhotoCompeletionBlock:^(NSArray *images) {
+//        
+//    }];
+//    UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
+//    [self presentViewController:navi animated:YES completion:^{
+//        
+//    }];
+    
+    PhotoOldAlbumViewController* controller = [[PhotoOldAlbumViewController alloc] init];
+    controller.isOne = NO;
+    controller.showPreview = NO;
     UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:navi animated:YES completion:^{
         

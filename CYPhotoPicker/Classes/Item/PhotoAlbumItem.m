@@ -22,7 +22,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
+        [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     }
     return self;
 }
@@ -35,14 +35,16 @@
     
     CGFloat scale = [UIScreen mainScreen].scale;
     
+    [self.textLabel setText:[NSString stringWithFormat:@"%@(%lu)", item.collection.localizedTitle, item.assetsFetchResult.count]];
+    
     if (item.thumbImage) {
         
         [_self.imageView setImage:item.thumbImage];
     }else {
         [[PhotoPickerManager sharedManager] syncTumbnailWithSize:CGSizeMake(25 * scale, 25* scale) asset:asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
-            [_self.imageView setContentMode:UIViewContentModeScaleAspectFit];
+//            [_self.imageView setContentMode:UIViewContentModeScaleAspectFit];
             [_self.imageView setImage:resultImage];
-            [_self.imageView layoutIfNeeded];
+//            [_self.imageView layoutIfNeeded];
             item.thumbImage = resultImage;
         }];
     }
@@ -62,8 +64,6 @@
     //                                 // 得到一张 UIImage，展示到界面上
     //                                 [_self.imageView setImage:result];
     //                             }];
-    
-    [self.textLabel setText:[NSString stringWithFormat:@"%@(%lu)", item.collection.localizedTitle, item.assetsFetchResult.count]];
 }
 
 
