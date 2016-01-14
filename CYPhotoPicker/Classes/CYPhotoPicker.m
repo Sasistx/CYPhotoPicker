@@ -22,12 +22,37 @@
     self = [super init];
     if (self) {
         
-        [[PhotoConfigureManager sharedManager] clearColor];
         _one = isOne;
         _showPreview = showPreview;
+        _currentController = controller;
+        [self clearManager];
     }
     return self;
 }
+
+- (void)setSendButtonColor:(UIColor *)sendButtonColor
+{
+    if (_sendButtonColor && _sendButtonColor != sendButtonColor) {
+        
+        _sendButtonColor = nil;
+    }
+    _sendButtonColor = sendButtonColor;
+    [PhotoConfigureManager sharedManager].sendButtonColor = sendButtonColor;
+}
+
+- (void)setSendButtonTextColor:(UIColor *)sendButtonTextColor
+{
+    if (_sendButtonTextColor && _sendButtonTextColor != sendButtonTextColor) {
+        
+        _sendButtonTextColor = nil;
+    }
+    
+    _sendButtonTextColor = sendButtonTextColor;
+    [PhotoConfigureManager sharedManager].sendButtontextColor = sendButtonTextColor;
+}
+
+#pragma mark - 
+#pragma mark - public method
 
 - (void)setPhotoCompeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
 {
@@ -57,6 +82,15 @@
             
         }];
     }
+}
+
+#pragma mark -
+#pragma mark - private method
+
+- (void)clearManager
+{
+    [[PhotoConfigureManager sharedManager] clearColor];
+    [[PhotoPickerManager sharedManager] clearSelectedArray];
 }
 
 @end

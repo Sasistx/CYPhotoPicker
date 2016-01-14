@@ -7,8 +7,7 @@
 //
 
 #import "RootViewController.h"
-#import "PhotoAlbumListController.h"
-#import "PhotoOldAlbumViewController.h"
+#import "CYPhotoPicker.h"
 
 @interface RootViewController ()
 
@@ -35,27 +34,11 @@
 
 - (void)buttonClicked:(id)sender
 {
-//    PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
-//    controller.isOne = YES;
-//    controller.showPreview = YES;
-//    [controller setPhotoCompeletionBlock:^(NSArray *images) {
-//        
-//    }];
-//    UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
-//    [self presentViewController:navi animated:YES completion:^{
-//        
-//    }];
-    
-    PhotoOldAlbumViewController* controller = [[PhotoOldAlbumViewController alloc] init];
-    controller.isOne = YES;
-    controller.showPreview = YES;
-    [controller setPhotoCompeletionBlock:^(NSArray *images) {
-        
-    }];
-    UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
-    [self presentViewController:navi animated:YES completion:^{
-        
-    }];
+    //[UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1]
+    CYPhotoPicker* picker = [[CYPhotoPicker alloc] initWithCurrentController:self isOne:NO showPreview:NO];
+    picker.sendButtonColor = [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1];
+    picker.sendButtonTextColor = [UIColor whiteColor];
+    [picker show];
 }
 
 @end

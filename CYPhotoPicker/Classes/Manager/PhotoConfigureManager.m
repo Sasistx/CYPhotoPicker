@@ -23,8 +23,6 @@ static PhotoConfigureManager* sharedManager = nil;
 
 - (void)clearColor
 {
-    self.rightItemColor = nil;
-    self.naviItemColor = nil;
     self.sendButtonColor = nil;
     self.sendButtontextColor = nil;
 }

@@ -10,8 +10,8 @@
 #import "CYPhotoPickerDefines.h"
 
 @interface CYPhotoPicker : NSObject
-@property (nonatomic, strong) UIColor* buttonColor;
-@property (nonatomic, strong) UIColor* textColor;
+@property (nonatomic, strong) UIColor* sendButtonColor;
+@property (nonatomic, strong) UIColor* sendButtonTextColor;
 @property (nonatomic, getter=isOne) BOOL one;
 @property (nonatomic, getter=isShowPreview) BOOL showPreview;
 

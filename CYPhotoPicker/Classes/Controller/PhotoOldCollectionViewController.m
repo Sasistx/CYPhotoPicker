@@ -55,15 +55,18 @@
 
 - (void)bottomView
 {
+    UIColor* textColor = [PhotoConfigureManager sharedManager].sendButtontextColor ? [PhotoConfigureManager sharedManager].sendButtontextColor : [UIColor whiteColor];
+    UIColor* buttonColor = [PhotoConfigureManager sharedManager].sendButtonColor ? [PhotoConfigureManager sharedManager].sendButtonColor : [UIColor blackColor];
+    
     UIView* bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, self.view.frame.size.width, 50)];
     [bottomView setBackgroundColor:[UIColor whiteColor]];
     
     _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_sendButton setFrame:CGRectMake(bottomView.frame.size.width - 80, 10, 70, 31)];
-    [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:kPHSendBtnColor] forState:UIControlStateNormal];
-    [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:kPHSendBtnBorderColor] forState:UIControlStateHighlighted];
+    [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
     [_sendButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
     [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
+    [_sendButton setTitleColor:textColor forState:UIControlStateNormal];
     [_sendButton addTarget:self action:@selector(onSendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:_sendButton];
     
