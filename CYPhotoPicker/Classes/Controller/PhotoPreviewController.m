@@ -79,6 +79,12 @@
     [_backView setFrame:CGRectMake(_backView.frame.origin.x, self.view.frame.size.height - _backView.frame.size.height, _backView.frame.size.width, _backView.frame.size.height)];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -112,7 +118,9 @@
 
 - (void)chooseButtonClicked:(id)sender
 {
+    [[PhotoPickerManager sharedManager] clearSelectedArray];
     if (_choosePHAssetImageBlock) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
         _choosePHAssetImageBlock(self.pickImage);
     }
 }

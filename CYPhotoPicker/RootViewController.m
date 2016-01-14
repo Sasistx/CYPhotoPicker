@@ -35,6 +35,8 @@
 - (void)buttonClicked:(id)sender
 {
     PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
+    controller.isOne = YES;
+    controller.showPreview = YES;
     [controller setPhotoCompeletionBlock:^(NSArray *images) {
         
     }];

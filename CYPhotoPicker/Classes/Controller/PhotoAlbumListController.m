@@ -146,6 +146,8 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     PhotoCollectionListViewController* controller = [[PhotoCollectionListViewController alloc] init];
+    controller.isOne = self.isOne;
+    controller.showPreview = self.showPreview;
     controller.dissmissBlock = self.dissmissBlock;
     PhotoAlbumItem* item = _albumsArray[indexPath.row];
     controller.fetchResult = item.assetsFetchResult;

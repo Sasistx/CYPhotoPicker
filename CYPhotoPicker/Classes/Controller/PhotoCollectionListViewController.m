@@ -206,8 +206,11 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PH_WEAK_VAR(self);
+    PhotoListItem* item = _dataItems[indexPath.item];
     if (_isOne && _showPreview) {
+        [self updateSelectedImageListWithItem:item];
         PhotoPreviewController* controller = [[PhotoPreviewController alloc] init];
+        controller.asset = [PhotoPickerManager sharedManager].selectedArray.firstObject;
         [controller setChoosedAssetImageBlock:^(UIImage *photo) {
            
             if (_self.dissmissBlock) {
@@ -217,7 +220,7 @@
         }];
         [self.navigationController pushViewController:controller animated:YES];
     }else {
-        PhotoListItem* item = _dataItems[indexPath.item];
+        
         if ([self updateSelectedImageListWithItem:item]) {
             [self.collectionView performBatchUpdates:^{
                 
