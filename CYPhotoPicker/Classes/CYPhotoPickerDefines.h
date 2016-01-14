@@ -28,6 +28,7 @@ alpha: 1]
 #import <AssetsLibrary/ALAssetsLibrary.h>
 #import <AssetsLibrary/ALAssetRepresentation.h>
 #import "PhotoPickerManager.h"
+#import "PhotoConfigureManager.h"
 
 
 typedef void (^PhotoPickerDismissBlock)(NSArray *images);

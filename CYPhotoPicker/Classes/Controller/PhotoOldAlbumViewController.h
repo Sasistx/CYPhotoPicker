@@ -13,5 +13,4 @@
 @property (nonatomic, assign) BOOL isOne;
 @property (nonatomic, assign) BOOL showPreview;
 @property (nonatomic, copy) PhotoPickerDismissBlock dissmissBlock;
-- (void)setPhotoCompeletionBlock:(PhotoPickerDismissBlock)dissmissBlock;
 @end

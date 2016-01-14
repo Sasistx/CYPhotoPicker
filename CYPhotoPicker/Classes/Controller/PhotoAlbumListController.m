@@ -17,7 +17,6 @@
 @property (nonatomic, strong) NSMutableArray* albumsArray;
 @property (nonatomic, strong) NSMutableArray* albumsPosterArray;
 @property (nonatomic, strong) UITableView* tableView;
-@property (nonatomic, copy) PhotoPickerDismissBlock dissmissBlock;
 @end
 
 @implementation PhotoAlbumListController
@@ -106,14 +105,6 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
     
     }];
-}
-
-#pragma mark -
-#pragma mark - public method
-
-- (void)setPhotoCompeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
-{
-    self.dissmissBlock = dissmissBlock;
 }
 
 #pragma mark - tableview

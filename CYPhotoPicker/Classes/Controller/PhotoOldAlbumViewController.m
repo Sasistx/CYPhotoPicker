@@ -57,11 +57,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)setPhotoCompeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
-{
-    self.dissmissBlock = dissmissBlock;
-}
-
 #pragma mark -
 #pragma mark - load data
 

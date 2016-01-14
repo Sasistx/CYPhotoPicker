@@ -25,7 +25,6 @@
 		F39BA5BF1C438C2D00C8A0D7 /* PhotoAlbumItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5BE1C438C2D00C8A0D7 /* PhotoAlbumItem.m */; };
 		F39BA5C71C43AC4E00C8A0D7 /* PhotoAlbumListController.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5C21C43AC4E00C8A0D7 /* PhotoAlbumListController.m */; };
 		F39BA5C81C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5C41C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m */; };
-		F39BA5C91C43AC4E00C8A0D7 /* PhotoPickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5C61C43AC4E00C8A0D7 /* PhotoPickerManager.m */; };
 		F39BA5CC1C449A9600C8A0D7 /* PhotoPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5CB1C449A9600C8A0D7 /* PhotoPreviewController.m */; };
 		F39BA5D01C44A3E900C8A0D7 /* PhotoUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5CF1C44A3E900C8A0D7 /* PhotoUtility.m */; };
 		F39BA5D41C44AFA200C8A0D7 /* PhotoZoomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5D31C44AFA200C8A0D7 /* PhotoZoomScrollView.m */; };
@@ -34,6 +33,9 @@
 		F39BA5E01C4500D400C8A0D7 /* PhotoCollectionBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5DF1C4500D400C8A0D7 /* PhotoCollectionBaseCell.m */; };
 		F39BA5E31C47440F00C8A0D7 /* PhotoOldAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5E21C47440F00C8A0D7 /* PhotoOldAlbumViewController.m */; };
 		F39BA5E61C474B6500C8A0D7 /* PhotoOldAlbumItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5E51C474B6500C8A0D7 /* PhotoOldAlbumItem.m */; };
+		F39BA5EA1C4795C700C8A0D7 /* PhotoPickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5E91C4795C700C8A0D7 /* PhotoPickerManager.m */; };
+		F39BA5ED1C4795F800C8A0D7 /* PhotoConfigureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5EC1C4795F800C8A0D7 /* PhotoConfigureManager.m */; };
+		F39BA5F01C4798F000C8A0D7 /* CYPhotoPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5EF1C4798F000C8A0D7 /* CYPhotoPicker.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +71,6 @@
 		F39BA5821C3E4DF100C8A0D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F39BA58E1C3E4EF500C8A0D7 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		F39BA58F1C3E4EF500C8A0D7 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		F39BA59C1C3E520F00C8A0D7 /* CYPhotoPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYPhotoPicker.h; sourceTree = "<group>"; };
 		F39BA59D1C3E528A00C8A0D7 /* CYPhotoPickerDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYPhotoPickerDefines.h; sourceTree = "<group>"; };
 		F39BA5A91C3F579A00C8A0D7 /* PhotoCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCollectionViewLayout.h; sourceTree = "<group>"; };
 		F39BA5AA1C3F579A00C8A0D7 /* PhotoCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCollectionViewLayout.m; sourceTree = "<group>"; };
@@ -88,8 +89,6 @@
 		F39BA5C21C43AC4E00C8A0D7 /* PhotoAlbumListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoAlbumListController.m; sourceTree = "<group>"; };
 		F39BA5C31C43AC4E00C8A0D7 /* PhotoCollectionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCollectionListViewController.h; sourceTree = "<group>"; };
 		F39BA5C41C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCollectionListViewController.m; sourceTree = "<group>"; };
-		F39BA5C51C43AC4E00C8A0D7 /* PhotoPickerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPickerManager.h; sourceTree = "<group>"; };
-		F39BA5C61C43AC4E00C8A0D7 /* PhotoPickerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPickerManager.m; sourceTree = "<group>"; };
 		F39BA5CA1C449A9600C8A0D7 /* PhotoPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewController.h; sourceTree = "<group>"; };
 		F39BA5CB1C449A9600C8A0D7 /* PhotoPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewController.m; sourceTree = "<group>"; };
 		F39BA5CE1C44A3E900C8A0D7 /* PhotoUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoUtility.h; sourceTree = "<group>"; };
@@ -106,6 +105,12 @@
 		F39BA5E21C47440F00C8A0D7 /* PhotoOldAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoOldAlbumViewController.m; sourceTree = "<group>"; };
 		F39BA5E41C474B6500C8A0D7 /* PhotoOldAlbumItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoOldAlbumItem.h; sourceTree = "<group>"; };
 		F39BA5E51C474B6500C8A0D7 /* PhotoOldAlbumItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoOldAlbumItem.m; sourceTree = "<group>"; };
+		F39BA5E81C4795C700C8A0D7 /* PhotoPickerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPickerManager.h; sourceTree = "<group>"; };
+		F39BA5E91C4795C700C8A0D7 /* PhotoPickerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPickerManager.m; sourceTree = "<group>"; };
+		F39BA5EB1C4795F800C8A0D7 /* PhotoConfigureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoConfigureManager.h; sourceTree = "<group>"; };
+		F39BA5EC1C4795F800C8A0D7 /* PhotoConfigureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoConfigureManager.m; sourceTree = "<group>"; };
+		F39BA5EE1C4798F000C8A0D7 /* CYPhotoPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoPicker.h; sourceTree = "<group>"; };
+		F39BA5EF1C4798F000C8A0D7 /* CYPhotoPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoPicker.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,13 +204,15 @@
 		F39BA5911C3E518C00C8A0D7 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F39BA5E71C4795C700C8A0D7 /* Manager */,
 				F39BA5D11C44AF9600C8A0D7 /* View */,
 				F39BA5CD1C44A3BA00C8A0D7 /* Utility */,
 				F39BA5C01C43AC4E00C8A0D7 /* Controller */,
 				F39BA5A21C3F563E00C8A0D7 /* Layout */,
 				F39BA59E1C3E58FD00C8A0D7 /* Item */,
-				F39BA59C1C3E520F00C8A0D7 /* CYPhotoPicker.h */,
 				F39BA59D1C3E528A00C8A0D7 /* CYPhotoPickerDefines.h */,
+				F39BA5EE1C4798F000C8A0D7 /* CYPhotoPicker.h */,
+				F39BA5EF1C4798F000C8A0D7 /* CYPhotoPicker.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -259,8 +266,6 @@
 				F39BA5C21C43AC4E00C8A0D7 /* PhotoAlbumListController.m */,
 				F39BA5C31C43AC4E00C8A0D7 /* PhotoCollectionListViewController.h */,
 				F39BA5C41C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m */,
-				F39BA5C51C43AC4E00C8A0D7 /* PhotoPickerManager.h */,
-				F39BA5C61C43AC4E00C8A0D7 /* PhotoPickerManager.m */,
 				F39BA5D51C44E6A200C8A0D7 /* PhotoOldCollectionViewController.h */,
 				F39BA5D61C44E6A200C8A0D7 /* PhotoOldCollectionViewController.m */,
 				F39BA5E11C47440F00C8A0D7 /* PhotoOldAlbumViewController.h */,
@@ -285,6 +290,17 @@
 				F39BA5D31C44AFA200C8A0D7 /* PhotoZoomScrollView.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		F39BA5E71C4795C700C8A0D7 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				F39BA5E81C4795C700C8A0D7 /* PhotoPickerManager.h */,
+				F39BA5E91C4795C700C8A0D7 /* PhotoPickerManager.m */,
+				F39BA5EB1C4795F800C8A0D7 /* PhotoConfigureManager.h */,
+				F39BA5EC1C4795F800C8A0D7 /* PhotoConfigureManager.m */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -423,6 +439,7 @@
 			files = (
 				F39BA5C71C43AC4E00C8A0D7 /* PhotoAlbumListController.m in Sources */,
 				F39BA55D1C3E4DF100C8A0D7 /* AppDelegate.m in Sources */,
+				F39BA5EA1C4795C700C8A0D7 /* PhotoPickerManager.m in Sources */,
 				F39BA5B11C3F5E1700C8A0D7 /* PhotoListItem.m in Sources */,
 				F39BA5D01C44A3E900C8A0D7 /* PhotoUtility.m in Sources */,
 				F39BA5AE1C3F587200C8A0D7 /* PhotoCollectionViewCell.m in Sources */,
@@ -430,15 +447,16 @@
 				F39BA55A1C3E4DF100C8A0D7 /* main.m in Sources */,
 				F39BA5901C3E4EF500C8A0D7 /* RootViewController.m in Sources */,
 				F39BA5D71C44E6A200C8A0D7 /* PhotoOldCollectionViewController.m in Sources */,
-				F39BA5C91C43AC4E00C8A0D7 /* PhotoPickerManager.m in Sources */,
 				F39BA5C81C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m in Sources */,
 				F39BA5E31C47440F00C8A0D7 /* PhotoOldAlbumViewController.m in Sources */,
 				F39BA5CC1C449A9600C8A0D7 /* PhotoPreviewController.m in Sources */,
 				F39BA5DD1C45005E00C8A0D7 /* PhotoOldListItem.m in Sources */,
+				F39BA5F01C4798F000C8A0D7 /* CYPhotoPicker.m in Sources */,
 				F39BA5D41C44AFA200C8A0D7 /* PhotoZoomScrollView.m in Sources */,
 				F39BA5E61C474B6500C8A0D7 /* PhotoOldAlbumItem.m in Sources */,
 				F39BA5AB1C3F579A00C8A0D7 /* PhotoCollectionViewLayout.m in Sources */,
 				F39BA5BF1C438C2D00C8A0D7 /* PhotoAlbumItem.m in Sources */,
+				F39BA5ED1C4795F800C8A0D7 /* PhotoConfigureManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
