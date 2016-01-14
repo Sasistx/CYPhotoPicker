@@ -169,7 +169,7 @@
 
 - (void)alertMaxSelection
 {
-    
+    [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
 }
 
 #pragma mark - 

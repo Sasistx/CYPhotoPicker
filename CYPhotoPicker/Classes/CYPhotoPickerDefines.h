@@ -29,6 +29,7 @@ alpha: 1]
 #import <AssetsLibrary/ALAssetRepresentation.h>
 #import "PhotoPickerManager.h"
 #import "PhotoConfigureManager.h"
+#import "SVProgressHUD.h"
 
 
 typedef void (^PhotoPickerDismissBlock)(NSArray *images);
