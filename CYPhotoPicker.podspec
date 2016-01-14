@@ -26,9 +26,9 @@ Pod::Spec.new do |s|
   # s.watchos.deployment_target = "2.0"
   # s.tvos.deployment_target = "9.0"
   s.source       = { :git => "https://github.com/Sasistx/CYPhotoPicker.git", :tag => “1.0” }
-  s.source_files  = "Classes", "Classes/**/*.{h,m}"
-  s.exclude_files = "Classes/Exclude"
-  s.resources = "Resource/*.png"
+  s.source_files  = "CYPhotoPicker/Classes", "Classes/**/*.{h,m}"
+  # s.exclude_files = "CYPhotoPicker/Classes/Exclude"
+  s.resources = "CYPhotoPicker/Resource/*.png"
   s.dependency "SVProgressHUD", "~> 1.1"
 
 end
