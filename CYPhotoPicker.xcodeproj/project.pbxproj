@@ -17,11 +17,6 @@
 		F39BA5AB1C3F579A00C8A0D7 /* PhotoCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5AA1C3F579A00C8A0D7 /* PhotoCollectionViewLayout.m */; };
 		F39BA5AE1C3F587200C8A0D7 /* PhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5AD1C3F587200C8A0D7 /* PhotoCollectionViewCell.m */; };
 		F39BA5B11C3F5E1700C8A0D7 /* PhotoListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5B01C3F5E1700C8A0D7 /* PhotoListItem.m */; };
-		F39BA5B81C3FAA8200C8A0D7 /* imagePicker_choose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F39BA5B31C3FAA8200C8A0D7 /* imagePicker_choose@2x.png */; };
-		F39BA5B91C3FAA8200C8A0D7 /* imagePicker_choose@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F39BA5B41C3FAA8200C8A0D7 /* imagePicker_choose@3x.png */; };
-		F39BA5BA1C3FAA8200C8A0D7 /* imagePicker_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F39BA5B51C3FAA8200C8A0D7 /* imagePicker_close@2x.png */; };
-		F39BA5BB1C3FAA8200C8A0D7 /* imagePicker_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F39BA5B61C3FAA8200C8A0D7 /* imagePicker_close@3x.png */; };
-		F39BA5BC1C3FAA8200C8A0D7 /* photo_selected_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F39BA5B71C3FAA8200C8A0D7 /* photo_selected_arrow.png */; };
 		F39BA5BF1C438C2D00C8A0D7 /* PhotoAlbumItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5BE1C438C2D00C8A0D7 /* PhotoAlbumItem.m */; };
 		F39BA5C71C43AC4E00C8A0D7 /* PhotoAlbumListController.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5C21C43AC4E00C8A0D7 /* PhotoAlbumListController.m */; };
 		F39BA5C81C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5C41C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m */; };
@@ -36,6 +31,11 @@
 		F39BA5EA1C4795C700C8A0D7 /* PhotoPickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5E91C4795C700C8A0D7 /* PhotoPickerManager.m */; };
 		F39BA5ED1C4795F800C8A0D7 /* PhotoConfigureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5EC1C4795F800C8A0D7 /* PhotoConfigureManager.m */; };
 		F39BA5F01C4798F000C8A0D7 /* CYPhotoPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5EF1C4798F000C8A0D7 /* CYPhotoPicker.m */; };
+		F39BA5F71C47B2BC00C8A0D7 /* imagePicker_choose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F39BA5F21C47B2BC00C8A0D7 /* imagePicker_choose@2x.png */; };
+		F39BA5F81C47B2BC00C8A0D7 /* imagePicker_choose@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F39BA5F31C47B2BC00C8A0D7 /* imagePicker_choose@3x.png */; };
+		F39BA5F91C47B2BC00C8A0D7 /* imagePicker_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F39BA5F41C47B2BC00C8A0D7 /* imagePicker_close@2x.png */; };
+		F39BA5FA1C47B2BC00C8A0D7 /* imagePicker_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F39BA5F51C47B2BC00C8A0D7 /* imagePicker_close@3x.png */; };
+		F39BA5FB1C47B2BC00C8A0D7 /* photo_selected_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F39BA5F61C47B2BC00C8A0D7 /* photo_selected_arrow.png */; };
 		F8297AD03124076BF667C22A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94BB8C50C4B3746D296C79D9 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -82,11 +82,6 @@
 		F39BA5AD1C3F587200C8A0D7 /* PhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		F39BA5AF1C3F5E1700C8A0D7 /* PhotoListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoListItem.h; sourceTree = "<group>"; };
 		F39BA5B01C3F5E1700C8A0D7 /* PhotoListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoListItem.m; sourceTree = "<group>"; };
-		F39BA5B31C3FAA8200C8A0D7 /* imagePicker_choose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imagePicker_choose@2x.png"; sourceTree = "<group>"; };
-		F39BA5B41C3FAA8200C8A0D7 /* imagePicker_choose@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imagePicker_choose@3x.png"; sourceTree = "<group>"; };
-		F39BA5B51C3FAA8200C8A0D7 /* imagePicker_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imagePicker_close@2x.png"; sourceTree = "<group>"; };
-		F39BA5B61C3FAA8200C8A0D7 /* imagePicker_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imagePicker_close@3x.png"; sourceTree = "<group>"; };
-		F39BA5B71C3FAA8200C8A0D7 /* photo_selected_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_selected_arrow.png; sourceTree = "<group>"; };
 		F39BA5BD1C438C2D00C8A0D7 /* PhotoAlbumItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoAlbumItem.h; sourceTree = "<group>"; };
 		F39BA5BE1C438C2D00C8A0D7 /* PhotoAlbumItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoAlbumItem.m; sourceTree = "<group>"; };
 		F39BA5C11C43AC4E00C8A0D7 /* PhotoAlbumListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoAlbumListController.h; sourceTree = "<group>"; };
@@ -115,6 +110,11 @@
 		F39BA5EC1C4795F800C8A0D7 /* PhotoConfigureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoConfigureManager.m; sourceTree = "<group>"; };
 		F39BA5EE1C4798F000C8A0D7 /* CYPhotoPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoPicker.h; sourceTree = "<group>"; };
 		F39BA5EF1C4798F000C8A0D7 /* CYPhotoPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoPicker.m; sourceTree = "<group>"; };
+		F39BA5F21C47B2BC00C8A0D7 /* imagePicker_choose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imagePicker_choose@2x.png"; sourceTree = "<group>"; };
+		F39BA5F31C47B2BC00C8A0D7 /* imagePicker_choose@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imagePicker_choose@3x.png"; sourceTree = "<group>"; };
+		F39BA5F41C47B2BC00C8A0D7 /* imagePicker_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imagePicker_close@2x.png"; sourceTree = "<group>"; };
+		F39BA5F51C47B2BC00C8A0D7 /* imagePicker_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imagePicker_close@3x.png"; sourceTree = "<group>"; };
+		F39BA5F61C47B2BC00C8A0D7 /* photo_selected_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_selected_arrow.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,7 +185,7 @@
 		F39BA5571C3E4DF100C8A0D7 /* CYPhotoPicker */ = {
 			isa = PBXGroup;
 			children = (
-				F39BA5B21C3FAA8200C8A0D7 /* Source */,
+				F39BA5F11C47B2BC00C8A0D7 /* Resource */,
 				F39BA5911C3E518C00C8A0D7 /* Classes */,
 				F39BA55B1C3E4DF100C8A0D7 /* AppDelegate.h */,
 				F39BA55C1C3E4DF100C8A0D7 /* AppDelegate.m */,
@@ -269,18 +269,6 @@
 			path = Layout;
 			sourceTree = "<group>";
 		};
-		F39BA5B21C3FAA8200C8A0D7 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				F39BA5B31C3FAA8200C8A0D7 /* imagePicker_choose@2x.png */,
-				F39BA5B41C3FAA8200C8A0D7 /* imagePicker_choose@3x.png */,
-				F39BA5B51C3FAA8200C8A0D7 /* imagePicker_close@2x.png */,
-				F39BA5B61C3FAA8200C8A0D7 /* imagePicker_close@3x.png */,
-				F39BA5B71C3FAA8200C8A0D7 /* photo_selected_arrow.png */,
-			);
-			path = Source;
-			sourceTree = "<group>";
-		};
 		F39BA5C01C43AC4E00C8A0D7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -325,6 +313,18 @@
 				F39BA5EC1C4795F800C8A0D7 /* PhotoConfigureManager.m */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		F39BA5F11C47B2BC00C8A0D7 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				F39BA5F21C47B2BC00C8A0D7 /* imagePicker_choose@2x.png */,
+				F39BA5F31C47B2BC00C8A0D7 /* imagePicker_choose@3x.png */,
+				F39BA5F41C47B2BC00C8A0D7 /* imagePicker_close@2x.png */,
+				F39BA5F51C47B2BC00C8A0D7 /* imagePicker_close@3x.png */,
+				F39BA5F61C47B2BC00C8A0D7 /* photo_selected_arrow.png */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -433,13 +433,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F39BA5BB1C3FAA8200C8A0D7 /* imagePicker_close@3x.png in Resources */,
-				F39BA5B91C3FAA8200C8A0D7 /* imagePicker_choose@3x.png in Resources */,
+				F39BA5FA1C47B2BC00C8A0D7 /* imagePicker_close@3x.png in Resources */,
+				F39BA5F81C47B2BC00C8A0D7 /* imagePicker_choose@3x.png in Resources */,
 				F39BA56B1C3E4DF100C8A0D7 /* LaunchScreen.storyboard in Resources */,
 				F39BA5681C3E4DF100C8A0D7 /* Assets.xcassets in Resources */,
-				F39BA5BA1C3FAA8200C8A0D7 /* imagePicker_close@2x.png in Resources */,
-				F39BA5BC1C3FAA8200C8A0D7 /* photo_selected_arrow.png in Resources */,
-				F39BA5B81C3FAA8200C8A0D7 /* imagePicker_choose@2x.png in Resources */,
+				F39BA5F91C47B2BC00C8A0D7 /* imagePicker_close@2x.png in Resources */,
+				F39BA5FB1C47B2BC00C8A0D7 /* photo_selected_arrow.png in Resources */,
+				F39BA5F71C47B2BC00C8A0D7 /* imagePicker_choose@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

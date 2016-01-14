@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.name         = "CYPhotoPicker"
   s.version      = “0.8”
-  s.summary      = "A short description of CYPhotoPicker."
+  s.summary      = "CYPhotoPicker include ALAsset & PHPhoto”
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -78,7 +78,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/Sasistx/CYPhotoPicker.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/Sasistx/CYPhotoPicker.git", :tag => “1.0” }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -105,6 +105,7 @@ Pod::Spec.new do |s|
 
   # s.resource  = "icon.png"
   # s.resources = "Resources/*.png"
+  s.resources = 
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 
