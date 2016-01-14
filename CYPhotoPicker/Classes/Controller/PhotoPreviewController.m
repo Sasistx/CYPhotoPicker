@@ -45,7 +45,6 @@
     [lineView setBackgroundColor:[UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1]];
     [_backView addSubview:lineView];
     
-    //cancelButton.right
     UIButton* chooseButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [chooseButton setFrame:CGRectMake(cancelButton.frame.origin.x + cancelButton.frame.size.width, 0, self.view.frame.size.width / 2, _backView.frame.size.height)];
     [chooseButton setImage:[UIImage imageNamed:@"imagePicker_choose"] forState:UIControlStateNormal];

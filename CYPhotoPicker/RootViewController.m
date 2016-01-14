@@ -47,8 +47,11 @@
 //    }];
     
     PhotoOldAlbumViewController* controller = [[PhotoOldAlbumViewController alloc] init];
-    controller.isOne = NO;
-    controller.showPreview = NO;
+    controller.isOne = YES;
+    controller.showPreview = YES;
+    [controller setPhotoCompeletionBlock:^(NSArray *images) {
+        
+    }];
     UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:navi animated:YES completion:^{
         

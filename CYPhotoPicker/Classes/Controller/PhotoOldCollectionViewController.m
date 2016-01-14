@@ -18,6 +18,8 @@
 @property (nonatomic, assign) NSInteger imageMaxCount;
 @property (nonatomic, strong) UICollectionView* collectionView;
 @property (nonatomic, strong) NSMutableArray* dataItems;
+@property (nonatomic, strong) NSMutableArray* sendingOperationQueue;
+@property (nonatomic, strong) NSMutableArray* selectedImages;
 @property (nonatomic, strong) UIButton* sendButton;
 @end
 
@@ -99,7 +101,6 @@
             item.thumbImage = thumbImage;
             [_self.dataItems addObject:item];
         }];
-        NSLog(@"done enumerating photos");
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             
@@ -173,7 +174,53 @@
 
 - (void)onSendBtnPressed:(id)sender
 {
+    PH_WEAK_VAR(self);
     
+    _selectedImages = [NSMutableArray array];
+    _sendingOperationQueue = [NSMutableArray array];
+    NSMutableArray* tempArray = [PhotoPickerManager sharedManager].selectedArray;
+    [tempArray enumerateObjectsUsingBlock:^(PhotoOldListItem* item, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        NSOperation *op = [NSBlockOperation blockOperationWithBlock:^{
+            
+            [PhotoUtility loadChunyuPhoto:item success:^(UIImage *image) {
+                
+                [_self.selectedImages addObject:image];
+                [_self nextImageTask];
+            } failure:^(NSError *error) {
+                [_self nextImageTask];
+            }];
+        }];
+        [_self.sendingOperationQueue addObject:op];
+    }];
+    
+    [self nextImageTask];
+}
+
+- (void)nextImageTask {
+    
+    PH_WEAK_VAR(self);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (_self.sendingOperationQueue.count > 0) {
+            NSOperation *op = _self.sendingOperationQueue.firstObject;
+            [_self.sendingOperationQueue removeObjectAtIndex:0];
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                [op start];
+            });
+        }else{
+            [_self imageOperationDone];
+        }
+    });
+}
+
+- (void)imageOperationDone
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
+    if (self.dissmissBlock) {
+        
+        self.dissmissBlock(_selectedImages);
+    }
+    [[PhotoPickerManager sharedManager] clearSelectedArray];
 }
 
 #pragma mark -
@@ -212,6 +259,7 @@
                 _self.dissmissBlock(@[photo]);
             }
         }];
+        controller.item = _dataItems[indexPath.item];
         [self.navigationController pushViewController:controller animated:YES];
     }else {
         PhotoOldListItem* item = _dataItems[indexPath.item];

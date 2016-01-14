@@ -7,7 +7,6 @@
 //
 
 #import "PhotoOldAlbumViewController.h"
-#import "CYPhotoPickerDefines.h"
 #import "PhotoOldAlbumItem.h"
 #import "PhotoOldCollectionViewController.h"
 
@@ -46,13 +45,21 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(assetChanged:) name:ALAssetLibraryUpdatedAssetsKey object:nil];
     
     [self loadAlbumData];
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelImagePicker) name:@"elcpickerdissmiss" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)setPhotoCompeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
+{
+    self.dissmissBlock = dissmissBlock;
 }
 
 #pragma mark -
