@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.author             = { "gaotianxiang" => "gaotianxiang@chunyu.me" }
   s.platform     = :ios, '6.0'
   s.source       = { :git => "https://github.com/Sasistx/CYPhotoPicker.git", :tag => "1.1" }
-  s.source_files  = "CYPhotoPicker/", "Classes/**/*.{h,m}"
+  s.source_files  = "CYPhotoPicker/Classes/**/*.{h,m}"
   s.resources = "CYPhotoPicker/Resource/*.png"
   s.dependency "SVProgressHUD", "~> 1.1"
 
