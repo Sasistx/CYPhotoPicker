@@ -19,15 +19,8 @@ Pod::Spec.new do |s|
   s.license      = "MIT (example)"
   s.author             = { "gaotianxiang" => "gaotianxiang@chunyu.me" }
   s.platform     = :ios, “6.0”
-
-  #  When using multiple platforms
-  # s.ios.deployment_target = "5.0"
-  # s.osx.deployment_target = "10.7"
-  # s.watchos.deployment_target = "2.0"
-  # s.tvos.deployment_target = "9.0"
   s.source       = { :git => "https://github.com/Sasistx/CYPhotoPicker.git", :tag => “1.0” }
   s.source_files  = "CYPhotoPicker/Classes", "Classes/**/*.{h,m}"
-  # s.exclude_files = "CYPhotoPicker/Classes/Exclude"
   s.resources = "CYPhotoPicker/Resource/*.png"
   s.dependency "SVProgressHUD", "~> 1.1"
 
