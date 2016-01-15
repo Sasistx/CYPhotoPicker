@@ -9,8 +9,8 @@
 #import "RootViewController.h"
 #import "CYPhotoPicker.h"
 
-@interface RootViewController ()
-
+@interface RootViewController () 
+@property (nonatomic, strong) CYPhotoPicker* picker;
 @end
 
 @implementation RootViewController
@@ -34,11 +34,16 @@
 
 - (void)buttonClicked:(id)sender
 {
-    //[UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1]
-    CYPhotoPicker* picker = [[CYPhotoPicker alloc] initWithCurrentController:self isOne:NO showPreview:NO];
-    picker.sendButtonColor = [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1];
-    picker.sendButtonTextColor = [UIColor whiteColor];
-    [picker show];
+    [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1];
+    if (!_picker) {
+        _picker = [[CYPhotoPicker alloc] initWithCurrentController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:NO];
+    }
+    _picker.sendButtonColor = [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1];
+    _picker.sendButtonTextColor = [UIColor whiteColor];
+    [_picker show];
+    
 }
+
+
 
 @end

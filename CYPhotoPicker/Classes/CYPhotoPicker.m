@@ -9,21 +9,27 @@
 #import "CYPhotoPicker.h"
 #import "PhotoAlbumListController.h"
 #import "PhotoOldAlbumViewController.h"
+#import "PhotoTempViewController.h"
 
-@interface CYPhotoPicker ()
+static NSString* kAlbumTitle = @"从手机相册选择";
+static NSString* kCameraTitle = @"拍照";
+static NSString* kCancelTitle = @"取消";
+
+@interface CYPhotoPicker () <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, weak) UIViewController* currentController;
 @property (nonatomic, copy) PhotoPickerDismissBlock dissmissBlock;
 @end
 
 @implementation CYPhotoPicker
 
-- (instancetype)initWithCurrentController:(UIViewController*)controller isOne:(BOOL)isOne showPreview:(BOOL)showPreview
+- (instancetype)initWithCurrentController:(UIViewController*)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview
 {
     self = [super init];
     if (self) {
         
         _one = isOne;
         _showPreview = showPreview;
+        _pickerOption = option;
         _currentController = controller;
         [self clearManager];
     }
@@ -61,15 +67,89 @@
 
 - (void)show
 {
-    if (PH_IOSOVER(8)) {
+    if (_pickerOption == PhotoPickerOptionAlbum) {
         
+        [self showAlbum];
+    }else if (_pickerOption == PhotoPickerOptionCamera){
+    
+        [self showCamera];
+    }else if (_pickerOption == (PhotoPickerOptionAlbum | PhotoPickerOptionCamera)){
+
+        if (PH_IOSOVER(8)) {
+            PH_WEAK_VAR(self);
+            UIAlertController* actionSheet = [UIAlertController alertControllerWithTitle:nil
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+            UIAlertAction *albumAction = [UIAlertAction actionWithTitle:kAlbumTitle
+                                                              style:UIAlertActionStyleDefault
+                                                            handler:^(UIAlertAction *action) {
+                                                                [_self showAlbum];
+                                                            }];
+            UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:kCameraTitle
+                                                              style:UIAlertActionStyleDefault
+                                                            handler:^(UIAlertAction *action) {
+
+                                                                [_self showCamera];
+                                                            }];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:kCancelTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+                [_self showCancel];
+            }];
+            [actionSheet addAction:albumAction];
+            [actionSheet addAction:cameraAction];
+            [actionSheet addAction:cancelAction];
+            [_currentController presentViewController:actionSheet animated:YES completion:Nil];
+        }else{
+            UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:kCancelTitle destructiveButtonTitle:nil otherButtonTitles:kAlbumTitle,kCameraTitle, nil];
+            [sheet showInView:_currentController.view];
+        }
+
+    }else{
+        [self showCancel];
+    }
+}
+
+#pragma mark -
+#pragma mark - private method
+
+- (void)showCamera
+{
+    if (PH_IOSOVER(7)) {
+        NSString *mediaType = AVMediaTypeVideo;// Or AVMediaTypeAudio
+        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+        if (authStatus == AVAuthorizationStatusDenied) {
+            [SVProgressHUD showErrorWithStatus:@"请在“设置-隐私-相机”中允许访问相机"];
+            return;
+        }
+    }
+    
+    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+        
+        UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+        UIImagePickerControllerSourceType sourcheType = UIImagePickerControllerSourceTypeCamera;
+        picker.sourceType = sourcheType;
+        picker.delegate = self;
+        picker.allowsEditing = NO;
+        [_currentController presentViewController:picker animated:YES completion:^{
+            
+        }];
+    } else  {
+        
+        [SVProgressHUD showErrorWithStatus: @"相机不可用"];
+    }
+}
+
+- (void)showAlbum
+{
+    if (PH_IOSOVER(8))
+    {
         PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
         controller.isOne = _one;
         controller.showPreview = _showPreview;
         controller.dissmissBlock = self.dissmissBlock;
         UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
         [_currentController presentViewController:navi animated:YES completion:^{
-            
+    
         }];
     }else {
     
@@ -79,18 +159,68 @@
         controller.dissmissBlock = self.dissmissBlock;
         UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
         [_currentController presentViewController:navi animated:YES completion:^{
-            
+                
         }];
     }
 }
 
-#pragma mark -
-#pragma mark - private method
+- (void)showCancel
+{
+    if (_dissmissBlock) {
+        _dissmissBlock(nil);
+    }
+}
 
 - (void)clearManager
 {
     [[PhotoConfigureManager sharedManager] clearColor];
     [[PhotoPickerManager sharedManager] clearSelectedArray];
+}
+
+#pragma mark - action sheet delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+        {
+            //album
+            [self showAlbum];
+        }
+            break;
+        case 1:
+        {
+            //camera
+            [self showCamera];
+        }
+            break;
+        case 2:
+        {
+            //cancel
+            [self showCancel];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma mark - 
+#pragma mark - image picker delegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    if (_dissmissBlock) {
+        
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        _dissmissBlock(@[image]);
+    }
+    [picker dismissViewControllerAnimated:YES completion:Nil];
+}
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self showCancel];
+    [picker dismissViewControllerAnimated:YES completion:Nil];
 }
 
 @end

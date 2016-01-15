@@ -14,8 +14,9 @@
 @property (nonatomic, strong) UIColor* sendButtonTextColor;
 @property (nonatomic, getter=isOne) BOOL one;
 @property (nonatomic, getter=isShowPreview) BOOL showPreview;
+@property (nonatomic, assign) PhotoPickerOption pickerOption;
 
-- (instancetype)initWithCurrentController:(UIViewController*)controller isOne:(BOOL)isOne showPreview:(BOOL)showPreview;
+- (instancetype)initWithCurrentController:(UIViewController*)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview;
 - (void)setPhotoCompeletionBlock:(PhotoPickerDismissBlock)dissmissBlock;
 - (void)show;
 @end

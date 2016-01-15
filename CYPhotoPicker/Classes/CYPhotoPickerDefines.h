@@ -34,4 +34,10 @@ alpha: 1]
 
 typedef void (^PhotoPickerDismissBlock)(NSArray *images);
 
+typedef NS_ENUM(NSInteger, PhotoPickerOption)
+{
+    PhotoPickerOptionAlbum            =   1 << 0,
+    PhotoPickerOptionCamera           =   1 << 1,
+};
+
 #endif /* CYPhotoPickerDefines_h */
