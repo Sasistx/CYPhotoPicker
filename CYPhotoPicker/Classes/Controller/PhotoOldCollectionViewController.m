@@ -218,11 +218,11 @@
 
 - (void)imageOperationDone
 {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
     if (self.dissmissBlock) {
         
         self.dissmissBlock(_selectedImages);
     }
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
     [[PhotoPickerManager sharedManager] clearSelectedArray];
 }
 

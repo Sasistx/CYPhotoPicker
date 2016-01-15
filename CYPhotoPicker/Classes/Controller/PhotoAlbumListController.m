@@ -107,6 +107,9 @@
 - (void)cancelButtonClicked:(id)sender
 {
     [[PhotoPickerManager sharedManager] clearSelectedArray];
+    if (_dissmissBlock) {
+        _dissmissBlock(nil);
+    }
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
     
     }];

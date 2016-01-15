@@ -177,6 +177,7 @@ static NSString* kCancelTitle = @"取消";
     [[PhotoPickerManager sharedManager] clearSelectedArray];
 }
 
+#pragma mark -
 #pragma mark - action sheet delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

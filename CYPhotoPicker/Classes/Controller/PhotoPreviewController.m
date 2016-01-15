@@ -119,9 +119,9 @@
 {
     [[PhotoPickerManager sharedManager] clearSelectedArray];
     if (_choosePHAssetImageBlock) {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
         _choosePHAssetImageBlock(self.pickImage);
     }
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
 }
 
 @end
