@@ -47,7 +47,9 @@ static PhotoPickerManager* sharedManager = nil;
     PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
     
     PHImageRequestOptions *phImageRequestOptions = [[PHImageRequestOptions alloc] init];
+    phImageRequestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     phImageRequestOptions.synchronous = YES;
+    phImageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
 //    phImageRequestOptions.progressHandler = ^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info) {
 //        
 //        

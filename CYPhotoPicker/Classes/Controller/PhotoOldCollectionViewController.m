@@ -11,6 +11,7 @@
 #import "PhotoOldListItem.h"
 #import "PhotoPreviewController.h"
 #import "PhotoUtility.h"
+#import "PHNaviButton.h"
 
 #define OLD_CELL_IDENTIFIER @"Old_PhotoPickerCell"
 
@@ -39,6 +40,10 @@
     
     self.title = @"全部照片";
     
+    if ([PhotoConfigureManager sharedManager].naviStyle == PhotoNaviButtonStyleCYStyle) {
+        [self createNaviButton];
+    }
+    
     [self createCollectionView];
     
     [self bottomView];
@@ -51,6 +56,17 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)createNaviButton
+{
+    PHNaviButton* naviButton = [PHNaviButton buttonWithType:UIButtonTypeCustom];
+    [naviButton setImage:[UIImage imageNamed:@"ph_navi_white_left_arrow"] forState:UIControlStateNormal];
+    naviButton.frame = CGRectMake(0, 0, 38, 30);
+    [naviButton       addTarget: self
+                         action: @selector(backToLastController:)
+               forControlEvents: UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:naviButton];
 }
 
 - (void)bottomView
@@ -199,6 +215,14 @@
     
     [self nextImageTask];
 }
+
+- (void)backToLastController:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark -
+#pragma mark - image operation
 
 - (void)nextImageTask {
     

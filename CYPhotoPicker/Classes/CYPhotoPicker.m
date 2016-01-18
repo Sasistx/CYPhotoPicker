@@ -57,6 +57,12 @@ static NSString* kCancelTitle = @"取消";
     [PhotoConfigureManager sharedManager].sendButtontextColor = sendButtonTextColor;
 }
 
+- (void)setNaviStyle:(PhotoNaviButtonStyle)naviStyle
+{
+    _naviStyle = naviStyle;
+    [PhotoConfigureManager sharedManager].naviStyle = naviStyle;
+}
+
 #pragma mark - 
 #pragma mark - public method
 

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F38B03421C4CD3E0000135FF /* PHNaviButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F38B03411C4CD3E0000135FF /* PHNaviButton.m */; };
+		F38B03451C4CDD87000135FF /* ph_navi_white_left_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F38B03431C4CDD87000135FF /* ph_navi_white_left_arrow.png */; };
+		F38B03461C4CDD87000135FF /* ph_navi_white_left_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F38B03441C4CDD87000135FF /* ph_navi_white_left_arrow@2x.png */; };
 		F39BA55A1C3E4DF100C8A0D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5591C3E4DF100C8A0D7 /* main.m */; };
 		F39BA55D1C3E4DF100C8A0D7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA55C1C3E4DF100C8A0D7 /* AppDelegate.m */; };
 		F39BA5681C3E4DF100C8A0D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F39BA5671C3E4DF100C8A0D7 /* Assets.xcassets */; };
@@ -61,6 +64,10 @@
 		69473B1C29915D387526553E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		94BB8C50C4B3746D296C79D9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCFD0B079C49D68D79C57499 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		F38B03401C4CD3E0000135FF /* PHNaviButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNaviButton.h; sourceTree = "<group>"; };
+		F38B03411C4CD3E0000135FF /* PHNaviButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNaviButton.m; sourceTree = "<group>"; };
+		F38B03431C4CDD87000135FF /* ph_navi_white_left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ph_navi_white_left_arrow.png; sourceTree = "<group>"; };
+		F38B03441C4CDD87000135FF /* ph_navi_white_left_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ph_navi_white_left_arrow@2x.png"; sourceTree = "<group>"; };
 		F39BA5551C3E4DF100C8A0D7 /* CYPhotoPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CYPhotoPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F39BA5591C3E4DF100C8A0D7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F39BA55B1C3E4DF100C8A0D7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -305,6 +312,8 @@
 			children = (
 				F39BA5D21C44AFA200C8A0D7 /* PhotoZoomScrollView.h */,
 				F39BA5D31C44AFA200C8A0D7 /* PhotoZoomScrollView.m */,
+				F38B03401C4CD3E0000135FF /* PHNaviButton.h */,
+				F38B03411C4CD3E0000135FF /* PHNaviButton.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -323,6 +332,8 @@
 		F39BA5F11C47B2BC00C8A0D7 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				F38B03431C4CDD87000135FF /* ph_navi_white_left_arrow.png */,
+				F38B03441C4CDD87000135FF /* ph_navi_white_left_arrow@2x.png */,
 				F39BA5F21C47B2BC00C8A0D7 /* imagePicker_choose@2x.png */,
 				F39BA5F31C47B2BC00C8A0D7 /* imagePicker_choose@3x.png */,
 				F39BA5F41C47B2BC00C8A0D7 /* imagePicker_close@2x.png */,
@@ -438,6 +449,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F38B03451C4CDD87000135FF /* ph_navi_white_left_arrow.png in Resources */,
+				F38B03461C4CDD87000135FF /* ph_navi_white_left_arrow@2x.png in Resources */,
 				F39BA5FA1C47B2BC00C8A0D7 /* imagePicker_close@3x.png in Resources */,
 				F39BA5F81C47B2BC00C8A0D7 /* imagePicker_choose@3x.png in Resources */,
 				F39BA56B1C3E4DF100C8A0D7 /* LaunchScreen.storyboard in Resources */,
@@ -528,6 +541,7 @@
 				F39BA55A1C3E4DF100C8A0D7 /* main.m in Sources */,
 				F39BA5901C3E4EF500C8A0D7 /* RootViewController.m in Sources */,
 				F39BA5D71C44E6A200C8A0D7 /* PhotoOldCollectionViewController.m in Sources */,
+				F38B03421C4CD3E0000135FF /* PHNaviButton.m in Sources */,
 				F39BA5C81C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m in Sources */,
 				F39BA5E31C47440F00C8A0D7 /* PhotoOldAlbumViewController.m in Sources */,
 				F39BA5CC1C449A9600C8A0D7 /* PhotoPreviewController.m in Sources */,

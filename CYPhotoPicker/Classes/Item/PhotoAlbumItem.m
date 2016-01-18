@@ -33,15 +33,13 @@
     __block PhotoAlbumItem* item = obj;
     PHAsset *asset = item.assetsFetchResult[0];
     
-    CGFloat scale = [UIScreen mainScreen].scale;
-    
     [self.textLabel setText:[NSString stringWithFormat:@"%@(%lu)", item.collection.localizedTitle, item.assetsFetchResult.count]];
     
     if (item.thumbImage) {
         
         [_self.imageView setImage:item.thumbImage];
     }else {
-        [[PhotoPickerManager sharedManager] syncTumbnailWithSize:CGSizeMake(25 * scale, 25* scale) asset:asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+        [[PhotoPickerManager sharedManager] syncTumbnailWithSize:CGSizeMake(200, 200) asset:asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
 //            [_self.imageView setContentMode:UIViewContentModeScaleAspectFit];
             [_self.imageView setImage:resultImage];
 //            [_self.imageView layoutIfNeeded];

@@ -13,6 +13,7 @@
 #import "PhotoCollectionViewCell.h"
 #import "PhotoListItem.h"
 #import "PhotoUtility.h"
+#import "PHNaviButton.h"
 
 #define CELL_IDENTIFIER @"PhotoPickerCell"
 
@@ -37,6 +38,10 @@
         _imageMaxCount = 9;
     }
     
+    if ([PhotoConfigureManager sharedManager].naviStyle == PhotoNaviButtonStyleCYStyle) {
+        [self createNaviButton];
+    }
+    
     [self createCollectionView];
     
     [self bottomView];
@@ -58,6 +63,17 @@
 
 #pragma mark - 
 #pragma mark - create UI
+
+- (void)createNaviButton
+{
+    PHNaviButton* naviButton = [PHNaviButton buttonWithType:UIButtonTypeCustom];
+    [naviButton setImage:[UIImage imageNamed:@"ph_navi_white_left_arrow"] forState:UIControlStateNormal];
+    naviButton.frame = CGRectMake(0, 0, 38, 30);
+    [naviButton       addTarget: self
+                         action: @selector(backToLastController:)
+               forControlEvents: UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:naviButton];
+}
 
 - (void)createCollectionView
 {
@@ -188,6 +204,11 @@
         }];
     }
     [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
+}
+
+- (void)backToLastController:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark -
