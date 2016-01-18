@@ -13,7 +13,7 @@
 #import "PhotoCollectionListViewController.h"
 #import "CYPhotoPickerDefines.h"
 
-@interface PhotoAlbumListController () <UITableViewDelegate, UITableViewDataSource>
+@interface PhotoAlbumListController () <UITableViewDelegate, UITableViewDataSource, PHPhotoLibraryChangeObserver>
 @property (nonatomic, strong) NSMutableArray* albumsArray;
 @property (nonatomic, strong) NSMutableArray* albumsPosterArray;
 @property (nonatomic, strong) UITableView* tableView;
@@ -29,6 +29,7 @@
     [self createTableView];
     [self createNaviButton];
     [self getAlbumsList];
+    [self registPhotoChange];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,7 +39,7 @@
 
 - (void)dealloc
 {
-    
+    [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
 }
 
 #pragma mark -
@@ -56,8 +57,12 @@
 - (void)getAlbumsList
 {
     PH_WEAK_VAR(self);
-    _albumsArray = [NSMutableArray array];
-    _albumsPosterArray = [NSMutableArray array];
+    if (!_albumsArray) {
+        _albumsArray = [NSMutableArray array];
+    }else {
+        [_albumsArray removeAllObjects];
+    }
+    
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil];
     PHFetchResult *topLevelUserCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
     
@@ -102,6 +107,20 @@
     [self.tableView reloadData];
 }
 
+#pragma mark -
+#pragma mark - register change
+
+- (void)registPhotoChange
+{
+    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+}
+
+- (void)photoLibraryDidChange:(PHChange *)changeInstance
+{
+    [self getAlbumsList];
+}
+
+#pragma mark -
 #pragma mark - button event
 
 - (void)cancelButtonClicked:(id)sender
