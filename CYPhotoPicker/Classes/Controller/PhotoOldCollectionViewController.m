@@ -9,7 +9,7 @@
 #import "PhotoOldCollectionViewController.h"
 #import "PhotoCollectionViewLayout.h"
 #import "PhotoOldListItem.h"
-#import "PhotoPreviewController.h"
+#import "PhotoPreviewImageViewController.h"
 #import "PhotoUtility.h"
 #import "PHNaviButton.h"
 
@@ -278,7 +278,7 @@
 {
     PH_WEAK_VAR(self);
     if (_isOne && _showPreview) {
-        PhotoPreviewController* controller = [[PhotoPreviewController alloc] init];
+        PhotoPreviewImageViewController* controller = [[PhotoPreviewImageViewController alloc] init];
         [controller setChoosedAssetImageBlock:^(UIImage *photo) {
             
             if (_self.dissmissBlock) {

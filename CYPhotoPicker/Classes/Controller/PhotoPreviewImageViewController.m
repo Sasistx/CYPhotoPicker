@@ -1,18 +1,16 @@
 //
-//  PhotoPreviewController.m
-//  ChunyuClinic
+//  PhotoPreviewImageViewController.m
+//  CYPhotoPicker
 //
-//  Created by 高天翔 on 15/9/11.
-//  Copyright (c) 2015年 lvjianxiong. All rights reserved.
+//  Created by 高天翔 on 16/1/18.
+//  Copyright © 2016年 CYGTX. All rights reserved.
 //
 
-#import "PhotoPreviewController.h"
-#import "PhotoZoomScrollView.h"
-#import "PhotoPickerManager.h"
+#import "PhotoPreviewImageViewController.h"
 #import "PhotoUtility.h"
-#import <Photos/Photos.h>
+#import "PhotoZoomScrollView.h"
 
-@interface PhotoPreviewController ()
+@interface PhotoPreviewImageViewController ()
 {
     UIView* _backView;
 }
@@ -21,7 +19,7 @@
 @property (nonatomic, strong) UIScrollView* scrollView;
 @end
 
-@implementation PhotoPreviewController
+@implementation PhotoPreviewImageViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,7 +35,7 @@
     
     UIButton* cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelButton setFrame:CGRectMake(0, 0, self.view.frame.size.width / 2, _backView.frame.size.height)];
-    [cancelButton setImage:[UIImage imageNamed:@"imagePicker_close"] forState:UIControlStateNormal];
+    [cancelButton setImage:[UIImage imageNamed:@"ph_imagePicker_close"] forState:UIControlStateNormal];
     [cancelButton addTarget:self action:@selector(cancelButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_backView addSubview:cancelButton];
     
@@ -47,7 +45,7 @@
     
     UIButton* chooseButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [chooseButton setFrame:CGRectMake(cancelButton.frame.origin.x + cancelButton.frame.size.width, 0, self.view.frame.size.width / 2, _backView.frame.size.height)];
-    [chooseButton setImage:[UIImage imageNamed:@"imagePicker_choose"] forState:UIControlStateNormal];
+    [chooseButton setImage:[UIImage imageNamed:@"ph_imagePicker_choose"] forState:UIControlStateNormal];
     [chooseButton addTarget:self action:@selector(chooseButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_backView addSubview:chooseButton];
 }
@@ -66,7 +64,7 @@
             
             
         }];
-
+        
     }else {
         
         [[PhotoPickerManager sharedManager] syncTumbnailWithSize:PHImageManagerMaximumSize asset:_asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
@@ -74,7 +72,7 @@
             [_self createZoomScrollViewWithImage:resultImage];
         }];
     }
-
+    
     [_backView setFrame:CGRectMake(_backView.frame.origin.x, self.view.frame.size.height - _backView.frame.size.height, _backView.frame.size.width, _backView.frame.size.height)];
 }
 

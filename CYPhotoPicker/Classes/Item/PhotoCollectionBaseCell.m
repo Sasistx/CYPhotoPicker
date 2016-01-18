@@ -27,7 +27,7 @@
         _blackCoverView.hidden = YES;
         
         _selectedIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - 30, 7, 25, 25)];
-        [_selectedIcon setImage:[UIImage imageNamed:@"photo_selected_arrow"]];
+        [_selectedIcon setImage:[UIImage imageNamed:@"ph_photo_selected_arrow"]];
         _selectedIcon.hidden = YES;
         _selectedIcon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [self.contentView insertSubview:_selectedIcon aboveSubview:_blackCoverView];

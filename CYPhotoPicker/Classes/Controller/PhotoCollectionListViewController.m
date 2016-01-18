@@ -8,7 +8,7 @@
 
 #import "PhotoCollectionListViewController.h"
 #import "PhotoPickerManager.h"
-#import "PhotoPreviewController.h"
+#import "PhotoPreviewImageViewController.h"
 #import "PhotoCollectionViewLayout.h"
 #import "PhotoCollectionViewCell.h"
 #import "PhotoListItem.h"
@@ -241,7 +241,7 @@
     PhotoListItem* item = _dataItems[indexPath.item];
     if (_isOne && _showPreview) {
         [self updateSelectedImageListWithItem:item];
-        PhotoPreviewController* controller = [[PhotoPreviewController alloc] init];
+        PhotoPreviewImageViewController* controller = [[PhotoPreviewImageViewController alloc] init];
         controller.asset = [PhotoPickerManager sharedManager].selectedArray.firstObject;
         [controller setChoosedAssetImageBlock:^(UIImage *photo) {
            
