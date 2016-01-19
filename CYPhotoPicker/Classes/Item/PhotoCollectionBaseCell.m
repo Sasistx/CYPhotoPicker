@@ -7,6 +7,7 @@
 //
 
 #import "PhotoCollectionBaseCell.h"
+#import "PhotoUtility.h"
 
 @implementation PhotoCollectionBaseCell
 
@@ -27,7 +28,9 @@
         _blackCoverView.hidden = YES;
         
         _selectedIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - 30, 7, 25, 25)];
-        [_selectedIcon setImage:[UIImage imageNamed:@"ph_photo_selected_arrow"]];
+        UIImage* originImage = [UIImage imageNamed:@"ph_photo_selected_arrow"];
+        UIImage* currentImage = [PhotoUtility originImage:originImage tintColor:[UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1] blendMode:kCGBlendModeDestinationIn];
+        [_selectedIcon setImage:currentImage];
         _selectedIcon.hidden = YES;
         _selectedIcon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [self.contentView insertSubview:_selectedIcon aboveSubview:_blackCoverView];

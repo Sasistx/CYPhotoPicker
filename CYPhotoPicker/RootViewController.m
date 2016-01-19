@@ -39,6 +39,9 @@
         _picker = [[CYPhotoPicker alloc] initWithCurrentController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:NO];
     }
     _picker.sendButtonColor = [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1];
+    [_picker setPhotoCompeletionBlock:^(NSArray *images) {
+        
+    }];
     _picker.sendButtonTextColor = [UIColor whiteColor];
     [_picker show];
     

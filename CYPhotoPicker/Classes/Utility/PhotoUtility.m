@@ -85,4 +85,26 @@
     return pressedColorImg;
 }
 
++ (UIImage*)originImage:(UIImage*)originImage tintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode
+{
+    
+    // keep alpha, set opaque to NO
+    UIGraphicsBeginImageContextWithOptions(originImage.size, NO, originImage.scale);
+    [tintColor setFill];
+    CGRect bounds = CGRectMake(0, 0, originImage.size.width, originImage.size.height);
+    UIRectFill(bounds);
+    
+    // Draw the tinted image in context
+    [originImage drawInRect:bounds blendMode:blendMode alpha:1.0f];
+    
+    if (blendMode != kCGBlendModeDestinationIn) {
+        [originImage drawInRect:bounds blendMode:kCGBlendModeDestinationIn alpha:1.0f];
+    }
+    
+    UIImage* tintedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return tintedImage;
+}
+
 @end

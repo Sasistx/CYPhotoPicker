@@ -17,4 +17,7 @@ typedef void (^PhotoFailureBlock)(NSError *error);
 + (void)loadChunyuPhoto:(PhotoOldListItem *)item success:(void(^)(UIImage *image))success failure:(PhotoFailureBlock)failure;
 
 + (UIImage*)imageWithColor:(UIColor*)color;
+
++ (UIImage*)originImage:(UIImage*)originImage tintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode;
+
 @end
