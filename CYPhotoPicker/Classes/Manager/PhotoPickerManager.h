@@ -13,7 +13,8 @@
 @property (nonatomic, strong) NSMutableArray* selectedArray;
 
 + (PhotoPickerManager*)sharedManager;
-- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
-- (void)syncGetAllSelectedOriginImages:(void (^)(NSArray* images))completion;
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
+- (void)asyncGetAllSelectedOriginImages:(void (^)(NSArray* images))completion;
+- (void)asyncGetOriginImageWithAsset:(id)asset completion:(void (^)(UIImage* image))completion;
 - (void)clearSelectedArray;
 @end

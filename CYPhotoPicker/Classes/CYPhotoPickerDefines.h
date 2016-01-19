@@ -32,7 +32,7 @@ alpha: 1]
 #import "SVProgressHUD.h"
 
 
-typedef void (^PhotoPickerDismissBlock)(NSArray *images);
+typedef void (^PhotoPickerDismissBlock)(NSArray *imageAssets);
 
 typedef NS_ENUM(NSInteger, PhotoPickerOption)
 {

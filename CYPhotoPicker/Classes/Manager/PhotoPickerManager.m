@@ -8,6 +8,8 @@
 
 #import "PhotoPickerManager.h"
 #import "CYPhotoPickerDefines.h"
+#import "PhotoOldListItem.h"
+#import "PhotoUtility.h"
 
 @interface PhotoPickerManager ()
 
@@ -42,7 +44,7 @@ static PhotoPickerManager* sharedManager = nil;
     [self.selectedArray removeAllObjects];
 }
 
-- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
     PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
     
@@ -69,7 +71,7 @@ static PhotoPickerManager* sharedManager = nil;
                         }];
 }
 
-- (void)syncGetAllSelectedOriginImages:(void (^)(NSArray* images))completion
+- (void)asyncGetAllSelectedOriginImages:(void (^)(NSArray* images))completion
 {
     PH_WEAK_VAR(self);
     __block NSMutableArray* imageAssets = [self.selectedArray copy];
@@ -78,7 +80,7 @@ static PhotoPickerManager* sharedManager = nil;
         __block NSMutableArray* images = [NSMutableArray array];
         [imageAssets enumerateObjectsUsingBlock:^(PHAsset* asset, NSUInteger idx, BOOL * _Nonnull stop) {
            
-            [_self syncTumbnailWithSize:PHImageManagerMaximumSize asset:asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+            [_self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
                 
                 [images addObject:resultImage];
             }];
@@ -89,6 +91,41 @@ static PhotoPickerManager* sharedManager = nil;
             completion(images);
         });
     });
+}
+
+- (void)asyncGetOriginImageWithAsset:(id)asset completion:(void (^)(UIImage* image))completion
+{
+    if ([asset isKindOfClass:[PHAsset class]]) {
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            [self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+                
+                if (completion) {
+                    
+                    return completion(resultImage);
+                }
+                
+            }];
+        });
+        
+    }else if ([asset isKindOfClass:[PhotoOldListItem class]]){
+    
+        [PhotoUtility loadChunyuPhoto:asset success:^(UIImage *image) {
+            
+            if (completion) {
+                completion(image);
+            }
+        } failure:^(NSError *error) {
+            if (completion) {
+                completion(nil);
+            }
+        }];
+    }else{
+        if (completion) {
+            completion(nil);
+        }
+    }
 }
 
 @end

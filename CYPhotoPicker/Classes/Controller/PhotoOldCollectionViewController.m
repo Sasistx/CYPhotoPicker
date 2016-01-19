@@ -193,27 +193,33 @@
 
 - (void)onSendBtnPressed:(id)sender
 {
-    PH_WEAK_VAR(self);
+//    PH_WEAK_VAR(self);
     
-    _selectedImages = [NSMutableArray array];
-    _sendingOperationQueue = [NSMutableArray array];
-    NSMutableArray* tempArray = [PhotoPickerManager sharedManager].selectedArray;
-    [tempArray enumerateObjectsUsingBlock:^(PhotoOldListItem* item, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        NSOperation *op = [NSBlockOperation blockOperationWithBlock:^{
-            
-            [PhotoUtility loadChunyuPhoto:item success:^(UIImage *image) {
-                
-                [_self.selectedImages addObject:image];
-                [_self nextImageTask];
-            } failure:^(NSError *error) {
-                [_self nextImageTask];
-            }];
-        }];
-        [_self.sendingOperationQueue addObject:op];
-    }];
-    
-    [self nextImageTask];
+//    _selectedImages = [NSMutableArray array];
+//    _sendingOperationQueue = [NSMutableArray array];
+    NSArray* array = [[NSArray alloc] initWithArray:[PhotoPickerManager sharedManager].selectedArray];
+    if (self.dissmissBlock) {
+        self.dissmissBlock(array);
+    }
+        [[PhotoPickerManager sharedManager] clearSelectedArray];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
+//    NSMutableArray* tempArray = [PhotoPickerManager sharedManager].selectedArray;
+//    [tempArray enumerateObjectsUsingBlock:^(PhotoOldListItem* item, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//        NSOperation *op = [NSBlockOperation blockOperationWithBlock:^{
+//            
+//            [PhotoUtility loadChunyuPhoto:item success:^(UIImage *image) {
+//                
+//                [_self.selectedImages addObject:image];
+//                [_self nextImageTask];
+//            } failure:^(NSError *error) {
+//                [_self nextImageTask];
+//            }];
+//        }];
+//        [_self.sendingOperationQueue addObject:op];
+//    }];
+//    
+//    [self nextImageTask];
 }
 
 - (void)backToLastController:(id)sender

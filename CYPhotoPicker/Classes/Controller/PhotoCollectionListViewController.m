@@ -198,11 +198,18 @@
 {
     if (_dissmissBlock) {
         PH_WEAK_VAR(self);
-        [[PhotoPickerManager sharedManager] syncGetAllSelectedOriginImages:^(NSArray *images) {
-            _self.dissmissBlock(images);
-            [[PhotoPickerManager sharedManager] clearSelectedArray];
-            [_self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
-        }];
+        
+        NSArray* array = [[NSArray alloc] initWithArray:[PhotoPickerManager sharedManager].selectedArray];
+        if (self.dissmissBlock) {
+            self.dissmissBlock(array);
+        }
+        [[PhotoPickerManager sharedManager] clearSelectedArray];
+        [_self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
+//        [[PhotoPickerManager sharedManager] syncGetAllSelectedOriginImages:^(NSArray *images) {
+//            _self.dissmissBlock(images);
+//            [[PhotoPickerManager sharedManager] clearSelectedArray];
+//            [_self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
+//        }];
     }else{
         [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
     }

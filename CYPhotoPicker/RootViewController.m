@@ -11,6 +11,7 @@
 
 @interface RootViewController () 
 @property (nonatomic, strong) CYPhotoPicker* picker;
+@property (nonatomic, strong) NSArray* temp;
 @end
 
 @implementation RootViewController
@@ -25,6 +26,13 @@
     [button setFrame:CGRectMake(100, 100, 100, 30)];
     [button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
+    
+    UIButton* testbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [testbutton setTitle:@"测试数组" forState:UIControlStateNormal];
+    [testbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [testbutton setFrame:CGRectMake(100, 300, 100, 30)];
+    [testbutton addTarget:self action:@selector(testbuttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:testbutton];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,6 +42,7 @@
 
 - (void)buttonClicked:(id)sender
 {
+    PH_WEAK_VAR(self);
     [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1];
     if (!_picker) {
         _picker = [[CYPhotoPicker alloc] initWithCurrentController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:NO];
@@ -41,12 +50,16 @@
     _picker.sendButtonColor = [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1];
     [_picker setPhotoCompeletionBlock:^(NSArray *images) {
         
+        _self.temp = images;
     }];
     _picker.sendButtonTextColor = [UIColor whiteColor];
     [_picker show];
     
 }
 
-
+- (void)testbuttonClicked:(id)sender
+{
+    NSLog(@"=----%@", _temp);
+}
 
 @end
