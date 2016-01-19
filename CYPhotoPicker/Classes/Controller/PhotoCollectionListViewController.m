@@ -93,7 +93,7 @@
 - (void)bottomView
 {
     UIColor* textColor = [PhotoConfigureManager sharedManager].sendButtontextColor ? [PhotoConfigureManager sharedManager].sendButtontextColor : [UIColor whiteColor];
-    UIColor* buttonColor = [PhotoConfigureManager sharedManager].sendButtonColor ? [PhotoConfigureManager sharedManager].sendButtonColor : [UIColor blackColor];
+    UIColor* buttonColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor ? [PhotoConfigureManager sharedManager].buttonBackgroundColor : [UIColor blackColor];
     
     UIView* bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, self.view.frame.size.width, 50)];
     [bottomView setBackgroundColor:[UIColor whiteColor]];

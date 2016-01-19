@@ -36,14 +36,15 @@ static NSString* kCancelTitle = @"取消";
     return self;
 }
 
-- (void)setSendButtonColor:(UIColor *)sendButtonColor
+- (void)setButtonBackgroundColor:(UIColor *)buttonBackgroundColor
 {
-    if (_sendButtonColor && _sendButtonColor != sendButtonColor) {
+    if (_buttonBackgroundColor && _buttonBackgroundColor != buttonBackgroundColor) {
         
-        _sendButtonColor = nil;
+        _buttonBackgroundColor = nil;
     }
-    _sendButtonColor = sendButtonColor;
-    [PhotoConfigureManager sharedManager].sendButtonColor = sendButtonColor;
+    
+    _buttonBackgroundColor = buttonBackgroundColor;
+    [PhotoConfigureManager sharedManager].buttonBackgroundColor = buttonBackgroundColor;
 }
 
 - (void)setSendButtonTextColor:(UIColor *)sendButtonTextColor

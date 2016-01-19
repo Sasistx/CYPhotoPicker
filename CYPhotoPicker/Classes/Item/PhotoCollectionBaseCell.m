@@ -28,11 +28,18 @@
         _blackCoverView.hidden = YES;
         
         _selectedIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - 30, 7, 25, 25)];
-        UIImage* originImage = [UIImage imageNamed:@"ph_photo_selected_arrow"];
-        UIImage* currentImage = [PhotoUtility originImage:originImage tintColor:[UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1] blendMode:kCGBlendModeDestinationIn];
+        
+        UIColor* backColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor ? [PhotoConfigureManager sharedManager].buttonBackgroundColor : [UIColor blackColor];
+        UIImage* originImage = [UIImage imageNamed:@"ph_photo_selected_round"];
+        UIImage* currentImage = [PhotoUtility originImage:originImage tintColor:backColor blendMode:kCGBlendModeDestinationIn];
         [_selectedIcon setImage:currentImage];
         _selectedIcon.hidden = YES;
         _selectedIcon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+        
+        UIImageView* upperImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _selectedIcon.frame.size.width, _selectedIcon.frame.size.height)];
+        [upperImageView setImage:[UIImage imageNamed:@"ph_photo_selected_arrow"]];
+        [_selectedIcon addSubview:upperImageView];
+        
         [self.contentView insertSubview:_selectedIcon aboveSubview:_blackCoverView];
     }
     return self;

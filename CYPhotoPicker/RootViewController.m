@@ -47,7 +47,7 @@
     if (!_picker) {
         _picker = [[CYPhotoPicker alloc] initWithCurrentController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:NO];
     }
-    _picker.sendButtonColor = [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1];
+    _picker.buttonBackgroundColor = [UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1];
     [_picker setPhotoCompeletionBlock:^(NSArray *images) {
         
         _self.temp = images;

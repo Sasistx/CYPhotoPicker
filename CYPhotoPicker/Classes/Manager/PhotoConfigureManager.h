@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, PhotoNaviButtonStyle)
 
 @interface PhotoConfigureManager : NSObject
 
-@property (nonatomic, strong) UIColor* sendButtonColor; //default is white
+@property (nonatomic, strong) UIColor* buttonBackgroundColor; //default is white
 @property (nonatomic, strong) UIColor* sendButtontextColor; //default is black
 
 @property (nonatomic, assign) PhotoNaviButtonStyle naviStyle;
