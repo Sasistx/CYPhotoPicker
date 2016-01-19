@@ -101,11 +101,13 @@ static PhotoPickerManager* sharedManager = nil;
             
             [self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
                 
-                if (completion) {
+                dispatch_async(dispatch_get_main_queue(), ^{
                     
-                    return completion(resultImage);
-                }
-                
+                    if (completion) {
+                        
+                        return completion(resultImage);
+                    }
+                });
             }];
         });
         
