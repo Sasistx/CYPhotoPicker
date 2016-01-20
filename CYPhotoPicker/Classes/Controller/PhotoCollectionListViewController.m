@@ -205,11 +205,6 @@
         }
         [[PhotoPickerManager sharedManager] clearSelectedArray];
         [_self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
-//        [[PhotoPickerManager sharedManager] syncGetAllSelectedOriginImages:^(NSArray *images) {
-//            _self.dissmissBlock(images);
-//            [[PhotoPickerManager sharedManager] clearSelectedArray];
-//            [_self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
-//        }];
     }else{
         [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
     }
