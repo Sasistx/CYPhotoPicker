@@ -49,7 +49,6 @@
 
 - (void)createCollectionView
 {
-//    _collectionView = [UICo]
     PhotoPreviewLayout* photoLayout = [[PhotoPreviewLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) collectionViewLayout:photoLayout];
     _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;

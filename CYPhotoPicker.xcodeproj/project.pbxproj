@@ -17,6 +17,7 @@
 		F33DEC4B1C4F389600D028E3 /* PhotoScrollPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F33DEC4A1C4F389600D028E3 /* PhotoScrollPreviewController.m */; };
 		F33DEC4E1C4F691800D028E3 /* PhotoPreviewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F33DEC4D1C4F691800D028E3 /* PhotoPreviewLayout.m */; };
 		F33DEC511C4F6F2400D028E3 /* PhotoPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F33DEC501C4F6F2400D028E3 /* PhotoPreviewCell.m */; };
+		F33DEC541C4F813E00D028E3 /* PhotoPreviewZoomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F33DEC531C4F813E00D028E3 /* PhotoPreviewZoomScrollView.m */; };
 		F38B03421C4CD3E0000135FF /* PHNaviButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F38B03411C4CD3E0000135FF /* PHNaviButton.m */; };
 		F38B03451C4CDD87000135FF /* ph_navi_white_left_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F38B03431C4CDD87000135FF /* ph_navi_white_left_arrow.png */; };
 		F38B03461C4CDD87000135FF /* ph_navi_white_left_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F38B03441C4CDD87000135FF /* ph_navi_white_left_arrow@2x.png */; };
@@ -82,6 +83,8 @@
 		F33DEC4D1C4F691800D028E3 /* PhotoPreviewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewLayout.m; sourceTree = "<group>"; };
 		F33DEC4F1C4F6F2400D028E3 /* PhotoPreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewCell.h; sourceTree = "<group>"; };
 		F33DEC501C4F6F2400D028E3 /* PhotoPreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewCell.m; sourceTree = "<group>"; };
+		F33DEC521C4F813E00D028E3 /* PhotoPreviewZoomScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewZoomScrollView.h; sourceTree = "<group>"; };
+		F33DEC531C4F813E00D028E3 /* PhotoPreviewZoomScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewZoomScrollView.m; sourceTree = "<group>"; };
 		F38B03401C4CD3E0000135FF /* PHNaviButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNaviButton.h; sourceTree = "<group>"; };
 		F38B03411C4CD3E0000135FF /* PHNaviButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNaviButton.m; sourceTree = "<group>"; };
 		F38B03431C4CDD87000135FF /* ph_navi_white_left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ph_navi_white_left_arrow.png; sourceTree = "<group>"; };
@@ -331,6 +334,8 @@
 				F39BA5D31C44AFA200C8A0D7 /* PhotoZoomScrollView.m */,
 				F38B03401C4CD3E0000135FF /* PHNaviButton.h */,
 				F38B03411C4CD3E0000135FF /* PHNaviButton.m */,
+				F33DEC521C4F813E00D028E3 /* PhotoPreviewZoomScrollView.h */,
+				F33DEC531C4F813E00D028E3 /* PhotoPreviewZoomScrollView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -563,6 +568,7 @@
 				F39BA55A1C3E4DF100C8A0D7 /* main.m in Sources */,
 				F39BA5901C3E4EF500C8A0D7 /* RootViewController.m in Sources */,
 				F39BA5D71C44E6A200C8A0D7 /* PhotoOldCollectionViewController.m in Sources */,
+				F33DEC541C4F813E00D028E3 /* PhotoPreviewZoomScrollView.m in Sources */,
 				F38B03421C4CD3E0000135FF /* PHNaviButton.m in Sources */,
 				F39BA5C81C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m in Sources */,
 				F39BA5E31C47440F00C8A0D7 /* PhotoOldAlbumViewController.m in Sources */,
