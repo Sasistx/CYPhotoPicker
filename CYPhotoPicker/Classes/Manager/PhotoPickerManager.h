@@ -6,7 +6,7 @@
 //  Copyright © 2016年 lvjianxiong. All rights reserved.
 //
 
-//tag 1.2
+//tag 0.9.1
 #import <Photos/Photos.h>
 
 @interface PhotoPickerManager : NSObject
