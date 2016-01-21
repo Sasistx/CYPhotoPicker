@@ -8,6 +8,9 @@
 //
 
 #import "PhotoPreviewZoomScrollView.h"
+#import "CYPhotoPickerDefines.h"
+#import "PhotoOldListItem.h"
+#import "PhotoPickerManager.h"
 
 @interface PhotoPreviewZoomScrollView () <UIScrollViewDelegate>
 @end
@@ -23,6 +26,27 @@
         self.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     }
     return self;
+}
+
+- (void)setAsset:(id)asset
+{
+    if (_asset) {
+        _asset = nil;
+    }
+    _asset = asset;
+    [self getZoomImage];
+}
+
+- (void)getZoomImage
+{
+    PH_WEAK_VAR(self);
+    __block id innerAsset = _asset;
+    [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:_asset completion:^(UIImage *image) {
+        
+        if ([innerAsset isEqual:_self.asset]) {
+            [_self setZoomImageView:image];
+        }
+    }];
 }
 
 - (void)setZoomImageView:(UIImage*)image
@@ -54,6 +78,8 @@
     CGFloat minimumScale = self.frame.size.width / _imageView.frame.size.width;
     [self setMinimumZoomScale:minimumScale];
     [self setZoomScale:minimumScale];
+    
+    [self layoutIfNeeded];
 }
 
 

@@ -10,4 +10,6 @@
 
 @interface PhotoPreviewCell : UICollectionViewCell
 
+- (void)setAssetToZoomView:(id)asset;
+
 @end
