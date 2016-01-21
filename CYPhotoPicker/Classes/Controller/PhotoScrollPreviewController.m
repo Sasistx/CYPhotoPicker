@@ -9,6 +9,7 @@
 #import "PhotoScrollPreviewController.h"
 #import "PhotoPreviewLayout.h"
 #import "PhotoPreviewCell.h"
+#import "PhotoPickerManager.h"
 
 #define PRE_CELL_IDENTIFIER @"prePhotoPickerCell"
 
@@ -32,6 +33,8 @@
     // Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:YES];
     [self createCollectionView];
+    [self createNaviView];
+    [self createBottomView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,7 +59,7 @@
 - (void)createNaviView
 {
     UIView* naviView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.height - 50, 50)];
-    [naviView setBackgroundColor:[UIColor clearColor]];
+    [naviView setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.3]];
     [self.view addSubview:naviView];
     
     UIButton* naviButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -75,15 +78,35 @@
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     [_collectionView registerClass:[PhotoPreviewCell class] forCellWithReuseIdentifier:PRE_CELL_IDENTIFIER];
-//    _collectionView.pagingEnabled = YES;
     [self.view addSubview:_collectionView];
 }
 
 - (void)createBottomView
 {
     UIView* bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, self.view.frame.size.width, 50)];
-    [bottomView setBackgroundColor:[UIColor clearColor]];
+    [bottomView setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.3]];
     [self.view addSubview:bottomView];
+    
+    _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_sendButton setFrame:CGRectMake(bottomView.frame.size.width - 80, 10, 70, 30)];
+    [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
+    [_sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_sendButton addTarget:self action:@selector(sendButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_sendButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
+    [bottomView addSubview:_sendButton];
+    
+    [self updateSendButtonText];
+}
+
+- (void)updateSendButtonText
+{
+    NSString* buttonTitle = nil;
+    if ([PhotoPickerManager sharedManager].selectedArray.count > 0) {
+        buttonTitle = [NSString stringWithFormat:@"发送 %zi/9", [PhotoPickerManager sharedManager].selectedArray.count];
+    }else {
+        buttonTitle = @"发送";
+    }
+    [_sendButton setTitle:buttonTitle forState:UIControlStateNormal];
 }
 
 #pragma mark - 
@@ -92,6 +115,11 @@
 - (void)backButtonClicked:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)sendButtonClicked:(id)sender
+{
+    
 }
 
 #pragma mark - 
