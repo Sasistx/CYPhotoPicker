@@ -9,6 +9,7 @@
 #import "PhotoCollectionListViewController.h"
 #import "PhotoPickerManager.h"
 #import "PhotoPreviewImageViewController.h"
+#import "PhotoScrollPreviewController.h"
 #import "PhotoCollectionViewLayout.h"
 #import "PhotoCollectionViewCell.h"
 #import "PhotoListItem.h"
@@ -106,6 +107,13 @@
     [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
     [_sendButton addTarget:self action:@selector(onSendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:_sendButton];
+    
+    UIButton* previewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [previewButton setFrame:CGRectMake(10, 10, 70, 31)];
+    [previewButton setTitle:@"预览" forState:UIControlStateNormal];
+    [previewButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
+    [previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:previewButton];
     
     [self.view addSubview:bottomView];
     
@@ -208,7 +216,16 @@
     }else{
         [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
     }
-    
+}
+
+- (void)preButtonClicked:(id)sender
+{
+    if ([PhotoPickerManager sharedManager].selectedArray.count > 0) {
+        
+        PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
+        controller.assets = [PhotoPickerManager sharedManager].selectedArray;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 
 - (void)backToLastController:(id)sender

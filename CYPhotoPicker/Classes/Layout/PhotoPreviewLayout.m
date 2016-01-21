@@ -47,7 +47,7 @@
     
     for (NSInteger idx = 0; idx < _itemCount; idx++) {
         
-        CGFloat originX = ([self collectionView].frame.size.width) * _itemCount;
+        CGFloat originX = ([self collectionView].frame.size.width) * idx;
         
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:idx inSection:0];
         UICollectionViewLayoutAttributes *attributes =
@@ -60,7 +60,7 @@
 
 - (CGSize)collectionViewContentSize
 {
-    return [self collectionView].frame.size;
+    return CGSizeMake([self collectionView].frame.size.width * _itemCount, [self collectionView].bounds.size.height);
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)path

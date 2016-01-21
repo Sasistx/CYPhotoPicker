@@ -20,8 +20,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UIView
-    
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"弹出相册" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

@@ -27,13 +27,18 @@
 
 - (void)createZoomView
 {
-    _zoomView = [[PhotoPreviewZoomScrollView alloc] initWithFrame:self.bounds];
+    _zoomView = [[PhotoPreviewZoomScrollView alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width - 20, self.frame.size.height)];
     [self.contentView addSubview:_zoomView];
 }
 
 - (void)setAssetToZoomView:(id)asset
 {
     [_zoomView setAsset:asset];
+}
+
+- (void)prepareForReuse
+{
+    [_zoomView clearZoomView];
 }
 
 @end

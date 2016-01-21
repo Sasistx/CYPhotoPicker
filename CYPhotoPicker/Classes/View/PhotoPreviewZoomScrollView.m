@@ -23,7 +23,6 @@
     if (self) {
         
         self.delegate = self;
-        self.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
     }
     return self;
 }
@@ -51,6 +50,11 @@
 
 - (void)setZoomImageView:(UIImage*)image
 {
+    if (_imageView) {
+        
+        return;
+    }
+    
     _imageView = [[UIImageView alloc] initWithImage:image];
     
     CGFloat factor = self.frame.size.width / self.frame.size.height;
@@ -80,6 +84,15 @@
     [self setZoomScale:minimumScale];
     
     [self layoutIfNeeded];
+}
+
+- (void)clearZoomView
+{
+    if (_imageView) {
+        
+        [_imageView removeFromSuperview];
+        _imageView = nil;
+    }
 }
 
 

@@ -10,6 +10,7 @@
 #import "PhotoCollectionViewLayout.h"
 #import "PhotoOldListItem.h"
 #import "PhotoPreviewImageViewController.h"
+#import "PhotoScrollPreviewController.h"
 #import "PhotoUtility.h"
 #import "PHNaviButton.h"
 
@@ -85,6 +86,13 @@
     [bottomView addSubview:_sendButton];
     
     [self.view addSubview:bottomView];
+    
+    UIButton* previewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [previewButton setFrame:CGRectMake(10, 10, 70, 31)];
+    [previewButton setTitle:@"预览" forState:UIControlStateNormal];
+    [previewButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
+    [previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:previewButton];
     
     [_collectionView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - _sendButton.frame.size.height)];
 }
@@ -188,6 +196,16 @@
 
 #pragma mark - 
 #pragma mark - button event
+
+- (void)preButtonClicked:(id)sender
+{
+    if ([PhotoPickerManager sharedManager].selectedArray.count > 0) {
+        
+        PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
+        controller.assets = [PhotoPickerManager sharedManager].selectedArray;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+}
 
 - (void)onSendBtnPressed:(id)sender
 {

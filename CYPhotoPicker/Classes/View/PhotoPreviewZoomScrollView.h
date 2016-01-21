@@ -11,4 +11,5 @@
 @interface PhotoPreviewZoomScrollView : UIScrollView
 @property (nonatomic, strong) UIImageView* imageView;
 @property (nonatomic, strong) id asset;
+- (void)clearZoomView;
 @end

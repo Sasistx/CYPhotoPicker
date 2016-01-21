@@ -23,13 +23,31 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        self.extendedLayoutIncludesOpaqueBars = YES;
+        self.automaticallyAdjustsScrollViewInsets = YES;
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     // Do any additional setup after loading the view.
+    [self.navigationController setNavigationBarHidden:YES];
     [self createCollectionView];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
 }
 
 #pragma mark -
@@ -51,12 +69,13 @@
 {
     PhotoPreviewLayout* photoLayout = [[PhotoPreviewLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) collectionViewLayout:photoLayout];
-    _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+//    _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    _collectionView.pagingEnabled = YES;
     [_collectionView setBackgroundColor:[UIColor blackColor]];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     [_collectionView registerClass:[PhotoPreviewCell class] forCellWithReuseIdentifier:PRE_CELL_IDENTIFIER];
-    _collectionView.pagingEnabled = YES;
+//    _collectionView.pagingEnabled = YES;
     [self.view addSubview:_collectionView];
 }
 
