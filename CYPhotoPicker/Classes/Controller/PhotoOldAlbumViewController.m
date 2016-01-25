@@ -174,6 +174,7 @@
     controller.assetGroup = item.group;
     controller.isOne = self.isOne;
     controller.showPreview = self.showPreview;
+    controller.dissmissBlock = self.dissmissBlock;
     [self.navigationController pushViewController:controller animated:YES];
 }
 
