@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CYPhotoPickerDefines.h"
 
 @interface PhotoScrollPreviewController : UIViewController
 @property (nonatomic, strong) NSMutableArray* assets;
+@property (nonatomic, copy) PhotoPickerDismissBlock dissmissBlock;
+@property (nonatomic, strong) NSIndexPath* indexPath;
 @end

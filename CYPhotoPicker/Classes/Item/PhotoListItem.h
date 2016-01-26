@@ -10,12 +10,14 @@
 #import <UIKit/UIKit.h>
 #import "PhotoCollectionBaseCell.h"
 #import "CYPhotoPickerDefines.h"
+#import "PhotoItemCellProtocol.h"
 
 @interface PhotoListItem : NSObject
 @property (nonatomic, strong) UIImage* thumbImage;
 @property (nonatomic, strong) PHAsset* asset;
 @property (nonatomic, strong) ALAsset* alAsset;
 @property (nonatomic, assign) BOOL isSelected;
+@property (nonatomic, weak) id <PhotoItemCellProtocol> delegate;
 @end
 
 @interface PhotoListItemCell : PhotoCollectionBaseCell

@@ -15,10 +15,11 @@
 #import "PhotoListItem.h"
 #import "PhotoUtility.h"
 #import "PHNaviButton.h"
+#import "PhotoScrollPreviewController.h"
 
 #define CELL_IDENTIFIER @"PhotoPickerCell"
 
-@interface PhotoCollectionListViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface PhotoCollectionListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, PhotoItemCellProtocol>
 @property (nonatomic, assign) NSInteger imageMaxCount;
 @property (nonatomic, strong) UICollectionView* collectionView;
 @property (nonatomic, strong) NSMutableArray* dataItems;
@@ -137,6 +138,7 @@
             
             PhotoListItem* item = [[PhotoListItem alloc] init];
             item.asset = asset;
+            item.delegate = self;
             
             NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
             if ([selectArray containsObject:asset]) {
@@ -172,18 +174,18 @@
     }
     
     if (!_isOne) {
-        if ([selectArray containsObject:item.asset]) {
+        if ([selectArray containsObject:item]) {
             
-            [selectArray removeObject:item.asset];
+            [selectArray removeObject:item];
         }else {
-            [selectArray addObject:item.asset];
+            [selectArray addObject:item];
         }
         
         item.isSelected = !item.isSelected;
         [self updateImageCountView];
     }else {
         [selectArray removeAllObjects];
-        [selectArray addObject:item.asset];
+        [selectArray addObject:item];
     }
     
     return YES;
@@ -259,28 +261,23 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
+    controller.assets = _dataItems;
+    controller.dissmissBlock = _dissmissBlock;
+    controller.indexPath = indexPath;
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
+- (void)didTapImageInCell:(UICollectionViewCell *)cell object:(id)obj
+{
     PH_WEAK_VAR(self);
-    PhotoListItem* item = _dataItems[indexPath.item];
-    if (_isOne && _showPreview) {
-        [self updateSelectedImageListWithItem:item];
-        PhotoPreviewImageViewController* controller = [[PhotoPreviewImageViewController alloc] init];
-        controller.asset = [PhotoPickerManager sharedManager].selectedArray.firstObject;
-        [controller setChoosedAssetImageBlock:^(UIImage *photo) {
-           
-            if (_self.dissmissBlock) {
-                
-                _self.dissmissBlock(@[photo]);
-            }
-        }];
-        [self.navigationController pushViewController:controller animated:YES];
-    }else {
-        
-        if ([self updateSelectedImageListWithItem:item]) {
-            [self.collectionView performBatchUpdates:^{
-                
-                [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
-            } completion: NULL];
-        }
+    NSIndexPath* indexPath = [_collectionView indexPathForCell:cell];
+    PhotoListItem* item = obj;
+    if ([self updateSelectedImageListWithItem:item]) {
+        [self.collectionView performBatchUpdates:^{
+            
+            [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+        } completion: NULL];
     }
 }
 

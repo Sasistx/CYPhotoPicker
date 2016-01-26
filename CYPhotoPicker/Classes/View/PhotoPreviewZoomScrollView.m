@@ -9,6 +9,7 @@
 
 #import "PhotoPreviewZoomScrollView.h"
 #import "CYPhotoPickerDefines.h"
+#import "PhotoListItem.h"
 #import "PhotoOldListItem.h"
 #import "PhotoPickerManager.h"
 
@@ -39,7 +40,9 @@
 - (void)getZoomImage
 {
     PH_WEAK_VAR(self);
+    
     __block id innerAsset = _asset;
+    
     [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:_asset completion:^(UIImage *image) {
         
         if ([innerAsset isEqual:_self.asset]) {

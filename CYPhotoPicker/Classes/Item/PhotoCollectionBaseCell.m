@@ -40,6 +40,11 @@
         [upperImageView setImage:[UIImage imageNamed:@"ph_photo_selected_arrow"]];
         [_selectedIcon addSubview:upperImageView];
         
+        UIButton* selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [selectButton setFrame:CGRectMake(_selectedIcon.frame.origin.x - 5, _selectedIcon.frame.origin.y - 5, _selectedIcon.frame.size.width + 10, _selectedIcon.frame.size.height + 10)];
+        [selectButton addTarget:self action:@selector(selectButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:selectButton];
+        
         [self.contentView insertSubview:_selectedIcon aboveSubview:_blackCoverView];
     }
     return self;
@@ -47,13 +52,18 @@
 
 - (void)shouldUpdateItemCellWithObject:(id)obj
 {
-    //
+    self.item = obj;
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
     self.thumbImageView.image = nil;
+}
+
+- (void)selectButtonClicked:(id)sender
+{
+    //need override
 }
 
 @end

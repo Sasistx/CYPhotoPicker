@@ -10,6 +10,9 @@
 #import "PhotoPreviewLayout.h"
 #import "PhotoPreviewCell.h"
 #import "PhotoPickerManager.h"
+#import "PhotoConfigureManager.h"
+#import "PhotoListItem.h"
+#import "PhotoUtility.h"
 
 #define PRE_CELL_IDENTIFIER @"prePhotoPickerCell"
 
@@ -72,13 +75,14 @@
 {
     PhotoPreviewLayout* photoLayout = [[PhotoPreviewLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) collectionViewLayout:photoLayout];
-//    _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     _collectionView.pagingEnabled = YES;
     [_collectionView setBackgroundColor:[UIColor blackColor]];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     [_collectionView registerClass:[PhotoPreviewCell class] forCellWithReuseIdentifier:PRE_CELL_IDENTIFIER];
     [self.view addSubview:_collectionView];
+    
+    [_collectionView scrollToItemAtIndexPath:_indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
 }
 
 - (void)createBottomView
@@ -87,10 +91,12 @@
     [bottomView setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.3]];
     [self.view addSubview:bottomView];
     
+    UIColor* buttonColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor ? [PhotoConfigureManager sharedManager].buttonBackgroundColor : [UIColor blueColor];
     _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_sendButton setFrame:CGRectMake(bottomView.frame.size.width - 80, 10, 70, 30)];
     [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
     [_sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
     [_sendButton addTarget:self action:@selector(sendButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_sendButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
     [bottomView addSubview:_sendButton];
@@ -119,7 +125,9 @@
 
 - (void)sendButtonClicked:(id)sender
 {
-    
+    if (self.dissmissBlock) {
+        _dissmissBlock([PhotoPickerManager sharedManager].selectedArray);
+    }
 }
 
 #pragma mark - 
@@ -140,6 +148,11 @@
     PhotoPreviewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:PRE_CELL_IDENTIFIER forIndexPath:indexPath];
     [cell setAssetToZoomView:_assets[indexPath.item]];
     return cell;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    
 }
 
 @end

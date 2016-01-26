@@ -50,4 +50,13 @@
     self.blackCoverView.hidden = !item.isSelected;
 }
 
+- (void)selectButtonClicked:(id)sender
+{
+    PhotoListItem* item = self.item;
+    if ([item.delegate respondsToSelector:@selector(didTapImageInCell:object:)]) {
+        
+        [item.delegate didTapImageInCell:self object:item];
+    }
+}
+
 @end

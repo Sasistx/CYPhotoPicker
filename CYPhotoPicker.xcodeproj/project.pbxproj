@@ -85,6 +85,7 @@
 		F33DEC501C4F6F2400D028E3 /* PhotoPreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewCell.m; sourceTree = "<group>"; };
 		F33DEC521C4F813E00D028E3 /* PhotoPreviewZoomScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewZoomScrollView.h; sourceTree = "<group>"; };
 		F33DEC531C4F813E00D028E3 /* PhotoPreviewZoomScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewZoomScrollView.m; sourceTree = "<group>"; };
+		F349B1271C575E34007017FD /* PhotoItemCellProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoItemCellProtocol.h; sourceTree = "<group>"; };
 		F38B03401C4CD3E0000135FF /* PHNaviButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNaviButton.h; sourceTree = "<group>"; };
 		F38B03411C4CD3E0000135FF /* PHNaviButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNaviButton.m; sourceTree = "<group>"; };
 		F38B03431C4CDD87000135FF /* ph_navi_white_left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ph_navi_white_left_arrow.png; sourceTree = "<group>"; };
@@ -278,6 +279,7 @@
 				F39BA5DF1C4500D400C8A0D7 /* PhotoCollectionBaseCell.m */,
 				F39BA5E41C474B6500C8A0D7 /* PhotoOldAlbumItem.h */,
 				F39BA5E51C474B6500C8A0D7 /* PhotoOldAlbumItem.m */,
+				F349B1271C575E34007017FD /* PhotoItemCellProtocol.h */,
 			);
 			path = Item;
 			sourceTree = "<group>";

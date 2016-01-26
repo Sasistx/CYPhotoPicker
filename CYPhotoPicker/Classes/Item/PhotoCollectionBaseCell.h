@@ -14,7 +14,10 @@
 @property (nonatomic, strong) UIImageView* thumbImageView;
 @property (nonatomic, strong) UIView* blackCoverView;
 @property (nonatomic, strong) UIImageView* selectedIcon;
+@property (nonatomic, strong) id item;
 
 - (void)shouldUpdateItemCellWithObject:(id)obj;
+
+- (void)selectButtonClicked:(id)sender;
 
 @end
