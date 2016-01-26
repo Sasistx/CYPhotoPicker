@@ -40,9 +40,7 @@
         [_self.imageView setImage:item.thumbImage];
     }else {
         [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(200, 200) asset:asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
-//            [_self.imageView setContentMode:UIViewContentModeScaleAspectFit];
             [_self.imageView setImage:resultImage];
-//            [_self.imageView layoutIfNeeded];
             item.thumbImage = resultImage;
         }];
     }

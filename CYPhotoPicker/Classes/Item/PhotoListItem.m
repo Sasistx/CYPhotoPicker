@@ -38,7 +38,7 @@
     }else {
         if (item.asset) {
             
-            [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(40, 40) asset:item.asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+            [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(200, 200) asset:item.asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
                 
                 _self.thumbImageView.image = resultImage;
                 item.thumbImage = resultImage;
