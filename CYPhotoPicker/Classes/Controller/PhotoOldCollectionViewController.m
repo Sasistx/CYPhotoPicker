@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UICollectionView* collectionView;
 @property (nonatomic, strong) NSMutableArray* dataItems;
 @property (nonatomic, strong) UIButton* sendButton;
+@property (nonatomic, strong) UIButton* previewButton;
 @end
 
 @implementation PhotoOldCollectionViewController
@@ -87,14 +88,16 @@
     
     [self.view addSubview:bottomView];
     
-    UIButton* previewButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [previewButton setFrame:CGRectMake(10, 10, 70, 31)];
-    [previewButton setTitle:@"预览" forState:UIControlStateNormal];
-    [previewButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
-    [previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [bottomView addSubview:previewButton];
+    _previewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_previewButton setFrame:CGRectMake(10, 10, 70, 31)];
+    [_previewButton setTitle:@"预览" forState:UIControlStateNormal];
+    [_previewButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
+    [_previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:_previewButton];
     
-    [_collectionView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - _sendButton.frame.size.height)];
+    [_collectionView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - bottomView.frame.size.height)];
+    
+    [self updatePreviewButton];
 }
 
 - (void) updateImageCountView
@@ -190,6 +193,16 @@
     return YES;
 }
 
+- (void)updatePreviewButton
+{
+    if ([PhotoPickerManager sharedManager].selectedArray.count > 0) {
+        
+        _previewButton.enabled = YES;
+    }else {
+        _previewButton.enabled = NO;
+    }
+}
+
 - (void)alertMaxSelection
 {
     [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
@@ -208,6 +221,7 @@
         [controller setPreviewBackBlock:^{
             
             [_self.collectionView reloadData];
+            [_self updatePreviewButton];
         }];
         [self.navigationController pushViewController:controller animated:YES];
     }
@@ -274,6 +288,7 @@
         [controller setPreviewBackBlock:^{
             
             [_self.collectionView reloadData];
+            [_self updatePreviewButton];
         }];
         [self.navigationController pushViewController:controller animated:YES];
     }
@@ -290,6 +305,7 @@
             [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
         } completion: NULL];
     }
+    [self updatePreviewButton];
 }
 
 #pragma mark - 

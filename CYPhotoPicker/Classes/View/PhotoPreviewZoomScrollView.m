@@ -85,7 +85,7 @@
     CGFloat minimumScale = self.frame.size.width / _imageView.frame.size.width;
     [self setMinimumZoomScale:minimumScale];
     [self setZoomScale:minimumScale];
-    
+    [self updateZoomCenter];
     [self layoutIfNeeded];
 }
 
@@ -130,6 +130,11 @@
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)aScrollView
+{
+    [self updateZoomCenter];
+}
+
+- (void)updateZoomCenter
 {
     CGFloat offsetX = (self.bounds.size.width > self.contentSize.width)?
     (self.bounds.size.width - self.contentSize.width) * 0.5 : 0.0;

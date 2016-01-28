@@ -72,9 +72,10 @@
     [self.view addSubview:naviView];
     
     UIButton* naviButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [naviButton setImageEdgeInsets:UIEdgeInsetsMake(0, 8, 0, 8)];
     [naviButton setImage:[UIImage imageNamed:@"ph_navi_white_left_arrow"] forState:UIControlStateNormal];
     [naviButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [naviButton setFrame:CGRectMake(18, 25, 12, 20)];
+    [naviButton setFrame:CGRectMake(10, 25, 30, 20)];
     [naviView addSubview:naviButton];
     
     _selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
