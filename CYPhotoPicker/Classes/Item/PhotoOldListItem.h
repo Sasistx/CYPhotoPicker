@@ -8,15 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "PhotoBaseListItem.h"
 #import "PhotoCollectionBaseCell.h"
 
-@interface PhotoOldListItem : NSObject
-
+@interface PhotoOldListItem : PhotoBaseListItem
 @property (nonatomic, copy) NSURL* url;
-@property (nonatomic, strong) UIImage* thumbImage;
 @property (nonatomic, strong) UIImage* originImage;
-@property (nonatomic, assign) BOOL isSelected;
-
 @end
 
 

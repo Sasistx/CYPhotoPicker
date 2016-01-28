@@ -11,7 +11,7 @@
 #import "PhotoPreviewCell.h"
 #import "PhotoPickerManager.h"
 #import "PhotoConfigureManager.h"
-#import "PhotoListItem.h"
+#import "PhotoBaseListItem.h"
 #import "PhotoUtility.h"
 
 #define PRE_CELL_IDENTIFIER @"prePhotoPickerCell"
@@ -21,6 +21,8 @@
 @property (nonatomic, strong) UIButton* selectButton;
 @property (nonatomic, strong) UIButton* originImageButton;
 @property (nonatomic, strong) UIButton* sendButton;
+@property (nonatomic, strong) UIImageView* selectedImageView;
+@property (nonatomic, strong) UIImageView* deselectedImageView;
 @end
 
 @implementation PhotoScrollPreviewController
@@ -45,11 +47,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -61,14 +58,38 @@
 
 - (void)createNaviView
 {
-    UIView* naviView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.height - 50, 50)];
+    UIView* naviView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.height - 60, 60)];
     [naviView setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.3]];
     [self.view addSubview:naviView];
     
     UIButton* naviButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [naviButton setTitle:@"返回" forState:UIControlStateNormal];
+    [naviButton setImage:[UIImage imageNamed:@"ph_navi_white_left_arrow"] forState:UIControlStateNormal];
     [naviButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:naviButton];
+    [naviButton setFrame:CGRectMake(18, 25, 12, 20)];
+    [naviView addSubview:naviButton];
+    
+    _selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_selectButton setFrame:CGRectMake(self.view.frame.size.width - 45, 20, 30, 30)];
+    
+    UIImage* arrowImage = [UIImage imageNamed:@"ph_photo_selected_arrow"];
+    
+    UIColor* selectColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor;
+    
+    UIImage* selectBackImage = [PhotoUtility originImage:[UIImage imageNamed:@"ph_photo_selected_round"] tintColor:selectColor blendMode:kCGBlendModeDestinationIn];
+    
+    UIImage* deselectBackImage = [PhotoUtility originImage:[UIImage imageNamed:@"ph_photo_selected_round"] tintColor:[UIColor clearColor] blendMode:kCGBlendModeDestinationIn];
+    
+    UIImage* currentSelectImage = [PhotoUtility combineSameSizeImageWithContextImage:selectBackImage headerImage:arrowImage];
+    
+    UIImage* currentDeselectedImage = [PhotoUtility combineSameSizeImageWithContextImage:deselectBackImage headerImage:arrowImage];
+    
+    [_selectButton setImage:currentDeselectedImage forState:UIControlStateNormal];
+    [_selectButton setImage:currentSelectImage forState:UIControlStateSelected];
+    [_selectButton addTarget:selectBackImage action:@selector(selectButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    _selectButton.selected = NO;
+    [naviView addSubview:_selectButton];
+    
+    [self updateCurrentImageSelectState:_indexPath.item];
 }
 
 - (void)createCollectionView
@@ -130,6 +151,38 @@
     }
 }
 
+- (void)selectButtonClicked:(id)sender
+{
+    
+    NSArray* array = [_collectionView visibleCells];
+    if (array.count > 0) {
+        
+        PhotoPreviewCell* cell = array.firstObject;
+        NSIndexPath* indexPath = [_collectionView indexPathForCell:cell];
+        
+        NSMutableArray* tempArray = [PhotoPickerManager sharedManager].selectedArray;
+        PhotoBaseListItem* item = _assets[indexPath.item];
+        if (!item.isSelected && tempArray.count >= 9) {
+            
+            [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
+            return;
+        }
+        
+        item.isSelected = !item.isSelected;
+        if ([tempArray containsObject:item]) {
+            
+            [tempArray removeObject:item];
+        }else {
+            [tempArray addObject:item];
+        }
+        
+        UIButton* button = sender;
+        button.selected = item.isSelected;
+        
+        [self updateSendButtonText];
+    }
+}
+
 #pragma mark - 
 #pragma mark - collection view delegate & datasource
 
@@ -152,7 +205,23 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    NSInteger currentPage = (scrollView.contentOffset.x + _collectionView.frame.size.width / 2) / _collectionView.frame.size.width;
+    if (currentPage < 0 || currentPage >= _assets.count) {
+        
+    }else {
+        
+        [self updateCurrentImageSelectState:currentPage];
+    }
+}
+
+- (void)updateCurrentImageSelectState:(NSInteger)index
+{
+    if (index < 0 || index >= _assets.count) {
+        return;
+    }
     
+    PhotoBaseListItem* item = _assets[index];
+    _selectButton.selected = item.isSelected;
 }
 
 @end

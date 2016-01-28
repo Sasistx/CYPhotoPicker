@@ -46,7 +46,8 @@
         }
     }
     
-    self.selectedIcon.hidden = !item.isSelected;
+    self.selectButton.selected = item.isSelected;
+//    self.selectedIcon.hidden = !item.isSelected;
     self.blackCoverView.hidden = !item.isSelected;
 }
 

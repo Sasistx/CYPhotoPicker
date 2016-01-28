@@ -196,7 +196,7 @@
     [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
 }
 
-- (void) updateImageCountView
+- (void)updateImageCountView
 {
     [_sendButton setTitle:[NSString stringWithFormat: @"发送 %zi/%zi", [PhotoPickerManager sharedManager].selectedArray.count, _imageMaxCount] forState:UIControlStateNormal];
 }
