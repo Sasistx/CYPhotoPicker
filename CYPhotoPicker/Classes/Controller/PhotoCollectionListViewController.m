@@ -141,9 +141,13 @@
             item.delegate = self;
             
             NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
-            if ([selectArray containsObject:asset]) {
-                item.isSelected = YES;
-            }
+
+            [selectArray enumerateObjectsUsingBlock:^(PhotoListItem* innerItem, NSUInteger idx, BOOL * _Nonnull stop) {
+               
+                if ([innerItem.asset.localIdentifier isEqualToString:item.asset.localIdentifier]) {
+                    item.isSelected = YES;
+                }
+            }];
             [dataItems addObject:item];
         }];
         
@@ -162,7 +166,7 @@
 }
 
 - (BOOL) updateSelectedImageListWithItem:(PhotoListItem*)item
-{    
+{
     NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
     if (!item.isSelected) {
         
@@ -224,8 +228,13 @@
 {
     if ([PhotoPickerManager sharedManager].selectedArray.count > 0) {
         
+        PH_WEAK_VAR(self);
         PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
         controller.assets = [PhotoPickerManager sharedManager].selectedArray;
+        [controller setPreviewBackBlock:^{
+            
+            [_self.collectionView reloadData];
+        }];
         [self.navigationController pushViewController:controller animated:YES];
     }
 }
@@ -261,11 +270,29 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
-    controller.assets = _dataItems;
-    controller.dissmissBlock = _dissmissBlock;
-    controller.indexPath = indexPath;
-    [self.navigationController pushViewController:controller animated:YES];
+    PH_WEAK_VAR(self);
+    if (_isOne) {
+        PhotoPreviewImageViewController* controller = [[PhotoPreviewImageViewController alloc] init];
+        [controller setChoosedAssetImageBlock:^(NSArray *photos) {
+            
+            if (_self.dissmissBlock) {
+                
+                _self.dissmissBlock(photos);
+            }
+        }];
+        controller.item = _dataItems[indexPath.item];
+        [self.navigationController pushViewController:controller animated:YES];
+    }else {
+        PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
+        controller.assets = _dataItems;
+        controller.dissmissBlock = _dissmissBlock;
+        controller.indexPath = indexPath;
+        [controller setPreviewBackBlock:^{
+            
+            [_self.collectionView reloadData];
+        }];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 
 - (void)didTapImageInCell:(UICollectionViewCell *)cell object:(id)obj

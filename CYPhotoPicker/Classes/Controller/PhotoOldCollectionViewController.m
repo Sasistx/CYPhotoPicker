@@ -16,7 +16,7 @@
 
 #define OLD_CELL_IDENTIFIER @"Old_PhotoPickerCell"
 
-@interface PhotoOldCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface PhotoOldCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate, PhotoItemCellProtocol>
 @property (nonatomic, assign) NSInteger imageMaxCount;
 @property (nonatomic, strong) UICollectionView* collectionView;
 @property (nonatomic, strong) NSMutableArray* dataItems;
@@ -122,6 +122,7 @@
             PhotoOldListItem *item = [[PhotoOldListItem alloc] init];
             item.url = result.defaultRepresentation.url;
             item.isSelected = [_self itemHasBeenSelected: item];
+            item.delegate = self;
             UIImage *thumbImage = [UIImage imageWithCGImage: result.thumbnail];
             item.thumbImage = thumbImage;
             [_self.dataItems addObject:item];
@@ -201,8 +202,13 @@
 {
     if ([PhotoPickerManager sharedManager].selectedArray.count > 0) {
         
+        PH_WEAK_VAR(self);
         PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
         controller.assets = [PhotoPickerManager sharedManager].selectedArray;
+        [controller setPreviewBackBlock:^{
+            
+            [_self.collectionView reloadData];
+        }];
         [self.navigationController pushViewController:controller animated:YES];
     }
 }
@@ -249,25 +255,40 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PH_WEAK_VAR(self);
-    if (_isOne && _showPreview) {
+    if (_isOne) {
         PhotoPreviewImageViewController* controller = [[PhotoPreviewImageViewController alloc] init];
-        [controller setChoosedAssetImageBlock:^(UIImage *photo) {
+        [controller setChoosedAssetImageBlock:^(NSArray *photos) {
             
             if (_self.dissmissBlock) {
                 
-                _self.dissmissBlock(@[photo]);
+                _self.dissmissBlock(photos);
             }
         }];
         controller.item = _dataItems[indexPath.item];
         [self.navigationController pushViewController:controller animated:YES];
     }else {
-        PhotoOldListItem* item = _dataItems[indexPath.item];
-        if ([self updateSelectedImageListWithItem:item]) {
-            [self.collectionView performBatchUpdates:^{
-                
-                [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
-            } completion: NULL];
-        }
+        PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
+        controller.assets = _dataItems;
+        controller.dissmissBlock = _dissmissBlock;
+        controller.indexPath = indexPath;
+        [controller setPreviewBackBlock:^{
+            
+            [_self.collectionView reloadData];
+        }];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+}
+
+- (void)didTapImageInCell:(UICollectionViewCell *)cell object:(id)obj
+{
+    PH_WEAK_VAR(self);
+    NSIndexPath* indexPath = [_collectionView indexPathForCell:cell];
+    PhotoOldListItem* item = obj;
+    if ([self updateSelectedImageListWithItem:item]) {
+        [self.collectionView performBatchUpdates:^{
+            
+            [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+        } completion: NULL];
     }
 }
 

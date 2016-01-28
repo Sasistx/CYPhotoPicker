@@ -9,8 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "CYPhotoPickerDefines.h"
 
+typedef void (^PhotoPreviewBackBlock)(void);
+
 @interface PhotoScrollPreviewController : UIViewController
 @property (nonatomic, strong) NSMutableArray* assets;
 @property (nonatomic, copy) PhotoPickerDismissBlock dissmissBlock;
 @property (nonatomic, strong) NSIndexPath* indexPath;
+
+- (void)setPreviewBackBlock:(PhotoPreviewBackBlock)backBlock;
+
 @end

@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UIButton* sendButton;
 @property (nonatomic, strong) UIImageView* selectedImageView;
 @property (nonatomic, strong) UIImageView* deselectedImageView;
+@property (nonatomic, copy) PhotoPreviewBackBlock backBlock;
 @end
 
 @implementation PhotoScrollPreviewController
@@ -51,6 +52,14 @@
 {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO];
+}
+
+#pragma mark -
+#pragma mark -
+
+- (void)setPreviewBackBlock:(PhotoPreviewBackBlock)backBlock
+{
+    self.backBlock = backBlock;
 }
 
 #pragma mark -
@@ -141,6 +150,9 @@
 
 - (void)backButtonClicked:(id)sender
 {
+    if (self.backBlock) {
+        _backBlock();
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
