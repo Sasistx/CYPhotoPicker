@@ -149,6 +149,10 @@
 - (void)didFinishLoadItem
 {
     [_collectionView reloadData];
+    if ([_dataItems count] != 0) {
+        
+        [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:([_dataItems count] - 1) inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+    }
 }
 
 - (BOOL) updateSelectedImageListWithItem:(PhotoListItem*)item
