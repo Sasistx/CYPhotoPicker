@@ -20,4 +20,6 @@ typedef void (^PhotoFailureBlock)(NSError *error);
 
 + (UIImage*)originImage:(UIImage*)originImage tintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode;
 
++ (UIImage*)combineSameSizeImageWithContextImage:(UIImage*)contextImage headerImage:(UIImage*)headerImage;
+
 @end

@@ -67,7 +67,7 @@
         
     }else {
         
-        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:_asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:_phItem.asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
             
             [_self createZoomScrollViewWithImage:resultImage];
         }];
@@ -117,7 +117,7 @@
 {
     [[PhotoPickerManager sharedManager] clearSelectedArray];
     if (_choosePHAssetImageBlock) {
-        _choosePHAssetImageBlock(self.pickImage);
+        _choosePHAssetImageBlock(_item ? @[_item] : @[_phItem]);
     }
     [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
 }

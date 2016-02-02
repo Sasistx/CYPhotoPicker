@@ -9,19 +9,22 @@
 #import "PhotoCollectionListViewController.h"
 #import "PhotoPickerManager.h"
 #import "PhotoPreviewImageViewController.h"
+#import "PhotoScrollPreviewController.h"
 #import "PhotoCollectionViewLayout.h"
 #import "PhotoCollectionViewCell.h"
 #import "PhotoListItem.h"
 #import "PhotoUtility.h"
 #import "PHNaviButton.h"
+#import "PhotoScrollPreviewController.h"
 
 #define CELL_IDENTIFIER @"PhotoPickerCell"
 
-@interface PhotoCollectionListViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface PhotoCollectionListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, PhotoItemCellProtocol>
 @property (nonatomic, assign) NSInteger imageMaxCount;
 @property (nonatomic, strong) UICollectionView* collectionView;
 @property (nonatomic, strong) NSMutableArray* dataItems;
 @property (nonatomic, strong) UIButton* sendButton;
+@property (nonatomic, strong) UIButton* previewButton;
 @end
 
 @implementation PhotoCollectionListViewController
@@ -45,7 +48,6 @@
     [self createCollectionView];
     
     [self bottomView];
-    
     [self updateImageCountView];
     [self loadPhotoAsset];
 }
@@ -107,9 +109,18 @@
     [_sendButton addTarget:self action:@selector(onSendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:_sendButton];
     
+    _previewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_previewButton setFrame:CGRectMake(10, 10, 70, 31)];
+    [_previewButton setTitle:@"预览" forState:UIControlStateNormal];
+    [_previewButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
+    [_previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:_previewButton];
+    
     [self.view addSubview:bottomView];
     
-    [_collectionView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - _sendButton.frame.size.height)];
+    [_collectionView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - bottomView.frame.size.height)];
+    
+    [self updatePreviewButton];
 }
 
 - (void)loadPhotoAsset
@@ -129,11 +140,16 @@
             
             PhotoListItem* item = [[PhotoListItem alloc] init];
             item.asset = asset;
+            item.delegate = self;
             
             NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
-            if ([selectArray containsObject:asset]) {
-                item.isSelected = YES;
-            }
+
+            [selectArray enumerateObjectsUsingBlock:^(PhotoListItem* innerItem, NSUInteger idx, BOOL * _Nonnull stop) {
+               
+                if ([innerItem.asset.localIdentifier isEqualToString:item.asset.localIdentifier]) {
+                    item.isSelected = YES;
+                }
+            }];
             [dataItems addObject:item];
         }];
         
@@ -156,7 +172,7 @@
 }
 
 - (BOOL) updateSelectedImageListWithItem:(PhotoListItem*)item
-{    
+{
     NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
     if (!item.isSelected) {
         
@@ -168,18 +184,18 @@
     }
     
     if (!_isOne) {
-        if ([selectArray containsObject:item.asset]) {
+        if ([selectArray containsObject:item]) {
             
-            [selectArray removeObject:item.asset];
+            [selectArray removeObject:item];
         }else {
-            [selectArray addObject:item.asset];
+            [selectArray addObject:item];
         }
         
         item.isSelected = !item.isSelected;
         [self updateImageCountView];
     }else {
         [selectArray removeAllObjects];
-        [selectArray addObject:item.asset];
+        [selectArray addObject:item];
     }
     
     return YES;
@@ -190,9 +206,19 @@
     [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
 }
 
-- (void) updateImageCountView
+- (void)updateImageCountView
 {
     [_sendButton setTitle:[NSString stringWithFormat: @"发送 %zi/%zi", [PhotoPickerManager sharedManager].selectedArray.count, _imageMaxCount] forState:UIControlStateNormal];
+}
+
+- (void)updatePreviewButton
+{
+    if ([PhotoPickerManager sharedManager].selectedArray.count > 0) {
+        
+        _previewButton.enabled = YES;
+    }else {
+        _previewButton.enabled = NO;
+    }
 }
 
 #pragma mark -
@@ -212,7 +238,20 @@
     }else{
         [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
     }
+}
+
+- (void)preButtonClicked:(id)sender
+{
     
+    PH_WEAK_VAR(self);
+    PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
+    controller.assets = [PhotoPickerManager sharedManager].selectedArray;
+    [controller setPreviewBackBlock:^{
+        
+        [_self.collectionView reloadData];
+        [_self updatePreviewButton];
+    }];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)backToLastController:(id)sender
@@ -247,28 +286,43 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PH_WEAK_VAR(self);
-    PhotoListItem* item = _dataItems[indexPath.item];
-    if (_isOne && _showPreview) {
-        [self updateSelectedImageListWithItem:item];
+    if (_isOne) {
         PhotoPreviewImageViewController* controller = [[PhotoPreviewImageViewController alloc] init];
-        controller.asset = [PhotoPickerManager sharedManager].selectedArray.firstObject;
-        [controller setChoosedAssetImageBlock:^(UIImage *photo) {
-           
+        [controller setChoosedAssetImageBlock:^(NSArray *photos) {
+            
             if (_self.dissmissBlock) {
                 
-                _self.dissmissBlock(@[photo]);
+                _self.dissmissBlock(photos);
             }
         }];
+        controller.item = _dataItems[indexPath.item];
         [self.navigationController pushViewController:controller animated:YES];
     }else {
-        
-        if ([self updateSelectedImageListWithItem:item]) {
-            [self.collectionView performBatchUpdates:^{
-                
-                [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
-            } completion: NULL];
-        }
+        PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
+        controller.assets = _dataItems;
+        controller.dissmissBlock = _dissmissBlock;
+        controller.indexPath = indexPath;
+        [controller setPreviewBackBlock:^{
+            
+            [_self.collectionView reloadData];
+            [_self updatePreviewButton];
+        }];
+        [self.navigationController pushViewController:controller animated:YES];
     }
+}
+
+- (void)didTapImageInCell:(UICollectionViewCell *)cell object:(id)obj
+{
+    PH_WEAK_VAR(self);
+    NSIndexPath* indexPath = [_collectionView indexPathForCell:cell];
+    PhotoListItem* item = obj;
+    if ([self updateSelectedImageListWithItem:item]) {
+        [self.collectionView performBatchUpdates:^{
+            
+            [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+        } completion: NULL];
+    }
+    [self updatePreviewButton];
 }
 
 @end

@@ -10,6 +10,7 @@
 #import "CYPhotoPickerDefines.h"
 #import "PhotoOldListItem.h"
 #import "PhotoUtility.h"
+#import "PhotoListItem.h"
 
 @interface PhotoPickerManager ()
 
@@ -95,11 +96,13 @@ static PhotoPickerManager* sharedManager = nil;
 
 - (void)asyncGetOriginImageWithAsset:(id)asset completion:(void (^)(UIImage* image))completion
 {
-    if ([asset isKindOfClass:[PHAsset class]]) {
+    if ([asset isKindOfClass:[PhotoListItem class]]) {
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
-            [self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+            PHAsset* innerAsset = ((PhotoListItem*)asset).asset;
+            
+            [self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:innerAsset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
@@ -129,5 +132,7 @@ static PhotoPickerManager* sharedManager = nil;
         }
     }
 }
+
+
 
 @end

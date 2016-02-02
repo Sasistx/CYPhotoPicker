@@ -107,4 +107,15 @@
     return tintedImage;
 }
 
++ (UIImage*)combineSameSizeImageWithContextImage:(UIImage*)contextImage headerImage:(UIImage*)headerImage
+{
+    UIGraphicsBeginImageContext(contextImage.size);
+    
+    [contextImage drawInRect:CGRectMake(0, 0, contextImage.size.width, contextImage.size.height)];
+    [headerImage drawInRect:CGRectMake(0, 0, headerImage.size.width, headerImage.size.height)];
+    UIImage *resImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return resImage;
+}
+
 @end

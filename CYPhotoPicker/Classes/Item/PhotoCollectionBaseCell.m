@@ -27,33 +27,42 @@
         _blackCoverView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         _blackCoverView.hidden = YES;
         
-        _selectedIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width - 30, 7, 25, 25)];
+        UIImage* arrowImage = [UIImage imageNamed:@"ph_photo_selected_arrow"];
         
-        UIColor* backColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor ? [PhotoConfigureManager sharedManager].buttonBackgroundColor : [UIColor blackColor];
-        UIImage* originImage = [UIImage imageNamed:@"ph_photo_selected_round"];
-        UIImage* currentImage = [PhotoUtility originImage:originImage tintColor:backColor blendMode:kCGBlendModeDestinationIn];
-        [_selectedIcon setImage:currentImage];
-        _selectedIcon.hidden = YES;
-        _selectedIcon.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+        UIColor* selectColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor;
         
-        UIImageView* upperImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _selectedIcon.frame.size.width, _selectedIcon.frame.size.height)];
-        [upperImageView setImage:[UIImage imageNamed:@"ph_photo_selected_arrow"]];
-        [_selectedIcon addSubview:upperImageView];
+        UIImage* selectBackImage = [PhotoUtility originImage:[UIImage imageNamed:@"ph_photo_selected_round"] tintColor:selectColor blendMode:kCGBlendModeDestinationIn];
         
-        [self.contentView insertSubview:_selectedIcon aboveSubview:_blackCoverView];
+        UIImage* deselectBackImage = [PhotoUtility originImage:[UIImage imageNamed:@"ph_photo_selected_round"] tintColor:[UIColor clearColor] blendMode:kCGBlendModeDestinationIn];
+        
+        UIImage* currentSelectImage = [PhotoUtility combineSameSizeImageWithContextImage:selectBackImage headerImage:arrowImage];
+        
+        UIImage* currentDeselectedImage = [PhotoUtility combineSameSizeImageWithContextImage:deselectBackImage headerImage:arrowImage];
+        
+        _selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_selectButton setFrame:CGRectMake(self.frame.size.width - 35, 7, 30, 30)];
+        [_selectButton setImage:currentSelectImage forState:UIControlStateSelected];
+        [_selectButton setImage:currentDeselectedImage forState:UIControlStateNormal];
+        [_selectButton addTarget:self action:@selector(selectButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:_selectButton];
     }
     return self;
 }
 
 - (void)shouldUpdateItemCellWithObject:(id)obj
 {
-    //
+    self.item = obj;
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
     self.thumbImageView.image = nil;
+}
+
+- (void)selectButtonClicked:(id)sender
+{
+    //need override
 }
 
 @end
