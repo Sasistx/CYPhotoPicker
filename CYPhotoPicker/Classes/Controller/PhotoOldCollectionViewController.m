@@ -88,16 +88,7 @@
     
     [self.view addSubview:bottomView];
     
-    _previewButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_previewButton setFrame:CGRectMake(10, 10, 70, 31)];
-    [_previewButton setTitle:@"预览" forState:UIControlStateNormal];
-    [_previewButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
-    [_previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [bottomView addSubview:_previewButton];
-    
     [_collectionView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - bottomView.frame.size.height)];
-    
-    [self updatePreviewButton];
 }
 
 - (void) updateImageCountView
@@ -281,16 +272,27 @@
         controller.item = _dataItems[indexPath.item];
         [self.navigationController pushViewController:controller animated:YES];
     }else {
-        PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
-        controller.assets = _dataItems;
-        controller.dissmissBlock = _dissmissBlock;
-        controller.indexPath = indexPath;
-        [controller setPreviewBackBlock:^{
-            
-            [_self.collectionView reloadData];
-            [_self updatePreviewButton];
-        }];
-        [self.navigationController pushViewController:controller animated:YES];
+        
+        if (_showPreview) {
+            PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
+            controller.assets = _dataItems;
+            controller.dissmissBlock = _dissmissBlock;
+            controller.indexPath = indexPath;
+            [controller setPreviewBackBlock:^{
+                
+                [_self.collectionView reloadData];
+                [_self updatePreviewButton];
+            }];
+            [self.navigationController pushViewController:controller animated:YES];
+        }else {
+            PhotoOldListItem* item = _dataItems[indexPath.item];
+            if ([self updateSelectedImageListWithItem:item]) {
+                [self.collectionView performBatchUpdates:^{
+                    
+                    [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+                } completion: NULL];
+            }
+        }
     }
 }
 
@@ -308,7 +310,7 @@
     [self updatePreviewButton];
 }
 
-#pragma mark - 
+#pragma mark -
 #pragma mark - private method
 
 //

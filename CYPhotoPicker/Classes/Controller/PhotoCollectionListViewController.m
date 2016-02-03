@@ -137,20 +137,20 @@
         __block NSMutableArray *dataItems = [NSMutableArray array];
         [_fetchResult enumerateObjectsUsingBlock:^(PHAsset* asset, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            
-            PhotoListItem* item = [[PhotoListItem alloc] init];
-            item.asset = asset;
-            item.delegate = self;
-            
-            NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
-
-            [selectArray enumerateObjectsUsingBlock:^(PhotoListItem* innerItem, NSUInteger idx, BOOL * _Nonnull stop) {
-               
-                if ([innerItem.asset.localIdentifier isEqualToString:item.asset.localIdentifier]) {
-                    item.isSelected = YES;
-                }
-            }];
-            [dataItems addObject:item];
+            if (asset.mediaType == PHAssetMediaTypeImage) {
+                PhotoListItem* item = [[PhotoListItem alloc] init];
+                item.asset = asset;
+                
+                NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
+                
+                [selectArray enumerateObjectsUsingBlock:^(PhotoListItem* innerItem, NSUInteger idx, BOOL * _Nonnull stop) {
+                    
+                    if ([innerItem.asset.localIdentifier isEqualToString:item.asset.localIdentifier]) {
+                        item.isSelected = YES;
+                    }
+                }];
+                [dataItems addObject:item];
+            }
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{

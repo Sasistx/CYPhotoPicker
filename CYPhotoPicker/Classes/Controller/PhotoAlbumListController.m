@@ -62,27 +62,48 @@
     }else {
         [_albumsArray removeAllObjects];
     }
-    
-    PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil];
+    PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil];
     PHFetchResult *topLevelUserCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
     
-    [smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection* collection, NSUInteger idx, BOOL * _Nonnull stop) {
+    [smartAlbums enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * _Nonnull stop) {
         //209所有照片       //206最近添加   //211屏幕快照
-        if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary || collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumRecentlyAdded) {
-            
-            [_self insertCollectionToArray:collection];
-        }
         
-        if (PH_IOSOVER(9) && collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumScreenshots) {
+        NSLog(@"%@", [obj class]);
+        if (![obj isKindOfClass:[PHCollectionList class]]) {
             
-            [_self insertCollectionToArray:collection];
+            PHAssetCollection* collection = obj;
+            
+            if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary || collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumRecentlyAdded) {
+                
+                [_self insertCollectionToArray:collection];
+            }
+            
+            if (PH_IOSOVER(9) && collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumScreenshots) {
+                
+                [_self insertCollectionToArray:collection];
+            }
         }
-        
         
     }];
-    [topLevelUserCollections enumerateObjectsUsingBlock:^(PHAssetCollection* collection, NSUInteger idx, BOOL * _Nonnull stop) {
+    [topLevelUserCollections enumerateObjectsUsingBlock:^(id collection, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        [_self insertCollectionToArray:collection];
+        if ([collection isKindOfClass:[PHAssetCollection class]]) {
+            [_self insertCollectionToArray:collection];
+        }else if ([collection isKindOfClass:[PHCollectionList class]]){
+            
+            [_self fetchCollectionListAsset:collection];
+        }
+    }];
+}
+
+- (void)fetchCollectionListAsset:(PHCollectionList*)list
+{
+    PH_WEAK_VAR(self);
+    PHFetchResult* result = [PHAssetCollection fetchMomentsInMomentList:list options:nil];
+    [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[PHAssetCollection class]]) {
+            [_self insertCollectionToArray:obj];
+        }
     }];
 }
 

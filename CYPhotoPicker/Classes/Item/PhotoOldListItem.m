@@ -33,7 +33,6 @@
         self.thumbImageView.image = item.thumbImage;
     }
     self.selectButton.selected = item.isSelected;
-//    self.selectedIcon.hidden = !item.isSelected;
     self.blackCoverView.hidden = !item.isSelected;
 }
 
@@ -41,6 +40,15 @@
 {
     [super prepareForReuse];
     self.thumbImageView.image = nil;
+}
+
+- (void)selectButtonClicked:(id)sender
+{
+    PhotoOldListItem* item = self.item;
+    if ([item.delegate respondsToSelector:@selector(didTapImageInCell:object:)]) {
+        
+        [item.delegate didTapImageInCell:self object:item];
+    }
 }
 
 @end
