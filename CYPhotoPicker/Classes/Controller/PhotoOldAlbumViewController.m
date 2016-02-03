@@ -29,7 +29,7 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
-    _albumTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    _albumTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
     [_albumTableView setDelegate:self];
     [_albumTableView setDataSource:self];
     [self.view addSubview:_albumTableView];
@@ -45,6 +45,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(assetChanged:) name:ALAssetLibraryUpdatedAssetsKey object:nil];
     
     [self loadAlbumData];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [_albumTableView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -86,7 +86,7 @@
     
     [self.view addSubview:bottomView];
     
-    [_collectionView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - _sendButton.frame.size.height)];
+    [_collectionView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - bottomView.frame.size.height)];
 }
 
 - (void) updateImageCountView

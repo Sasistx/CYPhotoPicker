@@ -148,27 +148,37 @@ static NSString* kCancelTitle = @"取消";
 
 - (void)showAlbum
 {
-    if (PH_IOSOVER(8))
-    {
-        PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
-        controller.isOne = _one;
-        controller.showPreview = _showPreview;
-        controller.dissmissBlock = self.dissmissBlock;
-        UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
-        [_currentController presentViewController:navi animated:YES completion:^{
+    //待icloud下载逻辑处理好之后，使用新api进行相册处理
+//    if (PH_IOSOVER(8))
+//    {
+//        PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
+//        controller.isOne = _one;
+//        controller.showPreview = _showPreview;
+//        controller.dissmissBlock = self.dissmissBlock;
+//        UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
+//        [_currentController presentViewController:navi animated:YES completion:^{
+//    
+//        }];
+//    }else {
+//    
+//        PhotoOldAlbumViewController* controller = [[PhotoOldAlbumViewController alloc] init];
+//        controller.isOne = _one;
+//        controller.showPreview = _showPreview;
+//        controller.dissmissBlock = self.dissmissBlock;
+//        UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
+//        [_currentController presentViewController:navi animated:YES completion:^{
+//                
+//        }];
+//    }
     
-        }];
-    }else {
-    
-        PhotoOldAlbumViewController* controller = [[PhotoOldAlbumViewController alloc] init];
-        controller.isOne = _one;
-        controller.showPreview = _showPreview;
-        controller.dissmissBlock = self.dissmissBlock;
-        UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
-        [_currentController presentViewController:navi animated:YES completion:^{
-                
-        }];
-    }
+    PhotoOldAlbumViewController* controller = [[PhotoOldAlbumViewController alloc] init];
+    controller.isOne = _one;
+    controller.showPreview = _showPreview;
+    controller.dissmissBlock = self.dissmissBlock;
+    UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
+    [_currentController presentViewController:navi animated:YES completion:^{
+        
+    }];
 }
 
 - (void)showCancel
