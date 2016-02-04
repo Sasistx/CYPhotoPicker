@@ -117,7 +117,7 @@
             item.url = result.defaultRepresentation.url;
             item.isSelected = [_self itemHasBeenSelected: item];
             item.delegate = self;
-            UIImage *thumbImage = [UIImage imageWithCGImage: result.thumbnail];
+            UIImage *thumbImage = [UIImage imageWithCGImage: [result aspectRatioThumbnail]];
             item.thumbImage = thumbImage;
             [_self.dataItems addObject:item];
         }];

@@ -19,6 +19,8 @@
         _thumbImageView = [[UIImageView alloc] initWithFrame: CGRectMake(2.5, 5, self.frame.size.width-5, self.frame.size.height-5)];
         _thumbImageView.backgroundColor = PH_RGBCOLOR_HEX(0xdddddd);
         [self.contentView addSubview:_thumbImageView];
+        [_thumbImageView setContentMode:UIViewContentModeScaleAspectFill];
+        [_thumbImageView setClipsToBounds:YES];
         
         _blackCoverView = [[UIView alloc] initWithFrame:CGRectMake(2.5, 5, self.frame.size.width - 5, self.frame.size.height - 5)];
         [_blackCoverView setBackgroundColor:[UIColor blackColor]];
