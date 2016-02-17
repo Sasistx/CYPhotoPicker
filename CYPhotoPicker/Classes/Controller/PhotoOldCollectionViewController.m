@@ -74,7 +74,16 @@
     UIColor* textColor = [PhotoConfigureManager sharedManager].sendButtontextColor ? [PhotoConfigureManager sharedManager].sendButtontextColor : [UIColor whiteColor];
     UIColor* buttonColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor ? [PhotoConfigureManager sharedManager].buttonBackgroundColor : [UIColor blackColor];
     
-    UIView* bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, self.view.frame.size.width, 50)];
+    CGFloat bottomOriY = 0;
+    if (PH_IOSOVER(7)) {
+        
+        bottomOriY = self.view.frame.size.height - 50;
+    }else{
+        
+        bottomOriY = self.view.frame.size.height - 50 - self.navigationController.navigationBar.frame.size.height;
+    }
+    
+    UIView* bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, bottomOriY, self.view.frame.size.width, 50)];
     [bottomView setBackgroundColor:[UIColor whiteColor]];
     
     _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
