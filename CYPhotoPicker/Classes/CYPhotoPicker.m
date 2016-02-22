@@ -46,22 +46,6 @@ static NSString* kCancelTitle = @"取消";
     return self;
 }
 
-- (instancetype)initWithCurrentController:(UIViewController*)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview
-{
-    self = [super init];
-    if (self) {
-        
-        _one = isOne;
-        _showPreview = showPreview;
-        _pickerOption = option;
-        _currentController = controller;
-        [self clearManager];
-        [PhotoConfigureManager sharedManager].currentPicker = self;
-        
-    }
-    return self;
-}
-
 - (void)dealloc
 {
     
