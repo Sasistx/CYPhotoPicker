@@ -41,11 +41,14 @@
 
 - (void)buttonClicked:(id)sender
 {
-    PH_WEAK_VAR(self);
     [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1];
     
     CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:NO compeletionBlock:^(NSArray *imageAssets) {
         
+        [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:imageAssets[0] completion:^(UIImage *image) {
+           
+            
+        }];
     }];
     picker.buttonBackgroundColor = [UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1];
     picker.sendButtonTextColor = [UIColor whiteColor];
