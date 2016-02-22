@@ -96,6 +96,16 @@ static PhotoPickerManager* sharedManager = nil;
 
 - (void)asyncGetOriginImageWithAsset:(id)asset completion:(void (^)(UIImage* image))completion
 {
+    if (((PhotoBaseListItem*)asset).originImage) {
+        
+        if (completion) {
+            
+            completion(((PhotoBaseListItem*)asset).originImage);
+        }
+        
+        return;
+    }
+    
     if ([asset isKindOfClass:[PhotoListItem class]]) {
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -108,7 +118,7 @@ static PhotoPickerManager* sharedManager = nil;
                     
                     if (completion) {
                         
-                        return completion(resultImage);
+                        completion(resultImage);
                     }
                 });
             }];

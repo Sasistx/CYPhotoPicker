@@ -13,7 +13,6 @@
 
 @interface PhotoOldListItem : PhotoBaseListItem
 @property (nonatomic, copy) NSURL* url;
-@property (nonatomic, strong) UIImage* originImage;
 @end
 
 

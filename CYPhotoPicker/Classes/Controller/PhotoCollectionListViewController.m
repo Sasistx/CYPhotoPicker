@@ -238,6 +238,7 @@
     }else{
         [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
     }
+    [PhotoConfigureManager sharedManager].currentPicker = nil;
 }
 
 - (void)preButtonClicked:(id)sender
@@ -294,6 +295,7 @@
                 
                 _self.dissmissBlock(photos);
             }
+            [PhotoConfigureManager sharedManager].currentPicker = nil;
         }];
         controller.item = _dataItems[indexPath.item];
         [self.navigationController pushViewController:controller animated:YES];

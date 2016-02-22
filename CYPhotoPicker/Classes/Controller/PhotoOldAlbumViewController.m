@@ -137,6 +137,7 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
         
     }];
+    [PhotoConfigureManager sharedManager].currentPicker = nil;
 }
 
 #pragma mark -

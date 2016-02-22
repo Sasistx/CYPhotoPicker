@@ -10,6 +10,7 @@
 #import "PhotoAlbumListController.h"
 #import "PhotoOldAlbumViewController.h"
 #import "PhotoTempViewController.h"
+#import "PhotoListItem.h"
 
 static NSString* kAlbumTitle = @"从手机相册选择";
 static NSString* kCameraTitle = @"拍照";
@@ -22,6 +23,29 @@ static NSString* kCancelTitle = @"取消";
 
 @implementation CYPhotoPicker
 
++ (instancetype)showFromController:(UIViewController*)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
+{
+    CYPhotoPicker* sharedPicker = [[self alloc] initWithCurrentController:controller option:option isOne:isOne showPreview:showPreview];
+    return sharedPicker;
+}
+
+
+- (instancetype)initWithCurrentController:(UIViewController*)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
+{
+    self = [super init];
+    if (self) {
+        
+        _one = isOne;
+        _showPreview = showPreview;
+        _pickerOption = option;
+        _currentController = controller;
+        [self clearManager];
+        [PhotoConfigureManager sharedManager].currentPicker = self;
+        self.dissmissBlock = dissmissBlock;
+    }
+    return self;
+}
+
 - (instancetype)initWithCurrentController:(UIViewController*)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview
 {
     self = [super init];
@@ -32,8 +56,15 @@ static NSString* kCancelTitle = @"取消";
         _pickerOption = option;
         _currentController = controller;
         [self clearManager];
+        [PhotoConfigureManager sharedManager].currentPicker = self;
+        
     }
     return self;
+}
+
+- (void)dealloc
+{
+    
 }
 
 - (void)setButtonBackgroundColor:(UIColor *)buttonBackgroundColor
@@ -186,6 +217,7 @@ static NSString* kCancelTitle = @"取消";
     if (_dissmissBlock) {
         _dissmissBlock(nil);
     }
+    [PhotoConfigureManager sharedManager].currentPicker = nil;
 }
 
 - (void)clearManager
@@ -231,14 +263,18 @@ static NSString* kCancelTitle = @"取消";
     if (_dissmissBlock) {
         
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        _dissmissBlock(@[image]);
+        PhotoListItem* item = [[PhotoListItem alloc] init];
+        item.originImage = image;
+        _dissmissBlock(@[item]);
     }
     [picker dismissViewControllerAnimated:YES completion:Nil];
+    [PhotoConfigureManager sharedManager].currentPicker = nil;
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [self showCancel];
     [picker dismissViewControllerAnimated:YES completion:Nil];
+    [PhotoConfigureManager sharedManager].currentPicker = nil;
 }
 
 @end

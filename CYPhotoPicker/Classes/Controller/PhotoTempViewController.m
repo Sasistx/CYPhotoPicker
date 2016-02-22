@@ -37,6 +37,7 @@
         _dissmissBlock(@[image]);
     }
     [picker dismissViewControllerAnimated:YES completion:Nil];
+    [PhotoConfigureManager sharedManager].currentPicker = nil;
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
@@ -44,6 +45,7 @@
         _dissmissBlock(nil);
     }
     [picker dismissViewControllerAnimated:YES completion:Nil];
+    [PhotoConfigureManager sharedManager].currentPicker = nil;
 }
 
 @end

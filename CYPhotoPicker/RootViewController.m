@@ -43,17 +43,13 @@
 {
     PH_WEAK_VAR(self);
     [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1];
-    if (!_picker) {
-        _picker = [[CYPhotoPicker alloc] initWithCurrentController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:NO];
-    }
-    _picker.buttonBackgroundColor = [UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1];
-    [_picker setPhotoCompeletionBlock:^(NSArray *images) {
-        
-        _self.temp = images;
-    }];
-    _picker.sendButtonTextColor = [UIColor whiteColor];
-    [_picker show];
     
+    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:NO compeletionBlock:^(NSArray *imageAssets) {
+        
+    }];
+    picker.buttonBackgroundColor = [UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1];
+    picker.sendButtonTextColor = [UIColor whiteColor];
+    [picker show];
 }
 
 - (void)testbuttonClicked:(id)sender

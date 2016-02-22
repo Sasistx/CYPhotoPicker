@@ -13,5 +13,6 @@
 @interface PhotoBaseListItem : NSObject
 @property (nonatomic, assign) BOOL isSelected;
 @property (nonatomic, strong) UIImage* thumbImage;
+@property (nonatomic, strong) UIImage* originImage;
 @property (nonatomic, weak) id <PhotoItemCellProtocol> delegate;
 @end

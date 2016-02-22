@@ -14,7 +14,6 @@
 
 @interface PhotoListItem : PhotoBaseListItem
 @property (nonatomic, strong) PHAsset* asset;
-@property (nonatomic, strong) ALAsset* alAsset;
 @end
 
 @interface PhotoListItemCell : PhotoCollectionBaseCell

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "CYPhotoPickerDefines.h"
 
+@class CYPhotoPicker;
+
 typedef NS_ENUM(NSInteger, PhotoNaviButtonStyle)
 {
     PhotoNaviButtonStyleDefault,
@@ -21,6 +23,7 @@ typedef NS_ENUM(NSInteger, PhotoNaviButtonStyle)
 @property (nonatomic, strong) UIColor* sendButtontextColor; //default is black
 
 @property (nonatomic, assign) PhotoNaviButtonStyle naviStyle;
+@property (nonatomic, strong) CYPhotoPicker* currentPicker;
 
 + (PhotoConfigureManager*)sharedManager;
 
