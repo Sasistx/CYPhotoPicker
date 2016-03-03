@@ -11,6 +11,9 @@
 #import "PhotoOldListItem.h"
 #import "PhotoUtility.h"
 #import "PhotoListItem.h"
+#import "ALAssetsLibrary+CustomAlbum.h"
+
+static NSString* saveAlbumName = @"春雨";
 
 @interface PhotoPickerManager ()
 
@@ -143,6 +146,114 @@ static PhotoPickerManager* sharedManager = nil;
     }
 }
 
+- (void)saveImage:(nonnull UIImage*)image toAlbum:(nonnull NSString*)album completion:(SaveImageCompletion)completion
+{
+    if (PH_IOSOVER(8)) {
+        
+        PH_WEAK_VAR(self);
+        PHAssetCollection* albumCollection = [self checkCollectionWithAlbumName:album];
+        
+        if (albumCollection) {
+            
+            [_self saveImage:image toCollection:albumCollection completion:completion];
+        }else {
+        
+            __block PHAssetCollectionChangeRequest* request = nil;
+            
+            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                
+                request = [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:saveAlbumName];
+                
+            } completionHandler:^(BOOL success, NSError * _Nullable error) {
+                
+                if (success) {
+                    
+                    __block PHFetchResult* result = nil;
+                    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                       
+                        result = [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[request.placeholderForCreatedAssetCollection] options:nil];
+                        
+                    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+                        
+                        
+                        if (result.count > 0) {
+                            [_self saveImage:image toCollection:result.firstObject completion:completion];
+                        }
+                    }];
+                
+                }else {
+                    
+                    if (completion) {
+                        
+                        completion(error);
+                    }
+                }
+            }];
+        }
+        
+    }else {
+        
+        //Old API
+        ALAssetsLibrary* library = [[ALAssetsLibrary alloc] init];
+        [library saveImage:image toAlbum:album withCompletionBlock:^(NSError *error) {
+            
+            if (completion) {
+                completion(error);
+            }
+        }];
+    }
+}
 
+- (PHAssetCollection*)checkCollectionWithAlbumName:(NSString*)albumName
+{
+    __block PHAssetCollection* albumCollection = nil;
+    
+    PHFetchResult* result = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil];
+    
+    [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if ([obj isKindOfClass:[PHAssetCollection class]]) {
+            
+            PHAssetCollection* collection = obj;
+            if ([collection.localizedTitle isEqualToString:albumName]) {
+                
+                albumCollection = collection;
+                *stop = YES;
+            }
+        }
+    }];
+    
+    return albumCollection;
+}
+
+- (void)saveImage:(UIImage*)image toCollection:(PHAssetCollection*)collection completion:(SaveImageCompletion)completion
+{
+    __block NSString* assetId = nil;
+    
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        
+        assetId = [PHAssetCreationRequest creationRequestForAssetFromImage:image].placeholderForCreatedAsset.localIdentifier;
+        
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        
+        if (success) {
+         
+            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                
+                PHAssetCollectionChangeRequest* request = [PHAssetCollectionChangeRequest changeRequestForAssetCollection:collection];
+                
+                PHAsset *asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[assetId] options:nil].firstObject;
+                [request addAssets:@[asset]];
+                
+            } completionHandler:^(BOOL success, NSError * _Nullable error) {
+                
+                if (completion) {
+                    
+                    completion(error);
+                }
+            }];
+        }
+    }];
+}
 
 @end

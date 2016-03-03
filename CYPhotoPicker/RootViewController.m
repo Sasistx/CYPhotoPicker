@@ -32,6 +32,13 @@
     [testbutton setFrame:CGRectMake(100, 300, 100, 30)];
     [testbutton addTarget:self action:@selector(testbuttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:testbutton];
+    
+    UIButton* albumButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [albumButton setTitle:@"创建相册" forState:UIControlStateNormal];
+    [albumButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [albumButton setFrame:CGRectMake(100, 400, 100, 30)];
+    [albumButton addTarget:self action:@selector(albumButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:albumButton];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,7 +48,6 @@
 
 - (void)buttonClicked:(id)sender
 {
-    [UIColor colorWithRed:27/255.0 green:125/255.0 blue:174/255.0 alpha:1];
     
     CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:NO compeletionBlock:^(NSArray *imageAssets) {
         
@@ -58,6 +64,13 @@
 - (void)testbuttonClicked:(id)sender
 {
     NSLog(@"=----%@", _temp);
+}
+
+- (void)albumButtonClicked:(id)sender
+{
+    [[PhotoPickerManager sharedManager] saveImage:[UIImage imageNamed:@"0.jpg"] toAlbum:@"春雨" completion:^(NSError *error) {
+        
+    }];
 }
 
 @end

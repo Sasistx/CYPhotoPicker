@@ -33,7 +33,7 @@
     __block PhotoAlbumItem* item = obj;
     PHAsset *asset = item.assetsFetchResult[0];
     
-    [self.textLabel setText:[NSString stringWithFormat:@"%@(%lu)", item.collection.localizedTitle, item.assetsFetchResult.count]];
+    [self.textLabel setText:[NSString stringWithFormat:@"%@(%zi)", item.collection.localizedTitle, item.assetsFetchResult.count]];
     
     if (item.thumbImage) {
         

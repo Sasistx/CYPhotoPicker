@@ -89,10 +89,10 @@
         
         if ([collection isKindOfClass:[PHAssetCollection class]]) {
             [_self insertCollectionToArray:collection];
-        }else if ([collection isKindOfClass:[PHCollectionList class]]){
+        }/*else if ([collection isKindOfClass:[PHCollectionList class]]){
             
             [_self fetchCollectionListAsset:collection];
-        }
+        }*/
     }];
 }
 

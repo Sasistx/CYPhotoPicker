@@ -9,6 +9,8 @@
 //tag 0.9.1
 #import <Photos/Photos.h>
 
+typedef void(^SaveImageCompletion)(NSError* error);
+
 @interface PhotoPickerManager : NSObject
 
 @property (nonatomic, strong) NSMutableArray* selectedArray;
@@ -17,4 +19,5 @@
 - (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
 - (void)asyncGetOriginImageWithAsset:(id)asset completion:(void (^)(UIImage* image))completion;
 - (void)clearSelectedArray;
+- (void)saveImage:(UIImage*)image toAlbum:(NSString*)album completion:(SaveImageCompletion)completion;
 @end

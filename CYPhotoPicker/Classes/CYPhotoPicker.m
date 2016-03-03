@@ -251,6 +251,7 @@ static NSString* kCancelTitle = @"取消";
         item.originImage = image;
         _dissmissBlock(@[item]);
     }
+    
     [picker dismissViewControllerAnimated:YES completion:Nil];
     [PhotoConfigureManager sharedManager].currentPicker = nil;
 }
