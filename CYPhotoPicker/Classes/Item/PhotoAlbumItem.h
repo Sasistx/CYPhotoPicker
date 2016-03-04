@@ -18,5 +18,6 @@
 
 
 @interface PhotoAlbumItemCell : UITableViewCell
+@property (nonatomic, strong) id item;
 - (void)phCellShouldUpdateWithObject:(id)obj;
 @end

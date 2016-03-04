@@ -12,4 +12,5 @@
 @property (nonatomic, strong) UIImageView* imageView;
 @property (nonatomic, strong) id asset;
 - (void)clearZoomView;
+- (BOOL)isImageLoading;
 @end

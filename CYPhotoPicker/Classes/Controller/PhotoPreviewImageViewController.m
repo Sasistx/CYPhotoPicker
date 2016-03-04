@@ -67,7 +67,7 @@
         
     }else {
         
-        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:_phItem.asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:_phItem.asset allowNetwork:YES completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
             
             [_self createZoomScrollViewWithImage:resultImage];
         }];

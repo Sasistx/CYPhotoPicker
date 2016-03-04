@@ -15,6 +15,7 @@
 static NSString* kAlbumTitle = @"从手机相册选择";
 static NSString* kCameraTitle = @"拍照";
 static NSString* kCancelTitle = @"取消";
+static NSString* kAlbumDefaultName = @"CY";
 
 @interface CYPhotoPicker () <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, weak) UIViewController* currentController;
@@ -23,7 +24,7 @@ static NSString* kCancelTitle = @"取消";
 
 @implementation CYPhotoPicker
 
-+ (instancetype)showFromController:(UIViewController*)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
++ (instancetype _Nullable)showFromController:(UIViewController* _Nonnull)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock _Nullable)dissmissBlock
 {
     CYPhotoPicker* sharedPicker = [[self alloc] initWithCurrentController:controller option:option isOne:isOne showPreview:showPreview compeletionBlock:dissmissBlock];
     return sharedPicker;
@@ -131,6 +132,14 @@ static NSString* kCancelTitle = @"取消";
     }
 }
 
+- (void)setSelectedPhotoItem:(nonnull NSArray*)items
+{
+    [[PhotoPickerManager sharedManager].selectedArray removeAllObjects];
+    if (items) {
+        [[PhotoPickerManager sharedManager].selectedArray addObjectsFromArray:items];
+    }
+}
+
 #pragma mark -
 #pragma mark - private method
 
@@ -164,36 +173,27 @@ static NSString* kCancelTitle = @"取消";
 - (void)showAlbum
 {
     //待icloud下载逻辑处理好之后，使用新api进行相册处理
-//    if (PH_IOSOVER(8))
-//    {
-//        PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
-//        controller.isOne = _one;
-//        controller.showPreview = _showPreview;
-//        controller.dissmissBlock = self.dissmissBlock;
-//        UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
-//        [_currentController presentViewController:navi animated:YES completion:^{
-//    
-//        }];
-//    }else {
-//    
-//        PhotoOldAlbumViewController* controller = [[PhotoOldAlbumViewController alloc] init];
-//        controller.isOne = _one;
-//        controller.showPreview = _showPreview;
-//        controller.dissmissBlock = self.dissmissBlock;
-//        UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
-//        [_currentController presentViewController:navi animated:YES completion:^{
-//                
-//        }];
-//    }
+    if (PH_IOSOVER(8))
+    {
+        PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
+        controller.isOne = _one;
+        controller.showPreview = _showPreview;
+        controller.dissmissBlock = self.dissmissBlock;
+        UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
+        [_currentController presentViewController:navi animated:YES completion:^{
     
-    PhotoOldAlbumViewController* controller = [[PhotoOldAlbumViewController alloc] init];
-    controller.isOne = _one;
-    controller.showPreview = _showPreview;
-    controller.dissmissBlock = self.dissmissBlock;
-    UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
-    [_currentController presentViewController:navi animated:YES completion:^{
-        
-    }];
+        }];
+    }else {
+    
+        PhotoOldAlbumViewController* controller = [[PhotoOldAlbumViewController alloc] init];
+        controller.isOne = _one;
+        controller.showPreview = _showPreview;
+        controller.dissmissBlock = self.dissmissBlock;
+        UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
+        [_currentController presentViewController:navi animated:YES completion:^{
+                
+        }];
+    }
 }
 
 - (void)showCancel
@@ -250,6 +250,9 @@ static NSString* kCancelTitle = @"取消";
         PhotoListItem* item = [[PhotoListItem alloc] init];
         item.originImage = image;
         _dissmissBlock(@[item]);
+        [[PhotoPickerManager sharedManager] saveImage:image toAlbum:_albumName ? _albumName : kAlbumDefaultName completion:^(NSError *error) {
+            
+        }];
     }
     
     [picker dismissViewControllerAnimated:YES completion:Nil];

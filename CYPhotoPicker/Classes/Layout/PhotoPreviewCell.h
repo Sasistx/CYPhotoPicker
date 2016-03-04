@@ -12,4 +12,6 @@
 
 - (void)setAssetToZoomView:(id)asset;
 
+- (BOOL)isOriginImageLoading;
+
 @end

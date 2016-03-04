@@ -62,13 +62,12 @@
     }else {
         [_albumsArray removeAllObjects];
     }
-    PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil];
+    PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     PHFetchResult *topLevelUserCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
     
     [smartAlbums enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * _Nonnull stop) {
         //209所有照片       //206最近添加   //211屏幕快照
         
-        NSLog(@"%@", [obj class]);
         if (![obj isKindOfClass:[PHCollectionList class]]) {
             
             PHAssetCollection* collection = obj;
@@ -89,10 +88,10 @@
         
         if ([collection isKindOfClass:[PHAssetCollection class]]) {
             [_self insertCollectionToArray:collection];
-        }/*else if ([collection isKindOfClass:[PHCollectionList class]]){
+        }else if ([collection isKindOfClass:[PHCollectionList class]]){
             
             [_self fetchCollectionListAsset:collection];
-        }*/
+        }
     }];
 }
 

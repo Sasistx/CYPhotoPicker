@@ -14,6 +14,13 @@
 #import "PhotoPickerManager.h"
 
 @interface PhotoPreviewZoomScrollView () <UIScrollViewDelegate>
+
+/**
+ *  default is hidden
+ */
+@property (nonatomic, strong) UIView* loadingBackView;
+@property (nonatomic, strong) UIActivityIndicatorView* loadingView;
+
 @end
 
 @implementation PhotoPreviewZoomScrollView
@@ -43,9 +50,12 @@
     
     __block id innerAsset = _asset;
     
+    [self showLoadingView];
     [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:_asset completion:^(UIImage *image) {
         
         if ([innerAsset isEqual:_self.asset]) {
+            
+            [_self hideLoadingView];
             [_self setZoomImageView:image];
         }
     }];
@@ -98,7 +108,6 @@
     }
 }
 
-
 #pragma mark - Zoom methods
 
 - (void)handleDoubleTap:(UIGestureRecognizer *)gesture
@@ -142,6 +151,41 @@
     (self.bounds.size.height - self.contentSize.height) * 0.5 : 0.0;
     _imageView.center = CGPointMake(self.contentSize.width * 0.5 + offsetX,
                                     self.contentSize.height * 0.5 + offsetY);
+}
+
+#pragma mark - Loading view
+
+- (UIView*)loadingBackView
+{
+    if (!_loadingBackView) {
+        
+        _loadingBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        [self addSubview:_loadingBackView];
+        [_loadingBackView setHidden:YES];
+        
+        _loadingView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+        [_loadingView setCenter:_loadingBackView.center];
+        [_loadingBackView addSubview:_loadingView];
+        [_loadingView stopAnimating];
+    }
+    return _loadingBackView;
+}
+
+- (void)showLoadingView
+{
+    [self.loadingBackView setHidden:NO];
+    [self.loadingView startAnimating];
+}
+
+- (void)hideLoadingView
+{
+    [self.loadingBackView setHidden:YES];
+    [self.loadingView stopAnimating];
+}
+
+- (BOOL)isImageLoading
+{
+    return !self.loadingBackView.hidden;
 }
 
 @end

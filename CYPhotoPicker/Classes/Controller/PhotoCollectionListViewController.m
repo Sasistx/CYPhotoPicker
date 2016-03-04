@@ -140,13 +140,14 @@
             if (asset.mediaType == PHAssetMediaTypeImage) {
                 PhotoListItem* item = [[PhotoListItem alloc] init];
                 item.asset = asset;
-                
-                NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
+                item.delegate = self;
+                NSMutableArray* selectArray = [NSMutableArray arrayWithArray:[PhotoPickerManager sharedManager].selectedArray];
                 
                 [selectArray enumerateObjectsUsingBlock:^(PhotoListItem* innerItem, NSUInteger idx, BOOL * _Nonnull stop) {
                     
                     if ([innerItem.asset.localIdentifier isEqualToString:item.asset.localIdentifier]) {
                         item.isSelected = YES;
+                        [[PhotoPickerManager sharedManager].selectedArray replaceObjectAtIndex:idx withObject:innerItem];
                     }
                 }];
                 [dataItems addObject:item];
@@ -184,9 +185,21 @@
     }
     
     if (!_isOne) {
-        if ([selectArray containsObject:item]) {
+        
+        __block NSInteger index = -1;
+        [selectArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            [selectArray removeObject:item];
+            PhotoListItem* innerItem = obj;
+            if ([innerItem.asset.localIdentifier isEqualToString:item.asset.localIdentifier]) {
+                
+                index = idx;
+                *stop = YES;
+            }
+        }];
+        
+        if (index >= 0) {
+            
+            [selectArray removeObjectAtIndex:index];
         }else {
             [selectArray addObject:item];
         }
@@ -316,15 +329,79 @@
 - (void)didTapImageInCell:(UICollectionViewCell *)cell object:(id)obj
 {
     PH_WEAK_VAR(self);
+    
     NSIndexPath* indexPath = [_collectionView indexPathForCell:cell];
-    PhotoListItem* item = obj;
-    if ([self updateSelectedImageListWithItem:item]) {
-        [self.collectionView performBatchUpdates:^{
+    __block PhotoListItem* item = obj;
+    [[PhotoPickerManager sharedManager] checkOriginalImageExistWithAsset:item.asset completion:^(UIImage *image, NSDictionary *info, BOOL exist) {
+        
+        if (exist) {
             
-            [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
-        } completion: NULL];
-    }
-    [self updatePreviewButton];
+            //存在选中
+            if ([_self updateSelectedImageListWithItem:item]) {
+                [_self.collectionView performBatchUpdates:^{
+                    
+                    [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+                } completion: NULL];
+            }
+            
+            [_self updatePreviewButton];
+        }else {
+            
+            //不存在下载
+            item.isLoading = YES;
+            [_self.collectionView performBatchUpdates:^{
+                
+                [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+            } completion: NULL];
+            [_self downloadImageWithAsset:item.asset];
+        }
+    }];
+}
+
+- (void)downloadImageWithAsset:(PHAsset*)asset
+{
+    PH_WEAK_VAR(self);
+    [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:asset allowNetwork:YES completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+       
+        if (!resultImage) {
+            
+            [SVProgressHUD showErrorWithStatus:@"图片下载失败"];
+        }else {
+            
+        }
+        
+        [_self updateCollectionItemWithPHAsset:asset];
+    }];
+}
+
+- (void)updateCollectionItemWithPHAsset:(PHAsset*)asset
+{
+    PH_WEAK_VAR(self);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+       
+        __block NSInteger row = -1;
+        
+        [_self.dataItems enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            PhotoListItem* item = obj;
+            if ([item.asset.localIdentifier isEqualToString:asset.localIdentifier]) {
+                
+                item.isLoading = NO;
+                row = idx;
+                *stop = YES;
+            }
+        }];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if (row >= 0) {
+                [_self.collectionView performBatchUpdates:^{
+                    
+                    [_self.collectionView reloadItemsAtIndexPaths: @[[NSIndexPath indexPathForRow:row inSection:0]]];
+                } completion: NULL];
+            }
+        });
+    });
 }
 
 @end

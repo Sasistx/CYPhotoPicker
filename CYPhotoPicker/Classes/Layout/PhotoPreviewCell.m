@@ -36,6 +36,11 @@
     [_zoomView setAsset:asset];
 }
 
+- (BOOL)isOriginImageLoading
+{
+    return [_zoomView isImageLoading];
+}
+
 - (void)prepareForReuse
 {
     [_zoomView clearZoomView];

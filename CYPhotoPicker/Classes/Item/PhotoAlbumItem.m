@@ -13,7 +13,8 @@
 @end
 
 @interface PhotoAlbumItemCell()
-
+@property (nonatomic, strong) UIImageView* thumbImageView;
+@property (nonatomic, strong) UILabel* thumbTitle;
 @end
 
 @implementation PhotoAlbumItemCell
@@ -22,7 +23,15 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        
         [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        
+        _thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 0, 60, 60)];
+        [self.contentView addSubview:_thumbImageView];
+        
+        _thumbTitle = [[UILabel alloc] initWithFrame:CGRectMake(90, 15, [UIScreen mainScreen].bounds.size.width - 90 - 20, 30)];
+        [_thumbTitle setBackgroundColor:[UIColor clearColor]];
+        [self.contentView addSubview:_thumbTitle];
     }
     return self;
 }
@@ -30,36 +39,34 @@
 - (void)phCellShouldUpdateWithObject:(id)obj
 {
     PH_WEAK_VAR(self);
-    __block PhotoAlbumItem* item = obj;
-    PHAsset *asset = item.assetsFetchResult[0];
+    self.item = obj;
     
-    [self.textLabel setText:[NSString stringWithFormat:@"%@(%zi)", item.collection.localizedTitle, item.assetsFetchResult.count]];
+    __block PhotoAlbumItem* item = obj;
+    __block PHAsset *asset = item.assetsFetchResult[0];
+    
+    [self.thumbTitle setText:[NSString stringWithFormat:@"%@(%zi)", item.collection.localizedTitle, item.assetsFetchResult.count]];
     
     if (item.thumbImage) {
         
         [_self.imageView setImage:item.thumbImage];
     }else {
-        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(200, 200) asset:asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
-            [_self.imageView setImage:resultImage];
+        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(200, 200) asset:asset allowNetwork:YES completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+            
+            PhotoAlbumItem* currentItem = _self.item;
+            
+            if (currentItem.assetsFetchResult > 0) {
+                
+                PHAsset* currentAsset = currentItem.assetsFetchResult[0];
+                if ([asset.localIdentifier isEqualToString:currentAsset.localIdentifier]) {
+                    
+                    [_self.thumbImageView setImage:resultImage];
+                }
+            }
+
             item.thumbImage = resultImage;
+            [self.contentView layoutIfNeeded];
         }];
     }
-    
-    
-    //        PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
-    //
-    //        PHImageRequestOptions *phImageRequestOptions = [[PHImageRequestOptions alloc] init];
-    //        phImageRequestOptions.synchronous = YES;
-    //
-    //        [imageManager requestImageForAsset:asset
-    //                                targetSize:CGSizeMake(50, 50)
-    //                               contentMode:PHImageContentModeAspectFill
-    //                                   options:phImageRequestOptions
-    //                             resultHandler:^(UIImage *result, NSDictionary *info) {
-    //
-    //                                 // 得到一张 UIImage，展示到界面上
-    //                                 [_self.imageView setImage:result];
-    //                             }];
 }
 
 

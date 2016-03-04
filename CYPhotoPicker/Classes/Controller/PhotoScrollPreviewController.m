@@ -162,37 +162,45 @@
     if (self.dissmissBlock) {
         _dissmissBlock([PhotoPickerManager sharedManager].selectedArray);
     }
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+    [PhotoConfigureManager sharedManager].currentPicker = nil;
 }
 
 - (void)selectButtonClicked:(id)sender
 {
     
     NSArray* array = [_collectionView visibleCells];
-    if (array.count > 0) {
+    if (array.count == 1) {
         
         PhotoPreviewCell* cell = array.firstObject;
-        NSIndexPath* indexPath = [_collectionView indexPathForCell:cell];
         
-        NSMutableArray* tempArray = [PhotoPickerManager sharedManager].selectedArray;
-        PhotoBaseListItem* item = _assets[indexPath.item];
-        if (!item.isSelected && tempArray.count >= 9) {
+        if (![cell isOriginImageLoading]) {
             
-            [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
-            return;
-        }
-        
-        item.isSelected = !item.isSelected;
-        if ([tempArray containsObject:item]) {
+            NSIndexPath* indexPath = [_collectionView indexPathForCell:cell];
             
-            [tempArray removeObject:item];
-        }else {
-            [tempArray addObject:item];
+            NSMutableArray* tempArray = [PhotoPickerManager sharedManager].selectedArray;
+            PhotoBaseListItem* item = _assets[indexPath.item];
+            if (!item.isSelected && tempArray.count >= 9) {
+                
+                [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
+                return;
+            }
+            
+            item.isSelected = !item.isSelected;
+            if ([tempArray containsObject:item]) {
+                
+                [tempArray removeObject:item];
+            }else {
+                [tempArray addObject:item];
+            }
+            
+            UIButton* button = sender;
+            button.selected = item.isSelected;
+            
+            [self updateSendButtonText];
         }
-        
-        UIButton* button = sender;
-        button.selected = item.isSelected;
-        
-        [self updateSendButtonText];
     }
 }
 

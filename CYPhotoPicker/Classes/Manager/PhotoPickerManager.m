@@ -48,7 +48,15 @@ static PhotoPickerManager* sharedManager = nil;
     [self.selectedArray removeAllObjects];
 }
 
-- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allow completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+       
+        [self syncTumbnailWithSize:size asset:asset allowNetwork:allow completion:completion];
+    });
+}
+
+- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allow completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
     PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
     
@@ -56,10 +64,11 @@ static PhotoPickerManager* sharedManager = nil;
     phImageRequestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     phImageRequestOptions.synchronous = YES;
     phImageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
-//    phImageRequestOptions.progressHandler = ^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info) {
-//        
-//        
-//    };
+    phImageRequestOptions.networkAccessAllowed = allow;
+    //    phImageRequestOptions.progressHandler = ^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info) {
+    //
+    //
+    //    };
     
     [imageManager requestImageForAsset:asset
                             targetSize:size
@@ -68,11 +77,14 @@ static PhotoPickerManager* sharedManager = nil;
                          resultHandler:^(UIImage *result, NSDictionary *info) {
                              
                              // 获得UIImage
-                             if (completion) {
-                                 
-                                 completion(result, info);
-                             }
-                        }];
+                             
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                                 if (completion) {
+                                     
+                                     completion(result, info);
+                                 }
+                             });
+                         }];
 }
 
 - (void)asyncGetAllSelectedOriginImages:(void (^)(NSArray* images))completion
@@ -84,7 +96,7 @@ static PhotoPickerManager* sharedManager = nil;
         __block NSMutableArray* images = [NSMutableArray array];
         [imageAssets enumerateObjectsUsingBlock:^(PHAsset* asset, NSUInteger idx, BOOL * _Nonnull stop) {
            
-            [_self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:asset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+            [_self syncTumbnailWithSize:PHImageManagerMaximumSize asset:asset allowNetwork:YES completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
                 
                 [images addObject:resultImage];
             }];
@@ -115,8 +127,7 @@ static PhotoPickerManager* sharedManager = nil;
             
             PHAsset* innerAsset = ((PhotoListItem*)asset).asset;
             
-            [self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:innerAsset completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
-                
+            [self syncTumbnailWithSize:PHImageManagerMaximumSize asset:innerAsset allowNetwork:YES completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
                     if (completion) {
@@ -139,6 +150,9 @@ static PhotoPickerManager* sharedManager = nil;
                 completion(nil);
             }
         }];
+    }else if ([asset isKindOfClass:[PHAsset class]]){
+    
+        
     }else{
         if (completion) {
             completion(nil);
@@ -254,6 +268,31 @@ static PhotoPickerManager* sharedManager = nil;
             }];
         }
     }];
+}
+
+
+- (void)checkOriginalImageExistWithAsset:(PHAsset*)asset completion:(CheckOriginalImageResult)completion
+{
+    PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
+    
+    PHImageRequestOptions *phImageRequestOptions = [[PHImageRequestOptions alloc] init];
+    phImageRequestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    phImageRequestOptions.synchronous = YES;
+    phImageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
+    phImageRequestOptions.networkAccessAllowed = NO;
+    [imageManager requestImageForAsset:asset
+                            targetSize:PHImageManagerMaximumSize
+                           contentMode:PHImageContentModeAspectFill
+                               options:phImageRequestOptions
+                         resultHandler:^(UIImage *result, NSDictionary *info) {
+                             
+                             // 获得UIImage
+                             if (completion) {
+                                 
+                                 BOOL exist = result ? YES : NO;
+                                 completion(result, info, exist);
+                             }
+                         }];
 }
 
 @end
