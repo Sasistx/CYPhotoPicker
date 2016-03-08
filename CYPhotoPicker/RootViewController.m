@@ -65,8 +65,8 @@
             
         }];
     }];
-    picker.buttonBackgroundColor = [UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1];
-    picker.sendButtonTextColor = [UIColor whiteColor];
+//    picker.buttonBackgroundColor = [UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1];
+//    picker.sendButtonTextColor = [UIColor whiteColor];
     [picker show];
 }
 
