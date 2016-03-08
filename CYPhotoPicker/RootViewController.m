@@ -8,10 +8,12 @@
 
 #import "RootViewController.h"
 #import "CYPhotoPicker.h"
+#import "PhotoBaseListItem.h"
 
 @interface RootViewController () 
 @property (nonatomic, strong) CYPhotoPicker* picker;
 @property (nonatomic, strong) NSArray* temp;
+@property (nonatomic, assign) NSInteger count;
 @end
 
 @implementation RootViewController
@@ -39,6 +41,13 @@
     [albumButton setFrame:CGRectMake(100, 400, 100, 30)];
     [albumButton addTarget:self action:@selector(albumButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:albumButton];
+    
+    UIButton* addPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [addPhotoButton setTitle:@"保存200次照片" forState:UIControlStateNormal];
+    [addPhotoButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [addPhotoButton setFrame:CGRectMake(100, 500, 200, 30)];
+    [addPhotoButton addTarget:self action:@selector(addPhotoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:addPhotoButton];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,6 +79,52 @@
 {
     [[PhotoPickerManager sharedManager] saveImage:[UIImage imageNamed:@"0.jpg"] toAlbum:@"春雨" completion:^(NSError *error) {
         
+    }];
+}
+
+- (void)addPhotoButtonClicked:(id)sender
+{
+    PH_WEAK_VAR(self);
+    
+    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:NO compeletionBlock:^(NSArray *imageAssets) {
+        
+        PhotoBaseListItem* temp = imageAssets[0];
+        [_self savePhoto:temp.originImage];
+//        for (NSInteger i = 0 ; i < 200; i++) {
+//
+//            [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:imageAssets[0] completion:^(UIImage *image) {
+//                
+//                
+//                NSLog(@"photo:%zi", i);
+//                if (i == 199) {
+//                    
+//                    [SVProgressHUD showSuccessWithStatus:@"保存完成"];
+//                }else {
+//                    
+//                }
+//            }];
+//        }
+    }];
+    picker.buttonBackgroundColor = [UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1];
+    picker.sendButtonTextColor = [UIColor whiteColor];
+    [picker show];
+}
+
+- (void)savePhoto:(UIImage*)image
+{
+    PH_WEAK_VAR(self);
+    
+    [[PhotoPickerManager sharedManager] saveImage:image toAlbum:@"春雨" completion:^(NSError* error){
+        
+        _self.count ++;
+        
+        NSLog(@"%-----zi", _self.count);
+        if (_self.count > 1200) {
+            
+            [SVProgressHUD showSuccessWithStatus:@"保存完成"];
+        }else {
+            [_self savePhoto:image];
+        }
     }];
 }
 

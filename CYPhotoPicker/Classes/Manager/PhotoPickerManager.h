@@ -19,18 +19,46 @@ typedef void(^CheckOriginalImageResult)(UIImage* image, NSDictionary* info, BOOL
 + (PhotoPickerManager*)sharedManager;
 
 /**
- *  异步从相册获取图片ios8.0之后的api
+ *  同步获取相册图片ios8.0之后的api
  *
  *  @param size       图片尺寸
  *  @param asset      所持有的PHAsset对象
+ *  @param allow      NO
  *  @param completion 获取结果
  */
-//- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
+- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
 
-- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allow completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
+/**
+ *  同步获取相册图片ios8.0之后的api
+ *
+ *  @param size         图片尺寸
+ *  @param asset        所持有的PHAsset对象
+ *  @param allowNetwork 是否允许网络请求
+ *  @param allowCache   是否允许缓存
+ *  @param completion   获取结果
+ */
+- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
 
+/**
+ *  异步从相册获取图片ios8.0之后的api
+ *
+ *  @param size         图片尺寸
+ *  @param asset        所持有的PHAsset对象
+ *  @param allowNetwork 是否允许网络请求
+ *  @param completion   获取结果
+ */
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
 
-- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allow completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
+/**
+ *  异步从相册获取图片ios8.0之后的api
+ *
+ *  @param size         图片尺寸
+ *  @param asset        所持有的PHAsset对象
+ *  @param allowNetwork 是否允许网络请求
+ *  @param allowCache   是否允许缓存
+ *  @param completion   获取结果
+ */
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
 
 /**
  *  异步从相册获取图片 (通用接口)
@@ -55,5 +83,12 @@ typedef void(^CheckOriginalImageResult)(UIImage* image, NSDictionary* info, BOOL
 - (void)saveImage:(UIImage*)image toAlbum:(NSString*)album completion:(SaveImageCompletion)completion;
 
 
+/**
+ *  检查当前Asset是否包含原始图片
+ *
+ *  @param asset      当前PHAsset对象
+ *  @param completion 返回结果，若不包含，则image为nil，info为nil，exist为NO
+ */
 - (void)checkOriginalImageExistWithAsset:(PHAsset*)asset completion:(CheckOriginalImageResult)completion;
+
 @end

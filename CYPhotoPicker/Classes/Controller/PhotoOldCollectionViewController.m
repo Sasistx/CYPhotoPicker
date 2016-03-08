@@ -230,11 +230,13 @@
 - (void)onSendBtnPressed:(id)sender
 {
     NSArray* array = [[NSArray alloc] initWithArray:[PhotoPickerManager sharedManager].selectedArray];
-    if (self.dissmissBlock) {
-        self.dissmissBlock(array);
-    }
+    if (array && array.count > 0) {
+        if (self.dissmissBlock) {
+            self.dissmissBlock(array);
+        }
         [[PhotoPickerManager sharedManager] clearSelectedArray];
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
+    }
 }
 
 - (void)backToLastController:(id)sender

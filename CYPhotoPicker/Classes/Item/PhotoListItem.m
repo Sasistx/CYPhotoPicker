@@ -51,13 +51,14 @@
     }else {
         if (item.asset) {
             
-            [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(200, 200) asset:item.asset allowNetwork:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+            [[PhotoPickerManager sharedManager] syncTumbnailWithSize:CGSizeMake(150, 150) asset:item.asset allowNetwork:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
                 
                 PhotoListItem *currentItem = _self.item;
                 if ([item.asset.localIdentifier isEqualToString:currentItem.asset.localIdentifier]) {
                     _self.thumbImageView.image = resultImage;
                 }
-                item.thumbImage = resultImage;
+                
+//                item.thumbImage = resultImage;
             }];
         }
     }
@@ -85,6 +86,11 @@
         
         [item.delegate didTapImageInCell:self object:item];
     }
+}
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
 }
 
 @end

@@ -35,7 +35,7 @@
         
         UIImage* selectBackImage = [PhotoUtility originImage:[UIImage imageNamed:@"ph_photo_selected_round"] tintColor:selectColor blendMode:kCGBlendModeDestinationIn];
         
-        UIImage* deselectBackImage = [PhotoUtility originImage:[UIImage imageNamed:@"ph_photo_selected_round"] tintColor:[UIColor clearColor] blendMode:kCGBlendModeDestinationIn];
+        UIImage* deselectBackImage = [PhotoUtility originImage:[UIImage imageNamed:@"ph_photo_selected_round"] tintColor:[UIColor colorWithWhite:0.8 alpha:0.3] blendMode:kCGBlendModeDestinationIn];
         
         UIImage* currentSelectImage = [PhotoUtility combineSameSizeImageWithContextImage:selectBackImage headerImage:arrowImage];
         

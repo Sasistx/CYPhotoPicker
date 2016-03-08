@@ -56,6 +56,16 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
+    NSLog(@"didReceiveMemoryWarning");
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        [_dataItems enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            PhotoListItem* item = obj;
+            item.thumbImage = nil;
+        }];
+    });
 }
 
 - (void)dealloc
@@ -243,11 +253,17 @@
         PH_WEAK_VAR(self);
         
         NSArray* array = [[NSArray alloc] initWithArray:[PhotoPickerManager sharedManager].selectedArray];
-        if (self.dissmissBlock) {
-            self.dissmissBlock(array);
+        
+        if (array && array.count > 0) {
+            if (self.dissmissBlock) {
+                self.dissmissBlock(array);
+            }
+            [[PhotoPickerManager sharedManager] clearSelectedArray];
+            [_self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
+        }else {
+            return;
         }
-        [[PhotoPickerManager sharedManager] clearSelectedArray];
-        [_self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
+
     }else{
         [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
     }

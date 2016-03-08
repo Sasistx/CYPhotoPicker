@@ -48,27 +48,43 @@ static PhotoPickerManager* sharedManager = nil;
     [self.selectedArray removeAllObjects];
 }
 
-- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allow completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-       
-        [self syncTumbnailWithSize:size asset:asset allowNetwork:allow completion:completion];
-    });
+    [self syncTumbnailWithSize:size asset:asset allowNetwork:allowNetwork allowCache:NO completion:completion];
 }
 
-- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allow completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+{
+    [self getImageWithSize:size asset:asset allowNetwork:allowNetwork allowCache:allowCache synchronous:YES completion:completion];
+}
+
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+{
+    [self asyncTumbnailWithSize:size asset:asset allowNetwork:allowNetwork allowCache:YES completion:completion];
+}
+
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+{
+    [self getImageWithSize:size asset:asset allowNetwork:allowNetwork allowCache:allowCache synchronous:NO completion:completion];
+}
+
+- (void)getImageWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache synchronous:(BOOL)synchronous completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
     PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
     
     PHImageRequestOptions *phImageRequestOptions = [[PHImageRequestOptions alloc] init];
     phImageRequestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-    phImageRequestOptions.synchronous = YES;
+    phImageRequestOptions.synchronous = synchronous;
     phImageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
-    phImageRequestOptions.networkAccessAllowed = allow;
+    phImageRequestOptions.networkAccessAllowed = allowNetwork;
     //    phImageRequestOptions.progressHandler = ^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info) {
     //
     //
     //    };
+    if (allowCache) {
+        
+        [imageManager startCachingImagesForAssets:@[asset] targetSize:size contentMode:PHImageContentModeDefault options:phImageRequestOptions];
+    }
     
     [imageManager requestImageForAsset:asset
                             targetSize:size
@@ -127,14 +143,12 @@ static PhotoPickerManager* sharedManager = nil;
             
             PHAsset* innerAsset = ((PhotoListItem*)asset).asset;
             
-            [self syncTumbnailWithSize:PHImageManagerMaximumSize asset:innerAsset allowNetwork:YES completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
-                dispatch_async(dispatch_get_main_queue(), ^{
+            [self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:innerAsset allowNetwork:YES allowCache:YES completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+               
+                if (completion) {
                     
-                    if (completion) {
-                        
-                        completion(resultImage);
-                    }
-                });
+                    completion(resultImage);
+                }
             }];
         });
         
@@ -185,7 +199,7 @@ static PhotoPickerManager* sharedManager = nil;
                     __block PHFetchResult* result = nil;
                     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
                        
-                        result = [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[request.placeholderForCreatedAssetCollection] options:nil];
+                        result = [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[request.placeholderForCreatedAssetCollection.localIdentifier] options:nil];
                         
                     } completionHandler:^(BOOL success, NSError * _Nullable error) {
                         
@@ -199,7 +213,10 @@ static PhotoPickerManager* sharedManager = nil;
                     
                     if (completion) {
                         
-                        completion(error);
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            
+                            completion(error);
+                        });
                     }
                 }
             }];
@@ -212,7 +229,10 @@ static PhotoPickerManager* sharedManager = nil;
         [library saveImage:image toAlbum:album withCompletionBlock:^(NSError *error) {
             
             if (completion) {
-                completion(error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    completion(error);
+                });
             }
         }];
     }
@@ -263,7 +283,10 @@ static PhotoPickerManager* sharedManager = nil;
                 
                 if (completion) {
                     
-                    completion(error);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                       
+                        completion(error);
+                    });
                 }
             }];
         }
