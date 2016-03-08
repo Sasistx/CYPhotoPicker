@@ -224,7 +224,6 @@ static PhotoPickerManager* sharedManager = nil;
         
     }else {
         
-        //Old API
         ALAssetsLibrary* library = [[ALAssetsLibrary alloc] init];
         [library saveImage:image toAlbum:album withCompletionBlock:^(NSError *error) {
             
