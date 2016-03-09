@@ -19,6 +19,8 @@
 		F33DEC511C4F6F2400D028E3 /* PhotoPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F33DEC501C4F6F2400D028E3 /* PhotoPreviewCell.m */; };
 		F33DEC541C4F813E00D028E3 /* PhotoPreviewZoomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F33DEC531C4F813E00D028E3 /* PhotoPreviewZoomScrollView.m */; };
 		F349B12A1C58C16E007017FD /* PhotoBaseListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F349B1291C58C16E007017FD /* PhotoBaseListItem.m */; };
+		F35D4AF51C9012D700F128B3 /* PHSelectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F35D4AF41C9012D700F128B3 /* PHSelectButton.m */; };
+		F364ED791C8FF896001A2A71 /* PHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F364ED781C8FF896001A2A71 /* PHButton.m */; };
 		F38B03421C4CD3E0000135FF /* PHNaviButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F38B03411C4CD3E0000135FF /* PHNaviButton.m */; };
 		F38B03451C4CDD87000135FF /* ph_navi_white_left_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F38B03431C4CDD87000135FF /* ph_navi_white_left_arrow.png */; };
 		F38B03461C4CDD87000135FF /* ph_navi_white_left_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F38B03441C4CDD87000135FF /* ph_navi_white_left_arrow@2x.png */; };
@@ -91,6 +93,10 @@
 		F349B1271C575E34007017FD /* PhotoItemCellProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoItemCellProtocol.h; sourceTree = "<group>"; };
 		F349B1281C58C16E007017FD /* PhotoBaseListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoBaseListItem.h; sourceTree = "<group>"; };
 		F349B1291C58C16E007017FD /* PhotoBaseListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoBaseListItem.m; sourceTree = "<group>"; };
+		F35D4AF31C9012D700F128B3 /* PHSelectButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSelectButton.h; sourceTree = "<group>"; };
+		F35D4AF41C9012D700F128B3 /* PHSelectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSelectButton.m; sourceTree = "<group>"; };
+		F364ED771C8FF896001A2A71 /* PHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHButton.h; sourceTree = "<group>"; };
+		F364ED781C8FF896001A2A71 /* PHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHButton.m; sourceTree = "<group>"; };
 		F38B03401C4CD3E0000135FF /* PHNaviButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNaviButton.h; sourceTree = "<group>"; };
 		F38B03411C4CD3E0000135FF /* PHNaviButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNaviButton.m; sourceTree = "<group>"; };
 		F38B03431C4CDD87000135FF /* ph_navi_white_left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ph_navi_white_left_arrow.png; sourceTree = "<group>"; };
@@ -350,6 +356,10 @@
 				F38B03411C4CD3E0000135FF /* PHNaviButton.m */,
 				F33DEC521C4F813E00D028E3 /* PhotoPreviewZoomScrollView.h */,
 				F33DEC531C4F813E00D028E3 /* PhotoPreviewZoomScrollView.m */,
+				F364ED771C8FF896001A2A71 /* PHButton.h */,
+				F364ED781C8FF896001A2A71 /* PHButton.m */,
+				F35D4AF31C9012D700F128B3 /* PHSelectButton.h */,
+				F35D4AF41C9012D700F128B3 /* PHSelectButton.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -588,6 +598,8 @@
 				F39BA5EA1C4795C700C8A0D7 /* PhotoPickerManager.m in Sources */,
 				F39BA6401C48CCA600C8A0D7 /* PhotoTempViewController.m in Sources */,
 				F39BA5B11C3F5E1700C8A0D7 /* PhotoListItem.m in Sources */,
+				F364ED791C8FF896001A2A71 /* PHButton.m in Sources */,
+				F35D4AF51C9012D700F128B3 /* PHSelectButton.m in Sources */,
 				F39BA5D01C44A3E900C8A0D7 /* PhotoUtility.m in Sources */,
 				F39BA5AE1C3F587200C8A0D7 /* PhotoCollectionViewCell.m in Sources */,
 				F39BA5E01C4500D400C8A0D7 /* PhotoCollectionBaseCell.m in Sources */,

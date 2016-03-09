@@ -11,6 +11,7 @@
 @implementation PHNaviButton
 
 - (UIEdgeInsets)alignmentRectInsets {
+    
     UIEdgeInsets insets = UIEdgeInsetsZero;
     // 只处理iOs7.0
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {

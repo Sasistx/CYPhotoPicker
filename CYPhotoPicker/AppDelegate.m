@@ -8,6 +8,10 @@
 
 #import "AppDelegate.h"
 #import "RootViewController.h"
+#import "PHButton.h"
+#import "PhotoUtility.h"
+#import "CYPhotoPicker.h"
+#import "PHSelectButton.h"
 
 @interface AppDelegate ()
 
@@ -24,6 +28,10 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     [self.window makeKeyAndVisible];
+    
+    [[PHButton appearance] setBackgroundImage:[PhotoUtility imageWithColor:[UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1]] forState:UIControlStateNormal];
+    [[PHButton appearance] setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [[PHSelectButton appearance] setButtonSelectBackgroundColor:[UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1]];
     
     RootViewController* controller = [[RootViewController alloc] init];
     self.window.rootViewController = controller;

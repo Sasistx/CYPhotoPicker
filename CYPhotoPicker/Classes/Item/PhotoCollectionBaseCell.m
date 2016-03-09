@@ -29,22 +29,12 @@
         _blackCoverView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         _blackCoverView.hidden = YES;
         
-        UIImage* arrowImage = [UIImage imageNamed:@"ph_photo_selected_arrow"];
-        
         UIColor* selectColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor;
-        
-        UIImage* selectBackImage = [PhotoUtility originImage:[UIImage imageNamed:@"ph_photo_selected_round"] tintColor:selectColor blendMode:kCGBlendModeDestinationIn];
-        
-        UIImage* deselectBackImage = [PhotoUtility originImage:[UIImage imageNamed:@"ph_photo_selected_round"] tintColor:[UIColor colorWithWhite:0.8 alpha:0.3] blendMode:kCGBlendModeDestinationIn];
-        
-        UIImage* currentSelectImage = [PhotoUtility combineSameSizeImageWithContextImage:selectBackImage headerImage:arrowImage];
-        
-        UIImage* currentDeselectedImage = [PhotoUtility combineSameSizeImageWithContextImage:deselectBackImage headerImage:arrowImage];
-        
-        _selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        if (selectColor) {
+            [_selectButton setButtonSelectBackgroundColor:selectColor];
+        }
+        _selectButton = [PHSelectButton buttonWithType:UIButtonTypeCustom];
         [_selectButton setFrame:CGRectMake(self.frame.size.width - 35, 7, 30, 30)];
-        [_selectButton setImage:currentSelectImage forState:UIControlStateSelected];
-        [_selectButton setImage:currentDeselectedImage forState:UIControlStateNormal];
         [_selectButton addTarget:self action:@selector(selectButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_selectButton];
     }

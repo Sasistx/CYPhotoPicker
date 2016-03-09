@@ -13,14 +13,15 @@
 #import "PhotoConfigureManager.h"
 #import "PhotoBaseListItem.h"
 #import "PhotoUtility.h"
+#import "PHButton.h"
 
 #define PRE_CELL_IDENTIFIER @"prePhotoPickerCell"
 
 @interface PhotoScrollPreviewController () <UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) UICollectionView* collectionView;
-@property (nonatomic, strong) UIButton* selectButton;
+@property (nonatomic, strong) PHSelectButton* selectButton;
 @property (nonatomic, strong) UIButton* originImageButton;
-@property (nonatomic, strong) UIButton* sendButton;
+@property (nonatomic, strong) PHButton* sendButton;
 @property (nonatomic, strong) UIImageView* selectedImageView;
 @property (nonatomic, strong) UIImageView* deselectedImageView;
 @property (nonatomic, copy) PhotoPreviewBackBlock backBlock;
@@ -79,24 +80,15 @@
     [naviButton setFrame:CGRectMake(10, 25, 30, 20)];
     [naviView addSubview:naviButton];
     
-    _selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _selectButton = [PHSelectButton buttonWithType:UIButtonTypeCustom];
     [_selectButton setFrame:CGRectMake(self.view.frame.size.width - 45, 20, 30, 30)];
     
-    UIImage* arrowImage = [UIImage imageNamed:@"ph_photo_selected_arrow"];
-    
     UIColor* selectColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor;
+    if (selectColor) {
+        [_selectButton setButtonSelectBackgroundColor:selectColor];
+    }
     
-    UIImage* selectBackImage = [PhotoUtility originImage:[UIImage imageNamed:@"ph_photo_selected_round"] tintColor:selectColor blendMode:kCGBlendModeDestinationIn];
-    
-    UIImage* deselectBackImage = [PhotoUtility originImage:[UIImage imageNamed:@"ph_photo_selected_round"] tintColor:[UIColor clearColor] blendMode:kCGBlendModeDestinationIn];
-    
-    UIImage* currentSelectImage = [PhotoUtility combineSameSizeImageWithContextImage:selectBackImage headerImage:arrowImage];
-    
-    UIImage* currentDeselectedImage = [PhotoUtility combineSameSizeImageWithContextImage:deselectBackImage headerImage:arrowImage];
-    
-    [_selectButton setImage:currentDeselectedImage forState:UIControlStateNormal];
-    [_selectButton setImage:currentSelectImage forState:UIControlStateSelected];
-    [_selectButton addTarget:selectBackImage action:@selector(selectButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_selectButton addTarget:self action:@selector(selectButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     _selectButton.selected = NO;
     [naviView addSubview:_selectButton];
     
@@ -123,12 +115,21 @@
     [bottomView setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.3]];
     [self.view addSubview:bottomView];
     
-    UIColor* buttonColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor ? [PhotoConfigureManager sharedManager].buttonBackgroundColor : [UIColor blueColor];
-    _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIColor* buttonColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor;
+    UIColor* textColor = [PhotoConfigureManager sharedManager].sendButtontextColor;
+    
+    _sendButton = [PHButton buttonWithType:UIButtonTypeCustom];
     [_sendButton setFrame:CGRectMake(bottomView.frame.size.width - 80, 10, 70, 30)];
     [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
-    [_sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
+    
+    if (buttonColor) {
+        [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
+    }
+    
+    if (textColor) {
+        [_sendButton setTitleColor:textColor forState:UIControlStateNormal];
+    }
+
     [_sendButton addTarget:self action:@selector(sendButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_sendButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
     [bottomView addSubview:_sendButton];

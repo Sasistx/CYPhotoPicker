@@ -13,6 +13,7 @@
 #import "PhotoScrollPreviewController.h"
 #import "PhotoUtility.h"
 #import "PHNaviButton.h"
+#import "PHButton.h"
 
 #define OLD_CELL_IDENTIFIER @"Old_PhotoPickerCell"
 
@@ -20,8 +21,8 @@
 @property (nonatomic, assign) NSInteger imageMaxCount;
 @property (nonatomic, strong) UICollectionView* collectionView;
 @property (nonatomic, strong) NSMutableArray* dataItems;
-@property (nonatomic, strong) UIButton* sendButton;
-@property (nonatomic, strong) UIButton* previewButton;
+@property (nonatomic, strong) PHButton* sendButton;
+@property (nonatomic, strong) PHButton* previewButton;
 @end
 
 @implementation PhotoOldCollectionViewController
@@ -71,9 +72,6 @@
 
 - (void)bottomView
 {
-    UIColor* textColor = [PhotoConfigureManager sharedManager].sendButtontextColor ? [PhotoConfigureManager sharedManager].sendButtontextColor : [UIColor whiteColor];
-    UIColor* buttonColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor ? [PhotoConfigureManager sharedManager].buttonBackgroundColor : [UIColor blackColor];
-    
     CGFloat bottomOriY = 0;
     if (PH_IOSOVER(7)) {
         
@@ -85,19 +83,40 @@
     
     UIView* bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, bottomOriY, self.view.frame.size.width, 50)];
     [bottomView setBackgroundColor:[UIColor whiteColor]];
+    bottomView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
-    _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _previewButton = [PHButton buttonWithType:UIButtonTypeCustom];
+    [_previewButton setFrame:CGRectMake(10, 10, 70, 31)];
+    [_previewButton setTitle:@"预览" forState:UIControlStateNormal];
+    [_previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:_previewButton];
+    
+    _sendButton = [PHButton buttonWithType:UIButtonTypeCustom];
     [_sendButton setFrame:CGRectMake(bottomView.frame.size.width - 80, 10, 70, 31)];
-    [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
     [_sendButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
     [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
-    [_sendButton setTitleColor:textColor forState:UIControlStateNormal];
     [_sendButton addTarget:self action:@selector(onSendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:_sendButton];
     
     [self.view addSubview:bottomView];
     
+    UIColor* buttonColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor;
+    UIColor* textColor = [PhotoConfigureManager sharedManager].sendButtontextColor;
+    
+    if (buttonColor) {
+        
+        [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
+        [_previewButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
+    }
+    
+    if (textColor) {
+        [_sendButton setTitleColor:textColor forState:UIControlStateNormal];
+        [_previewButton setTitleColor:textColor forState:UIControlStateNormal];
+    }
+    
     [_collectionView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - bottomView.frame.size.height)];
+    
+    [self updatePreviewButton];
 }
 
 - (void) updateImageCountView

@@ -87,7 +87,6 @@
 
 + (UIImage*)originImage:(UIImage*)originImage tintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode
 {
-    
     // keep alpha, set opaque to NO
     UIGraphicsBeginImageContextWithOptions(originImage.size, NO, originImage.scale);
     [tintColor setFill];

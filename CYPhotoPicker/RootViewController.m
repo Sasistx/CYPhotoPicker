@@ -57,16 +57,13 @@
 
 - (void)buttonClicked:(id)sender
 {
-    
-    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:NO compeletionBlock:^(NSArray *imageAssets) {
+    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:YES compeletionBlock:^(NSArray *imageAssets) {
         
         [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:imageAssets[0] completion:^(UIImage *image) {
            
             
         }];
     }];
-//    picker.buttonBackgroundColor = [UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1];
-//    picker.sendButtonTextColor = [UIColor whiteColor];
     
     [picker show];
 }
@@ -91,23 +88,7 @@
         
         PhotoBaseListItem* temp = imageAssets[0];
         [_self savePhoto:temp.originImage];
-//        for (NSInteger i = 0 ; i < 200; i++) {
-//
-//            [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:imageAssets[0] completion:^(UIImage *image) {
-//                
-//                
-//                NSLog(@"photo:%zi", i);
-//                if (i == 199) {
-//                    
-//                    [SVProgressHUD showSuccessWithStatus:@"保存完成"];
-//                }else {
-//                    
-//                }
-//            }];
-//        }
     }];
-    picker.buttonBackgroundColor = [UIColor colorWithRed:34/255.0 green:156/255.0 blue:218/255.0 alpha:1];
-    picker.sendButtonTextColor = [UIColor whiteColor];
     [picker show];
 }
 

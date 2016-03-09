@@ -16,6 +16,7 @@
 #import "PhotoUtility.h"
 #import "PHNaviButton.h"
 #import "PhotoScrollPreviewController.h"
+#import "PHButton.h"
 
 #define CELL_IDENTIFIER @"PhotoPickerCell"
 
@@ -23,8 +24,8 @@
 @property (nonatomic, assign) NSInteger imageMaxCount;
 @property (nonatomic, strong) UICollectionView* collectionView;
 @property (nonatomic, strong) NSMutableArray* dataItems;
-@property (nonatomic, strong) UIButton* sendButton;
-@property (nonatomic, strong) UIButton* previewButton;
+@property (nonatomic, strong) PHButton* sendButton;
+@property (nonatomic, strong) PHButton* previewButton;
 @end
 
 @implementation PhotoCollectionListViewController
@@ -104,29 +105,36 @@
 
 - (void)bottomView
 {
-    UIColor* buttonTempColor = [UINavigationBar appearance].barTintColor ? [UINavigationBar appearance].barTintColor : [UIColor blackColor];
-    
-    UIColor* textColor = [PhotoConfigureManager sharedManager].sendButtontextColor ? [PhotoConfigureManager sharedManager].sendButtontextColor : [UIColor whiteColor];
-    UIColor* buttonColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor ? [PhotoConfigureManager sharedManager].buttonBackgroundColor : buttonTempColor;
-    
     UIView* bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, self.view.frame.size.width, 50)];
     [bottomView setBackgroundColor:[UIColor whiteColor]];
+    bottomView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
-    _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIColor* buttonColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor;
+    UIColor* textColor = [PhotoConfigureManager sharedManager].sendButtontextColor;
+    
+    _sendButton = [PHButton buttonWithType:UIButtonTypeCustom];
     [_sendButton setFrame:CGRectMake(bottomView.frame.size.width - 80, 10, 70, 31)];
-    [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
     [_sendButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
-    [_sendButton setTitleColor:textColor forState:UIControlStateNormal];
     [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
     [_sendButton addTarget:self action:@selector(onSendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:_sendButton];
     
-    _previewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _previewButton = [PHButton buttonWithType:UIButtonTypeCustom];
     [_previewButton setFrame:CGRectMake(10, 10, 70, 31)];
     [_previewButton setTitle:@"预览" forState:UIControlStateNormal];
-    [_previewButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
     [_previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:_previewButton];
+    
+    if (buttonColor) {
+        
+        [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
+        [_previewButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
+    }
+    
+    if (textColor) {
+        [_sendButton setTitleColor:textColor forState:UIControlStateNormal];
+        [_previewButton setTitleColor:textColor forState:UIControlStateNormal];
+    }
     
     [self.view addSubview:bottomView];
     
@@ -331,16 +339,22 @@
         controller.item = _dataItems[indexPath.item];
         [self.navigationController pushViewController:controller animated:YES];
     }else {
-        PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
-        controller.assets = _dataItems;
-        controller.dissmissBlock = _dissmissBlock;
-        controller.indexPath = indexPath;
-        [controller setPreviewBackBlock:^{
-            
-            [_self.collectionView reloadData];
-            [_self updatePreviewButton];
-        }];
-        [self.navigationController pushViewController:controller animated:YES];
+        
+        if (_showPreview) {
+            PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
+            controller.assets = _dataItems;
+            controller.dissmissBlock = _dissmissBlock;
+            controller.indexPath = indexPath;
+            [controller setPreviewBackBlock:^{
+                
+                [_self.collectionView reloadData];
+                [_self updatePreviewButton];
+            }];
+            [self.navigationController pushViewController:controller animated:YES];
+        }else {
+        
+            [self didTapImageInCell:[collectionView cellForItemAtIndexPath:indexPath] object:_dataItems[indexPath.item]];
+        }
     }
 }
 
