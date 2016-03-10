@@ -142,8 +142,10 @@
     NSString* buttonTitle = nil;
     if ([PhotoPickerManager sharedManager].selectedArray.count > 0) {
         buttonTitle = [NSString stringWithFormat:@"发送 %zi/9", [PhotoPickerManager sharedManager].selectedArray.count];
+        [_sendButton setEnabled:YES];
     }else {
         buttonTitle = @"发送";
+        [_sendButton setEnabled:NO];
     }
     [_sendButton setTitle:buttonTitle forState:UIControlStateNormal];
 }
@@ -161,13 +163,15 @@
 
 - (void)sendButtonClicked:(id)sender
 {
-    if (self.dissmissBlock) {
-        _dissmissBlock([PhotoPickerManager sharedManager].selectedArray);
+    if ([PhotoPickerManager sharedManager].selectedArray && [PhotoPickerManager sharedManager].selectedArray.count > 0) {
+        if (self.dissmissBlock) {
+            _dissmissBlock([PhotoPickerManager sharedManager].selectedArray);
+        }
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+        [PhotoConfigureManager sharedManager].currentPicker = nil;
     }
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-    [PhotoConfigureManager sharedManager].currentPicker = nil;
 }
 
 - (void)selectButtonClicked:(id)sender

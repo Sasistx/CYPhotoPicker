@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F31E99BD1C915231005E8CAB /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F31E99BC1C915231005E8CAB /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F33DEC3A1C4CF25E00D028E3 /* PhotoPreviewImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F33DEC391C4CF25E00D028E3 /* PhotoPreviewImageViewController.m */; };
 		F33DEC401C4CF37C00D028E3 /* ph_imagePicker_choose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F33DEC3B1C4CF37C00D028E3 /* ph_imagePicker_choose@2x.png */; };
 		F33DEC411C4CF37C00D028E3 /* ph_imagePicker_choose@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F33DEC3C1C4CF37C00D028E3 /* ph_imagePicker_choose@3x.png */; };
@@ -72,6 +73,7 @@
 		69473B1C29915D387526553E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		94BB8C50C4B3746D296C79D9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCFD0B079C49D68D79C57499 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		F31E99BC1C915231005E8CAB /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		F33DEC381C4CF25E00D028E3 /* PhotoPreviewImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewImageViewController.h; sourceTree = "<group>"; };
 		F33DEC391C4CF25E00D028E3 /* PhotoPreviewImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewImageViewController.m; sourceTree = "<group>"; };
 		F33DEC3B1C4CF37C00D028E3 /* ph_imagePicker_choose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ph_imagePicker_choose@2x.png"; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F31E99BD1C915231005E8CAB /* Photos.framework in Frameworks */,
 				F8297AD03124076BF667C22A /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,6 +192,7 @@
 		C9AB2F34588CB55BD8E91287 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F31E99BC1C915231005E8CAB /* Photos.framework */,
 				94BB8C50C4B3746D296C79D9 /* libPods.a */,
 			);
 			name = Frameworks;
