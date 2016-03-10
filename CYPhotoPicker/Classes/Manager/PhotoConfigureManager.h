@@ -25,6 +25,14 @@ typedef NS_ENUM(NSInteger, PhotoNaviButtonStyle)
 @property (nonatomic, assign) PhotoNaviButtonStyle naviStyle;
 @property (nonatomic, strong) CYPhotoPicker* currentPicker;
 
+/**
+ *  CYPhotoPicker预设方法，必须在Appdelegate中进行预设
+ *
+ *  @param buttonBackgourndColor 按钮背景色
+ *  @param buttonTextColor       文字颜色
+ */
++ (void)preConfigureWithButtonBackgourndColor:(UIColor*)buttonBackgourndColor buttonTextColor:(UIColor*)buttonTextColor;
+
 + (PhotoConfigureManager*)sharedManager;
 
 - (void)clearColor;

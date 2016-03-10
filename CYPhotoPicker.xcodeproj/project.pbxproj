@@ -49,7 +49,6 @@
 		F39BA5F01C4798F000C8A0D7 /* CYPhotoPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5EF1C4798F000C8A0D7 /* CYPhotoPicker.m */; };
 		F39BA6401C48CCA600C8A0D7 /* PhotoTempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA63F1C48CCA600C8A0D7 /* PhotoTempViewController.m */; };
 		F3C7BDD41C7DA267008DBB81 /* ALAssetsLibrary+CustomAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C7BDD31C7DA267008DBB81 /* ALAssetsLibrary+CustomAlbum.m */; };
-		F3C7BDD61C7EF70C008DBB81 /* 0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3C7BDD51C7EF70C008DBB81 /* 0.jpg */; };
 		F8297AD03124076BF667C22A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94BB8C50C4B3746D296C79D9 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -153,7 +152,6 @@
 		F39BA63F1C48CCA600C8A0D7 /* PhotoTempViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTempViewController.m; sourceTree = "<group>"; };
 		F3C7BDD21C7DA267008DBB81 /* ALAssetsLibrary+CustomAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomAlbum.h"; sourceTree = "<group>"; };
 		F3C7BDD31C7DA267008DBB81 /* ALAssetsLibrary+CustomAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomAlbum.m"; sourceTree = "<group>"; };
-		F3C7BDD51C7EF70C008DBB81 /* 0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 0.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,7 +222,6 @@
 		F39BA5571C3E4DF100C8A0D7 /* CYPhotoPicker */ = {
 			isa = PBXGroup;
 			children = (
-				F3C7BDD51C7EF70C008DBB81 /* 0.jpg */,
 				F39BA5F11C47B2BC00C8A0D7 /* Resource */,
 				F39BA5911C3E518C00C8A0D7 /* Classes */,
 				F39BA55B1C3E4DF100C8A0D7 /* AppDelegate.h */,
@@ -505,7 +502,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3C7BDD61C7EF70C008DBB81 /* 0.jpg in Resources */,
 				F33DEC421C4CF37C00D028E3 /* ph_imagePicker_close@2x.png in Resources */,
 				F33DEC411C4CF37C00D028E3 /* ph_imagePicker_choose@3x.png in Resources */,
 				F38B03451C4CDD87000135FF /* ph_navi_white_left_arrow.png in Resources */,

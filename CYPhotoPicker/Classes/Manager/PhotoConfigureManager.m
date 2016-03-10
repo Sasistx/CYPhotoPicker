@@ -7,6 +7,9 @@
 //
 
 #import "PhotoConfigureManager.h"
+#import "PHSelectButton.h"
+#import "PHButton.h"
+#import "PhotoUtility.h"
 
 @implementation PhotoConfigureManager
 
@@ -19,6 +22,13 @@ static PhotoConfigureManager* sharedManager = nil;
         sharedManager = [[PhotoConfigureManager alloc] init];
     });
     return sharedManager;
+}
+
++ (void)preConfigureWithButtonBackgourndColor:(UIColor*)buttonBackgourndColor buttonTextColor:(UIColor*)buttonTextColor
+{
+    [[PHButton appearance] setBackgroundImage:[PhotoUtility imageWithColor:buttonBackgourndColor] forState:UIControlStateNormal];
+    [[PHButton appearance] setTitleColor:buttonTextColor forState:UIControlStateNormal];
+    [[PHSelectButton appearance] setButtonSelectBackgroundColor:buttonBackgourndColor];
 }
 
 - (void)clearColor
