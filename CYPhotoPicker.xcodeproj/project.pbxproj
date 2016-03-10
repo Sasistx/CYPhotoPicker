@@ -47,7 +47,6 @@
 		F39BA5EA1C4795C700C8A0D7 /* PhotoPickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5E91C4795C700C8A0D7 /* PhotoPickerManager.m */; };
 		F39BA5ED1C4795F800C8A0D7 /* PhotoConfigureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5EC1C4795F800C8A0D7 /* PhotoConfigureManager.m */; };
 		F39BA5F01C4798F000C8A0D7 /* CYPhotoPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5EF1C4798F000C8A0D7 /* CYPhotoPicker.m */; };
-		F39BA6401C48CCA600C8A0D7 /* PhotoTempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA63F1C48CCA600C8A0D7 /* PhotoTempViewController.m */; };
 		F3C7BDD41C7DA267008DBB81 /* ALAssetsLibrary+CustomAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C7BDD31C7DA267008DBB81 /* ALAssetsLibrary+CustomAlbum.m */; };
 		F8297AD03124076BF667C22A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94BB8C50C4B3746D296C79D9 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -148,8 +147,6 @@
 		F39BA5EC1C4795F800C8A0D7 /* PhotoConfigureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoConfigureManager.m; sourceTree = "<group>"; };
 		F39BA5EE1C4798F000C8A0D7 /* CYPhotoPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoPicker.h; sourceTree = "<group>"; };
 		F39BA5EF1C4798F000C8A0D7 /* CYPhotoPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoPicker.m; sourceTree = "<group>"; };
-		F39BA63E1C48CCA600C8A0D7 /* PhotoTempViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTempViewController.h; sourceTree = "<group>"; };
-		F39BA63F1C48CCA600C8A0D7 /* PhotoTempViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTempViewController.m; sourceTree = "<group>"; };
 		F3C7BDD21C7DA267008DBB81 /* ALAssetsLibrary+CustomAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomAlbum.h"; sourceTree = "<group>"; };
 		F3C7BDD31C7DA267008DBB81 /* ALAssetsLibrary+CustomAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomAlbum.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -325,8 +322,6 @@
 				F39BA5D61C44E6A200C8A0D7 /* PhotoOldCollectionViewController.m */,
 				F39BA5E11C47440F00C8A0D7 /* PhotoOldAlbumViewController.h */,
 				F39BA5E21C47440F00C8A0D7 /* PhotoOldAlbumViewController.m */,
-				F39BA63E1C48CCA600C8A0D7 /* PhotoTempViewController.h */,
-				F39BA63F1C48CCA600C8A0D7 /* PhotoTempViewController.m */,
 				F33DEC381C4CF25E00D028E3 /* PhotoPreviewImageViewController.h */,
 				F33DEC391C4CF25E00D028E3 /* PhotoPreviewImageViewController.m */,
 				F33DEC491C4F389600D028E3 /* PhotoScrollPreviewController.h */,
@@ -592,7 +587,6 @@
 				F349B12A1C58C16E007017FD /* PhotoBaseListItem.m in Sources */,
 				F33DEC3A1C4CF25E00D028E3 /* PhotoPreviewImageViewController.m in Sources */,
 				F39BA5EA1C4795C700C8A0D7 /* PhotoPickerManager.m in Sources */,
-				F39BA6401C48CCA600C8A0D7 /* PhotoTempViewController.m in Sources */,
 				F39BA5B11C3F5E1700C8A0D7 /* PhotoListItem.m in Sources */,
 				F364ED791C8FF896001A2A71 /* PHButton.m in Sources */,
 				F35D4AF51C9012D700F128B3 /* PHSelectButton.m in Sources */,

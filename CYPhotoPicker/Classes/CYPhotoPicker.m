@@ -10,7 +10,6 @@
 #import "PhotoAlbumListController.h"
 #import "PhotoListItem.h"
 #import "PhotoOldAlbumViewController.h"
-#import "PhotoTempViewController.h"
 
 static NSString* kAlbumTitle = @"从手机相册选择";
 static NSString* kCameraTitle = @"拍照";
