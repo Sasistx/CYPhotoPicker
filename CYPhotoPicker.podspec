@@ -22,5 +22,6 @@ Pod::Spec.new do |s|
   s.source_files  = "CYPhotoPicker/Classes/**/*.{h,m}"
   s.resources = "CYPhotoPicker/Resource/*.png"
   s.dependency "SVProgressHUD", "~> 1.1"
+  s.weak_framework = 'Photos'
 
 end
