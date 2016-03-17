@@ -119,12 +119,14 @@
     [_sendButton addTarget:self action:@selector(onSendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:_sendButton];
     
-    _previewButton = [PHButton buttonWithType:UIButtonTypeCustom];
-    [_previewButton setFrame:CGRectMake(10, 10, 70, 31)];
-    [_previewButton setTitle:@"预览" forState:UIControlStateNormal];
-    [_previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [bottomView addSubview:_previewButton];
-    
+    if (_showPreview) {
+        _previewButton = [PHButton buttonWithType:UIButtonTypeCustom];
+        [_previewButton setFrame:CGRectMake(10, 10, 70, 31)];
+        [_previewButton setTitle:@"预览" forState:UIControlStateNormal];
+        [_previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [bottomView addSubview:_previewButton];
+    }
+
     if (buttonColor) {
         
         [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];

@@ -85,11 +85,13 @@
     [bottomView setBackgroundColor:[UIColor whiteColor]];
     bottomView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
-    _previewButton = [PHButton buttonWithType:UIButtonTypeCustom];
-    [_previewButton setFrame:CGRectMake(10, 10, 70, 31)];
-    [_previewButton setTitle:@"预览" forState:UIControlStateNormal];
-    [_previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [bottomView addSubview:_previewButton];
+    if (_showPreview) {
+        _previewButton = [PHButton buttonWithType:UIButtonTypeCustom];
+        [_previewButton setFrame:CGRectMake(10, 10, 70, 31)];
+        [_previewButton setTitle:@"预览" forState:UIControlStateNormal];
+        [_previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [bottomView addSubview:_previewButton];
+    }
     
     _sendButton = [PHButton buttonWithType:UIButtonTypeCustom];
     [_sendButton setFrame:CGRectMake(bottomView.frame.size.width - 80, 10, 70, 31)];
