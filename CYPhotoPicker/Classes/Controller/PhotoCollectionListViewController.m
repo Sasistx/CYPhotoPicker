@@ -288,6 +288,7 @@
     PH_WEAK_VAR(self);
     PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
     controller.assets = [PhotoPickerManager sharedManager].selectedArray;
+    controller.dissmissBlock = _dissmissBlock;
     [controller setPreviewBackBlock:^{
         
         [_self.collectionView reloadData];
