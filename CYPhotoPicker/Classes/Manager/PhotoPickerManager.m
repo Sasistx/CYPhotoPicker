@@ -189,7 +189,7 @@ static PhotoPickerManager* sharedManager = nil;
             
             [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
                 
-                request = [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:saveAlbumName];
+                request = [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:album ? album : saveAlbumName];
                 
             } completionHandler:^(BOOL success, NSError * _Nullable error) {
                 
@@ -264,29 +264,35 @@ static PhotoPickerManager* sharedManager = nil;
     
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
         
-        assetId = [PHAssetCreationRequest creationRequestForAssetFromImage:image].placeholderForCreatedAsset.localIdentifier;
+        PHAssetChangeRequest* request = [PHAssetChangeRequest creationRequestForAssetFromImage:image];
+        assetId = request.placeholderForCreatedAsset.localIdentifier;
         
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
         
-        if (success) {
-         
-            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        if (assetId) {
+            
+            if (success) {
                 
-                PHAssetCollectionChangeRequest* request = [PHAssetCollectionChangeRequest changeRequestForAssetCollection:collection];
-                
-                PHAsset *asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[assetId] options:nil].firstObject;
-                [request addAssets:@[asset]];
-                
-            } completionHandler:^(BOOL success, NSError * _Nullable error) {
-                
-                if (completion) {
+                [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
                     
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                       
-                        completion(error);
-                    });
-                }
-            }];
+                    PHAssetCollectionChangeRequest* request = [PHAssetCollectionChangeRequest changeRequestForAssetCollection:collection];
+                    
+                    PHAsset *asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[assetId] options:nil].firstObject;
+                    [request addAssets:@[asset]];
+                    
+                } completionHandler:^(BOOL success, NSError * _Nullable error) {
+                    
+                    if (completion) {
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            
+                            completion(error);
+                        });
+                    }
+                }];
+            }
+        }else {
+            completion(error);
         }
     }];
 }
