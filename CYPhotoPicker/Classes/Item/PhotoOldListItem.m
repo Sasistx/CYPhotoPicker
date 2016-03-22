@@ -29,9 +29,17 @@
     [super shouldUpdateItemCellWithObject:obj];
     
     __block PhotoOldListItem *item = obj;
-    if (item.thumbImage) {
-        self.thumbImageView.image = item.thumbImage;
-    }
+    ALAssetsLibrary  *lib = [[ALAssetsLibrary alloc] init];
+    PH_WEAK_VAR(self);
+    [lib assetForURL:item.url resultBlock:^(ALAsset *asset) {
+        
+        PhotoOldListItem *innerItem = _self.item;
+        if ([[innerItem.url absoluteString] isEqualToString:[asset.defaultRepresentation.url absoluteString]]) {
+            _self.thumbImageView.image = [UIImage imageWithCGImage: asset.thumbnail];
+        }
+    } failureBlock:^(NSError *error) {
+        
+    }];
     self.selectButton.selected = item.isSelected;
     self.blackCoverView.hidden = !item.isSelected;
 }

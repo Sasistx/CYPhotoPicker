@@ -11,6 +11,6 @@
 
 @interface PhotoAlbumListController : UIViewController
 @property (nonatomic, assign) BOOL isOne;               //default is NO
-@property (nonatomic, assign) BOOL showPreview;         //default is NO  多选照片功能赞不支持预览功能
+@property (nonatomic, assign) BOOL showPreview;         //default is NO
 @property (nonatomic, copy) PhotoPickerDismissBlock dissmissBlock;
 @end
