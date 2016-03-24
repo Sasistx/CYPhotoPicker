@@ -15,6 +15,7 @@ static NSString* kAlbumTitle = @"从手机相册选择";
 static NSString* kCameraTitle = @"拍照";
 static NSString* kCancelTitle = @"取消";
 static NSString* kAlbumDefaultName = @"CY";
+static NSInteger kDefaultMax = 8;
 
 @interface CYPhotoPicker () <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, weak) UIViewController* currentController;
@@ -38,6 +39,7 @@ static NSString* kAlbumDefaultName = @"CY";
         _showPreview = showPreview;
         _pickerOption = option;
         _currentController = controller;
+        _maxCount = kDefaultMax;
         [self clearManager];
         [PhotoConfigureManager sharedManager].currentPicker = self;
         self.dissmissBlock = dissmissBlock;
@@ -179,6 +181,7 @@ static NSString* kAlbumDefaultName = @"CY";
         controller.isOne = _one;
         controller.showPreview = _showPreview;
         controller.dissmissBlock = self.dissmissBlock;
+        controller.maxCount = _maxCount;
         UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
         [_currentController presentViewController:navi animated:YES completion:^{
 
@@ -190,6 +193,7 @@ static NSString* kAlbumDefaultName = @"CY";
         controller.isOne = _one;
         controller.showPreview = _showPreview;
         controller.dissmissBlock = self.dissmissBlock;
+        controller.maxCount = _maxCount;
         UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
         [_currentController presentViewController:navi animated:YES completion:^{
 

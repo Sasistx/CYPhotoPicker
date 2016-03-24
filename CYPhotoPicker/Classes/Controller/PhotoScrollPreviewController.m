@@ -141,7 +141,7 @@
 {
     NSString* buttonTitle = nil;
     if ([PhotoPickerManager sharedManager].selectedArray.count > 0) {
-        buttonTitle = [NSString stringWithFormat:@"发送 %zi/9", [PhotoPickerManager sharedManager].selectedArray.count];
+        buttonTitle = [NSString stringWithFormat:@"发送 %zi/%zi", [PhotoPickerManager sharedManager].selectedArray.count, _maxCount];
         [_sendButton setEnabled:YES];
     }else {
         buttonTitle = @"发送";
@@ -188,7 +188,7 @@
             
             NSMutableArray* tempArray = [PhotoPickerManager sharedManager].selectedArray;
             PhotoBaseListItem* item = _assets[indexPath.item];
-            if (!item.isSelected && tempArray.count >= 9) {
+            if (!item.isSelected && tempArray.count >= _maxCount) {
                 
                 [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
                 return;

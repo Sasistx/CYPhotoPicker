@@ -18,7 +18,6 @@
 #define OLD_CELL_IDENTIFIER @"Old_PhotoPickerCell"
 
 @interface PhotoOldCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate, PhotoItemCellProtocol>
-@property (nonatomic, assign) NSInteger imageMaxCount;
 @property (nonatomic, strong) UICollectionView* collectionView;
 @property (nonatomic, strong) NSMutableArray* dataItems;
 @property (nonatomic, strong) PHButton* sendButton;
@@ -33,8 +32,6 @@
     
     if (_isOne) {
         _imageMaxCount = 1;
-    }else {
-        _imageMaxCount = 9;
     }
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
@@ -240,6 +237,7 @@
         PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
         controller.assets = [PhotoPickerManager sharedManager].selectedArray;
         controller.dissmissBlock = _dissmissBlock;
+        controller.maxCount = _imageMaxCount;
         [controller setPreviewBackBlock:^{
             
             [_self.collectionView reloadData];
@@ -311,6 +309,7 @@
             controller.assets = _dataItems;
             controller.dissmissBlock = _dissmissBlock;
             controller.indexPath = indexPath;
+            controller.maxCount = _imageMaxCount;
             [controller setPreviewBackBlock:^{
                 
                 [_self.collectionView reloadData];

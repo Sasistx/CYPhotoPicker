@@ -48,35 +48,38 @@ static PhotoPickerManager* sharedManager = nil;
     [self.selectedArray removeAllObjects];
 }
 
-- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
-    [self syncTumbnailWithSize:size asset:asset allowNetwork:allowNetwork allowCache:NO completion:completion];
+    [self syncTumbnailWithSize:size asset:asset allowCache:NO completion:completion];
 }
 
-- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+- (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowCache:(BOOL)allowCache completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
-    [self getImageWithSize:size asset:asset allowNetwork:allowNetwork allowCache:allowCache synchronous:YES completion:completion];
+    [self getImageWithSize:size asset:asset allowNetwork:NO allowCache:allowCache synchronous:YES multyCallBack:NO completion:completion];
 }
 
-- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork multyCallBack:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
-    [self asyncTumbnailWithSize:size asset:asset allowNetwork:allowNetwork allowCache:YES completion:completion];
+    [self asyncTumbnailWithSize:size asset:asset allowNetwork:allowNetwork allowCache:YES multyCallBack:multiCallback completion:completion];
 }
 
-- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache multyCallBack:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
-    [self getImageWithSize:size asset:asset allowNetwork:allowNetwork allowCache:allowCache synchronous:NO completion:completion];
+    [self getImageWithSize:size asset:asset allowNetwork:allowNetwork allowCache:allowCache synchronous:NO multyCallBack:multiCallback completion:completion];
 }
 
-- (void)getImageWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache synchronous:(BOOL)synchronous completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+- (void)getImageWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache synchronous:(BOOL)synchronous multyCallBack:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
     PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
     
     PHImageRequestOptions *phImageRequestOptions = [[PHImageRequestOptions alloc] init];
-    phImageRequestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     phImageRequestOptions.synchronous = synchronous;
+    if (!synchronous) {
+
+        phImageRequestOptions.deliveryMode = multiCallback ? PHImageRequestOptionsDeliveryModeOpportunistic : PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    }
     phImageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
-    phImageRequestOptions.networkAccessAllowed = allowNetwork;
+    phImageRequestOptions.networkAccessAllowed = synchronous ? NO : allowNetwork;
     //    phImageRequestOptions.progressHandler = ^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info) {
     //
     //
@@ -92,14 +95,10 @@ static PhotoPickerManager* sharedManager = nil;
                                options:phImageRequestOptions
                          resultHandler:^(UIImage *result, NSDictionary *info) {
                              
-                             // 获得UIImage
-                             
-                             dispatch_async(dispatch_get_main_queue(), ^{
-                                 if (completion) {
-                                     
-                                     completion(result, info);
-                                 }
-                             });
+                             if (completion) {
+                                 
+                                 completion(result, info);
+                             }
                          }];
 }
 
@@ -112,7 +111,7 @@ static PhotoPickerManager* sharedManager = nil;
         __block NSMutableArray* images = [NSMutableArray array];
         [imageAssets enumerateObjectsUsingBlock:^(PHAsset* asset, NSUInteger idx, BOOL * _Nonnull stop) {
            
-            [_self syncTumbnailWithSize:PHImageManagerMaximumSize asset:asset allowNetwork:YES completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+            [_self syncTumbnailWithSize:PHImageManagerMaximumSize asset:asset  completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
                 
                 [images addObject:resultImage];
             }];
@@ -142,11 +141,12 @@ static PhotoPickerManager* sharedManager = nil;
             
             PHAsset* innerAsset = ((PhotoListItem*)asset).asset;
             
-            [self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:innerAsset allowNetwork:YES allowCache:YES completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
-               
+            [self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:innerAsset allowNetwork:YES allowCache:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
                 if (completion) {
-                    
-                    completion(resultImage);
+                
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(resultImage);
+                    });
                 }
             }];
         });

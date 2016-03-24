@@ -32,6 +32,11 @@
 @property (nonatomic, getter=isShowPreview) BOOL showPreview;
 
 /**
+ *  相册多选时的最大照片数量,default = 8;
+ */
+@property (nonatomic, assign) NSInteger maxCount;
+
+/**
  *  pickerOption
  */
 @property (nonatomic, assign) PhotoPickerOption pickerOption;

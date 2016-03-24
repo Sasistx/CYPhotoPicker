@@ -50,7 +50,7 @@
         
         [_self.imageView setImage:item.thumbImage];
     }else {
-        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(200, 200) asset:asset allowNetwork:YES completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(200, 200) asset:asset allowNetwork:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
             
             PhotoAlbumItem* currentItem = _self.item;
             

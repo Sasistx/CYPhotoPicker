@@ -182,6 +182,7 @@
     controller.isOne = self.isOne;
     controller.showPreview = self.showPreview;
     controller.dissmissBlock = self.dissmissBlock;
+    controller.imageMaxCount = _maxCount;
     [self.navigationController pushViewController:controller animated:YES];
 }
 

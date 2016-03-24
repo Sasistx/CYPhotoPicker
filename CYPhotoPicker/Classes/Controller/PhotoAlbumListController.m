@@ -188,6 +188,7 @@
     controller.isOne = self.isOne;
     controller.showPreview = self.showPreview;
     controller.dissmissBlock = self.dissmissBlock;
+    controller.imageMaxCount = _maxCount;
     PhotoAlbumItem* item = _albumsArray[indexPath.row];
     controller.fetchResult = item.assetsFetchResult;
     controller.collection = item.collection;

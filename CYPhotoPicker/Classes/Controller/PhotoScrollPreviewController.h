@@ -15,6 +15,7 @@ typedef void (^PhotoPreviewBackBlock)(void);
 @property (nonatomic, strong) NSMutableArray* assets;
 @property (nonatomic, copy) PhotoPickerDismissBlock dissmissBlock;
 @property (nonatomic, strong) NSIndexPath* indexPath;
+@property (nonatomic, assign) NSInteger maxCount;
 
 - (void)setPreviewBackBlock:(PhotoPreviewBackBlock)backBlock;
 

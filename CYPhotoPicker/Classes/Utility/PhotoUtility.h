@@ -14,7 +14,7 @@ typedef void (^PhotoFailureBlock)(NSError *error);
 
 @interface PhotoUtility : NSObject
 
-+ (void)loadChunyuPhoto:(PhotoOldListItem *)item success:(void(^)(UIImage *image))success failure:(PhotoFailureBlock)failure;
++ (void)loadChunyuPhoto:(id)item success:(void(^)(UIImage *image))success failure:(PhotoFailureBlock)failure;
 
 + (UIImage*)imageWithColor:(UIColor*)color;
 

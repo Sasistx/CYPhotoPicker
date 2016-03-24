@@ -21,7 +21,6 @@
 #define CELL_IDENTIFIER @"PhotoPickerCell"
 
 @interface PhotoCollectionListViewController () <UICollectionViewDataSource, UICollectionViewDelegate, PhotoItemCellProtocol>
-@property (nonatomic, assign) NSInteger imageMaxCount;
 @property (nonatomic, strong) UICollectionView* collectionView;
 @property (nonatomic, strong) NSMutableArray* dataItems;
 @property (nonatomic, strong) PHButton* sendButton;
@@ -38,8 +37,6 @@
     
     if (_isOne) {
         _imageMaxCount = 1;
-    }else {
-        _imageMaxCount = 9;
     }
     
     if ([PhotoConfigureManager sharedManager].naviStyle == PhotoNaviButtonStyleCYStyle) {
@@ -289,6 +286,7 @@
     PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
     controller.assets = [PhotoPickerManager sharedManager].selectedArray;
     controller.dissmissBlock = _dissmissBlock;
+    controller.maxCount = _imageMaxCount;
     [controller setPreviewBackBlock:^{
         
         [_self.collectionView reloadData];
@@ -348,6 +346,7 @@
             controller.assets = _dataItems;
             controller.dissmissBlock = _dissmissBlock;
             controller.indexPath = indexPath;
+            controller.maxCount = _imageMaxCount;
             [controller setPreviewBackBlock:^{
                 
                 [_self.collectionView reloadData];
@@ -396,7 +395,7 @@
 - (void)downloadImageWithAsset:(PHAsset*)asset
 {
     PH_WEAK_VAR(self);
-    [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:asset allowNetwork:YES completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+    [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:asset allowNetwork:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
        
         if (!resultImage) {
             
