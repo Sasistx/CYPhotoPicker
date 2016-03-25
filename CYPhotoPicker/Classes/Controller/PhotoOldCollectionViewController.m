@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSMutableArray* dataItems;
 @property (nonatomic, strong) PHButton* sendButton;
 @property (nonatomic, strong) PHButton* previewButton;
+@property (nonatomic, assign) BOOL isDataLoading;
 @end
 
 @implementation PhotoOldCollectionViewController
@@ -135,6 +136,8 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
+        _isDataLoading = YES;
+        
         [_self.assetGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
             
             if(result == nil) {
@@ -144,13 +147,12 @@
             item.url = result.defaultRepresentation.url;
             item.isSelected = [_self itemHasBeenSelected: item];
             item.delegate = self;
-            UIImage *thumbImage = [UIImage imageWithCGImage: [result aspectRatioThumbnail]];
-            item.thumbImage = thumbImage;
             [_self.dataItems addObject:item];
         }];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             
+            _isDataLoading = NO;
             
             [_self didFinishLoadItem];
         });
@@ -291,6 +293,13 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PH_WEAK_VAR(self);
+    
+    if (_isDataLoading) {
+        
+        //防止数据正在加载中，点击之后崩溃
+        return;
+    }
+    
     if (_isOne) {
         PhotoPreviewImageViewController* controller = [[PhotoPreviewImageViewController alloc] init];
         [controller setChoosedAssetImageBlock:^(NSArray *photos) {
