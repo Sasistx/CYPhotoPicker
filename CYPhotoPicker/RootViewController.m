@@ -57,7 +57,7 @@
 
 - (void)buttonClicked:(id)sender
 {
-    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:YES showPreview:YES compeletionBlock:^(NSArray *imageAssets) {
+    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:YES compeletionBlock:^(NSArray *imageAssets) {
         
         [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:imageAssets[0] completion:^(UIImage *image) {
            

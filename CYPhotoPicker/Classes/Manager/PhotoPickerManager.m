@@ -73,11 +73,11 @@ static PhotoPickerManager* sharedManager = nil;
     PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
     
     PHImageRequestOptions *phImageRequestOptions = [[PHImageRequestOptions alloc] init];
-    phImageRequestOptions.synchronous = synchronous;
     if (!synchronous) {
-
+        
         phImageRequestOptions.deliveryMode = multiCallback ? PHImageRequestOptionsDeliveryModeOpportunistic : PHImageRequestOptionsDeliveryModeHighQualityFormat;
     }
+    phImageRequestOptions.synchronous = synchronous;
     phImageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
     phImageRequestOptions.networkAccessAllowed = synchronous ? NO : allowNetwork;
     //    phImageRequestOptions.progressHandler = ^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info) {
