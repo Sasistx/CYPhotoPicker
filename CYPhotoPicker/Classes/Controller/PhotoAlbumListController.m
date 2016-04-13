@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSMutableArray* albumsArray;
 @property (nonatomic, strong) NSMutableArray* albumsPosterArray;
 @property (nonatomic, strong) UITableView* tableView;
+@property (nonatomic, assign) NSInteger cameraRollIndex;
 @end
 
 @implementation PhotoAlbumListController
@@ -26,10 +27,16 @@
     // Do any additional setup after loading the view.
     
     self.title = @"照片";
+    _cameraRollIndex = -1;
     [self createTableView];
     [self createNaviButton];
     [self getAlbumsList];
     [self registPhotoChange];
+    
+    if (_cameraRollIndex >= 0) {
+       
+        [self pushToCollectionList:_cameraRollIndex animate:NO];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -124,7 +131,29 @@
         item.assetsFetchResult = assetsFetchResult;
         [_albumsArray addObject:item];
     }
+    
+    if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
+        
+        self.cameraRollIndex = _albumsArray.count - 1;
+    }
+    
     [self.tableView reloadData];
+}
+
+#pragma mark -
+#pragma mark - push to camera roll
+
+- (void)pushToCollectionList:(NSInteger)row animate:(BOOL)animated
+{
+    PhotoCollectionListViewController* controller = [[PhotoCollectionListViewController alloc] init];
+    controller.isOne = self.isOne;
+    controller.showPreview = self.showPreview;
+    controller.dissmissBlock = self.dissmissBlock;
+    controller.imageMaxCount = _maxCount;
+    PhotoAlbumItem* item = _albumsArray[row];
+    controller.fetchResult = item.assetsFetchResult;
+    controller.collection = item.collection;
+    [self.navigationController pushViewController:controller animated:animated];
 }
 
 #pragma mark -
@@ -184,15 +213,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    PhotoCollectionListViewController* controller = [[PhotoCollectionListViewController alloc] init];
-    controller.isOne = self.isOne;
-    controller.showPreview = self.showPreview;
-    controller.dissmissBlock = self.dissmissBlock;
-    controller.imageMaxCount = _maxCount;
-    PhotoAlbumItem* item = _albumsArray[indexPath.row];
-    controller.fetchResult = item.assetsFetchResult;
-    controller.collection = item.collection;
-    [self.navigationController pushViewController:controller animated:YES];
+    [self pushToCollectionList:indexPath.row animate:YES];
 }
 
 @end

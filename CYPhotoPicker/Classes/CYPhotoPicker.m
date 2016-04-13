@@ -15,7 +15,7 @@ static NSString* kAlbumTitle = @"从手机相册选择";
 static NSString* kCameraTitle = @"拍照";
 static NSString* kCancelTitle = @"取消";
 static NSString* kAlbumDefaultName = @"CY";
-static NSInteger kDefaultMax = 8;
+static NSInteger kDefaultMax = 9;
 
 @interface CYPhotoPicker () <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, weak) UIViewController* currentController;
@@ -175,7 +175,6 @@ static NSInteger kDefaultMax = 8;
 
 - (void)showAlbum
 {
-    //待icloud下载逻辑处理好之后，使用新api进行相册处理
     if (PH_IOSOVER(8)) {
         PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
         controller.isOne = _one;

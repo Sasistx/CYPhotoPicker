@@ -94,7 +94,7 @@
                                }
                                
                                // Reload albums
-                               [self performSelectorOnMainThread:@selector(reloadTableView) withObject:nil waitUntilDone:YES];
+                               [self performSelectorOnMainThread:@selector(reloadTableViewByPushToCameraRoll) withObject:nil waitUntilDone:YES];
                            };
                            
                            // Group Enumerator Failure Block
@@ -140,12 +140,33 @@
     [PhotoConfigureManager sharedManager].currentPicker = nil;
 }
 
+#pragma mark - 
+#pragma mark - push to collection list view
+
+- (void)pushToCollectionListViewWithRow:(NSInteger)row animated:(BOOL)animated
+{
+    PhotoOldCollectionViewController* controller = [[PhotoOldCollectionViewController alloc] init];
+    PhotoOldAlbumItem* item = self.assetGroups[row];
+    controller.assetGroup = item.group;
+    controller.isOne = self.isOne;
+    controller.showPreview = self.showPreview;
+    controller.dissmissBlock = self.dissmissBlock;
+    controller.imageMaxCount = _maxCount;
+    [self.navigationController pushViewController:controller animated:animated];
+}
+
 #pragma mark -
 #pragma mark Table view data source & delegate
 
-- (void)reloadTableView
+- (void)reloadTableViewByPushToCameraRoll
 {
     [self.albumTableView reloadData];
+    
+    if (self.assetGroups.count > 0) {
+        
+        [self pushToCollectionListViewWithRow:0 animated:NO];
+    }
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -176,14 +197,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    PhotoOldCollectionViewController* controller = [[PhotoOldCollectionViewController alloc] init];
-    PhotoOldAlbumItem* item = self.assetGroups[indexPath.row];
-    controller.assetGroup = item.group;
-    controller.isOne = self.isOne;
-    controller.showPreview = self.showPreview;
-    controller.dissmissBlock = self.dissmissBlock;
-    controller.imageMaxCount = _maxCount;
-    [self.navigationController pushViewController:controller animated:YES];
+    [self pushToCollectionListViewWithRow:indexPath.row animated:YES];
 }
 
 #pragma mark - 
