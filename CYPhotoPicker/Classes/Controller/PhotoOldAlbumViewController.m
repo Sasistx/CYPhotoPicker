@@ -88,13 +88,15 @@
                                if ([[sGroupPropertyName lowercaseString] isEqualToString:@"camera roll"] && nType == ALAssetsGroupSavedPhotos) {
                                    
                                    [self.assetGroups insertObject:item atIndex:0];
+                                   
+                                    [self performSelectorOnMainThread:@selector(reloadTableViewByPushToCameraRoll) withObject:nil waitUntilDone:YES];
                                }
                                else {
                                    [self.assetGroups addObject:item];
+                                   
+                                   [self performSelectorOnMainThread:@selector(reloadTabeview) withObject:nil waitUntilDone:YES];
                                }
-                               
-                               // Reload albums
-                               [self performSelectorOnMainThread:@selector(reloadTableViewByPushToCameraRoll) withObject:nil waitUntilDone:YES];
+
                            };
                            
                            // Group Enumerator Failure Block
@@ -157,6 +159,11 @@
 
 #pragma mark -
 #pragma mark Table view data source & delegate
+
+- (void)reloadTabeview
+{
+    [self.albumTableView reloadData];
+}
 
 - (void)reloadTableViewByPushToCameraRoll
 {

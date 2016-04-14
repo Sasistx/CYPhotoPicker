@@ -87,8 +87,8 @@
     
     CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:NO compeletionBlock:^(NSArray *imageAssets) {
         
-        PhotoBaseListItem* temp = imageAssets[0];
-        [_self savePhoto:temp.originImage];
+//        PhotoBaseListItem* temp = imageAssets[0];
+//        [_self savePhoto:temp.originImage];
     }];
     [picker show];
 }

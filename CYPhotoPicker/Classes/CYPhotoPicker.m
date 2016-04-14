@@ -205,7 +205,14 @@ static NSInteger kDefaultMax = 9;
     if (_dissmissBlock) {
         _dissmissBlock(nil);
     }
-    [PhotoConfigureManager sharedManager].currentPicker = nil;
+    
+    if (PH_IOSOVER(8)) {
+        [PhotoConfigureManager sharedManager].currentPicker = nil;
+    }else {
+        //修复在iOS7下，直接将currentPicker = nil引起的崩溃
+        [[PhotoConfigureManager sharedManager] performSelector:@selector(setCurrentPicker:) withObject:nil afterDelay:0.5];
+    }
+    
 }
 
 - (void)clearManager
@@ -252,7 +259,6 @@ static NSInteger kDefaultMax = 9;
 
         }];
     }
-
     [picker dismissViewControllerAnimated:YES completion:Nil];
     [PhotoConfigureManager sharedManager].currentPicker = nil;
 }

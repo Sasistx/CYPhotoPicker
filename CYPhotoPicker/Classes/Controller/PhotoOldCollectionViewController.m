@@ -258,6 +258,7 @@
         }
         [[PhotoPickerManager sharedManager] clearSelectedArray];
         [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
+        [PhotoConfigureManager sharedManager].currentPicker = nil;
     }
 }
 
