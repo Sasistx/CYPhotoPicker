@@ -23,6 +23,7 @@
 @property (nonatomic, strong) PHButton* sendButton;
 @property (nonatomic, strong) PHButton* previewButton;
 @property (nonatomic, assign) BOOL isDataLoading;
+@property (nonatomic, assign) BOOL isOne;
 @end
 
 @implementation PhotoOldCollectionViewController
@@ -30,6 +31,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    _isOne = (_imageMaxCount == 1);
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
@@ -182,24 +185,40 @@
 - (BOOL) updateSelectedImageListWithItem:(PhotoOldListItem*)item
 {
     NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
-    if (!item.isSelected) {
+    
+    if (_isOne) {
         
-        if (selectArray.count >= _imageMaxCount) {
+        if (selectArray.count > 0) {
             
-            [self alertMaxSelection];
-            return NO;
+            PhotoOldListItem* item = selectArray.firstObject;
+            item.isSelected = NO;
         }
-    }
-    
-    if ([selectArray containsObject:item]) {
-        
-        [selectArray removeObject:item];
-    }else {
+        [selectArray removeAllObjects];
+        item.isSelected = YES;
         [selectArray addObject:item];
-    }
+        [self updateImageCountView];
+        
+    }else {
     
-    item.isSelected = !item.isSelected;
-    [self updateImageCountView];
+        if (!item.isSelected) {
+            
+            if (selectArray.count >= _imageMaxCount) {
+                
+                [self alertMaxSelection];
+                return NO;
+            }
+        }
+        
+        if ([selectArray containsObject:item]) {
+            
+            [selectArray removeObject:item];
+        }else {
+            [selectArray addObject:item];
+        }
+        
+        item.isSelected = !item.isSelected;
+        [self updateImageCountView];
+    }
     
     return YES;
 }
@@ -305,25 +324,39 @@
         }];
         [self.navigationController pushViewController:controller animated:YES];
     }else {
-        PhotoOldListItem* item = _dataItems[indexPath.item];
-        if ([self updateSelectedImageListWithItem:item]) {
-            [self.collectionView performBatchUpdates:^{
-                
-                [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
-            } completion: NULL];
-        }
+        
+        [self didTapImageInCell:[collectionView cellForItemAtIndexPath:indexPath] object:_dataItems[indexPath.item]];
     }
 }
 
 - (void)didTapImageInCell:(UICollectionViewCell *)cell object:(id)obj
 {
     PH_WEAK_VAR(self);
+    
+    NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
+    
+    __block NSInteger row = -1;
+    
+    if (_isOne && selectArray.count > 0) {
+        PhotoOldListItem* selectItem = selectArray.firstObject;
+        
+        if ([selectItem isEqual:obj]) {
+            return;
+        }
+        
+        row = [_self.dataItems indexOfObject:selectItem];
+    }
     NSIndexPath* indexPath = [_collectionView indexPathForCell:cell];
-    PhotoOldListItem* item = obj;
-    if ([self updateSelectedImageListWithItem:item]) {
+    
+    if ([self updateSelectedImageListWithItem:obj]) {
         [self.collectionView performBatchUpdates:^{
             
-            [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+            if (_isOne && row >= 0) {
+                NSIndexPath* path = [NSIndexPath indexPathForRow:row inSection:0];
+                [_self.collectionView reloadItemsAtIndexPaths:@[path, indexPath]];
+            }else {
+                [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+            }
         } completion: NULL];
     }
     [self updatePreviewButton];

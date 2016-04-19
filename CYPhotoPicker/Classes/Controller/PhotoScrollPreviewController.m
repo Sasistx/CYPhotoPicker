@@ -184,27 +184,37 @@
         
         if (![cell isOriginImageLoading]) {
             
-            NSIndexPath* indexPath = [_collectionView indexPathForCell:cell];
-            
+            BOOL isOne = (_maxCount == 1);
             NSMutableArray* tempArray = [PhotoPickerManager sharedManager].selectedArray;
+            NSIndexPath* indexPath = [_collectionView indexPathForCell:cell];
             PhotoBaseListItem* item = _assets[indexPath.item];
-            if (!item.isSelected && tempArray.count >= _maxCount) {
-                
-                [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
-                return;
-            }
             
-            item.isSelected = !item.isSelected;
-            if ([tempArray containsObject:item]) {
+            if (isOne && tempArray.count > 0) {
                 
-                [tempArray removeObject:item];
-            }else {
+                PhotoBaseListItem* preItem = tempArray.firstObject;
+                preItem.isSelected = NO;
+                [tempArray removeAllObjects];
+                item.isSelected = YES;
                 [tempArray addObject:item];
+                
+            }else {
+                
+                if (!item.isSelected && tempArray.count >= _maxCount) {
+                    
+                    [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
+                    return;
+                }
+                
+                item.isSelected = !item.isSelected;
+                if ([tempArray containsObject:item]) {
+                    
+                    [tempArray removeObject:item];
+                }else {
+                    [tempArray addObject:item];
+                }
             }
-            
             UIButton* button = sender;
             button.selected = item.isSelected;
-            
             [self updateSendButtonText];
         }
     }

@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSMutableArray* dataItems;
 @property (nonatomic, strong) PHButton* sendButton;
 @property (nonatomic, strong) PHButton* previewButton;
+@property (nonatomic, assign) BOOL isOne;
 @end
 
 @implementation PhotoCollectionListViewController
@@ -34,6 +35,8 @@
     // Do any additional setup after loading the view.
     [self.view setBackgroundColor:[UIColor whiteColor]];
     self.title = _collection.localizedTitle;
+    
+    _isOne = (_imageMaxCount == 1);
     
     if ([PhotoConfigureManager sharedManager].naviStyle == PhotoNaviButtonStyleCYStyle) {
         [self createNaviButton];
@@ -190,35 +193,51 @@
 - (BOOL) updateSelectedImageListWithItem:(PhotoListItem*)item
 {
     NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
-    if (!item.isSelected) {
-        
-        if (selectArray.count >= _imageMaxCount) {
-            
-            [self alertMaxSelection];
-            return NO;
-        }
-    }
     
-    __block NSInteger index = -1;
-    [selectArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    if (_isOne) {
         
-        PhotoListItem* innerItem = obj;
-        if ([innerItem.asset.localIdentifier isEqualToString:item.asset.localIdentifier]) {
+        if (selectArray.count > 0) {
             
-            index = idx;
-            *stop = YES;
+            PhotoListItem* innerItem = selectArray.firstObject;
+            innerItem.isSelected = NO;
         }
-    }];
-    
-    if (index >= 0) {
-        
-        [selectArray removeObjectAtIndex:index];
-    }else {
+        [selectArray removeAllObjects];
+        item.isSelected = YES;
         [selectArray addObject:item];
-    }
+        [self updateImageCountView];
+        
+    }else {
     
-    item.isSelected = !item.isSelected;
-    [self updateImageCountView];
+        if (!item.isSelected) {
+            
+            if (selectArray.count >= _imageMaxCount) {
+                
+                [self alertMaxSelection];
+                return NO;
+            }
+        }
+        
+        __block NSInteger index = -1;
+        [selectArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            PhotoListItem* innerItem = obj;
+            if ([innerItem.asset.localIdentifier isEqualToString:item.asset.localIdentifier]) {
+                
+                index = idx;
+                *stop = YES;
+            }
+        }];
+        
+        if (index >= 0) {
+            
+            [selectArray removeObjectAtIndex:index];
+        }else {
+            [selectArray addObject:item];
+        }
+        
+        item.isSelected = !item.isSelected;
+        [self updateImageCountView];
+    }
     
     return YES;
 }
@@ -346,10 +365,30 @@
         if (exist) {
             
             //存在选中
+            NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
+            
+            __block NSInteger row = -1;
+            if (_isOne && selectArray.count > 0) {
+                PhotoListItem* item = selectArray.firstObject;
+                
+                if ([item isEqual:obj]) {
+                    
+                    return ;
+                }
+                row = [_self.dataItems indexOfObject:item];
+            }
+            
             if ([_self updateSelectedImageListWithItem:item]) {
                 [_self.collectionView performBatchUpdates:^{
                     
-                    [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+                    if (_self.isOne && row >= 0) {
+                        
+                        NSIndexPath* path = [NSIndexPath indexPathForRow:row inSection:0];
+                        [_self.collectionView reloadItemsAtIndexPaths:@[indexPath, path]];
+                    }else {
+                        [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+                    }
+                    
                 } completion: NULL];
             }
             
