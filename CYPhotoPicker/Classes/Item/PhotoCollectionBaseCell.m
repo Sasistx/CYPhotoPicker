@@ -49,6 +49,9 @@
 - (void)prepareForReuse
 {
     [super prepareForReuse];
+    if (self.item) {
+        ((PhotoBaseListItem*)self.item).thumbImage = nil;
+    }
     self.thumbImageView.image = nil;
 }
 

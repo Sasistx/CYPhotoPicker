@@ -24,18 +24,16 @@ static NSInteger kDefaultMax = 9;
 
 @implementation CYPhotoPicker
 
-+ (instancetype _Nullable)showFromController:(UIViewController* _Nonnull)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock _Nullable)dissmissBlock
++ (instancetype _Nullable)showFromController:(UIViewController* _Nonnull)controller option:(PhotoPickerOption)option showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock _Nullable)dissmissBlock
 {
-    CYPhotoPicker* sharedPicker = [[self alloc] initWithCurrentController:controller option:option isOne:isOne showPreview:showPreview compeletionBlock:dissmissBlock];
+    CYPhotoPicker* sharedPicker = [[self alloc] initWithCurrentController:controller option:option showPreview:showPreview compeletionBlock:dissmissBlock];
     return sharedPicker;
 }
 
-- (instancetype)initWithCurrentController:(UIViewController*)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
+- (instancetype)initWithCurrentController:(UIViewController*)controller option:(PhotoPickerOption)option showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
 {
     self = [super init];
     if (self) {
-
-        _one = isOne;
         _showPreview = showPreview;
         _pickerOption = option;
         _currentController = controller;
@@ -177,7 +175,6 @@ static NSInteger kDefaultMax = 9;
 {
     if (PH_IOSOVER(8)) {
         PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
-        controller.isOne = _one;
         controller.showPreview = _showPreview;
         controller.dissmissBlock = self.dissmissBlock;
         controller.maxCount = _maxCount;
@@ -189,7 +186,6 @@ static NSInteger kDefaultMax = 9;
     else {
 
         PhotoOldAlbumViewController* controller = [[PhotoOldAlbumViewController alloc] init];
-        controller.isOne = _one;
         controller.showPreview = _showPreview;
         controller.dissmissBlock = self.dissmissBlock;
         controller.maxCount = _maxCount;

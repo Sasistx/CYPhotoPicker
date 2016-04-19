@@ -31,10 +31,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    if (_isOne) {
-        _imageMaxCount = 1;
-    }
-    
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     self.title = @"全部照片";
@@ -195,20 +191,15 @@
         }
     }
     
-    if (!_isOne) {
-        if ([selectArray containsObject:item]) {
-            
-            [selectArray removeObject:item];
-        }else {
-            [selectArray addObject:item];
-        }
+    if ([selectArray containsObject:item]) {
         
-        item.isSelected = !item.isSelected;
-        [self updateImageCountView];
+        [selectArray removeObject:item];
     }else {
-        [selectArray removeAllObjects];
         [selectArray addObject:item];
     }
+    
+    item.isSelected = !item.isSelected;
+    [self updateImageCountView];
     
     return YES;
 }
@@ -301,39 +292,25 @@
         return;
     }
     
-    if (_isOne) {
-        PhotoPreviewImageViewController* controller = [[PhotoPreviewImageViewController alloc] init];
-        [controller setChoosedAssetImageBlock:^(NSArray *photos) {
+    if (_showPreview) {
+        PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
+        controller.assets = _dataItems;
+        controller.dissmissBlock = _dissmissBlock;
+        controller.indexPath = indexPath;
+        controller.maxCount = _imageMaxCount;
+        [controller setPreviewBackBlock:^{
             
-            if (_self.dissmissBlock) {
-                
-                _self.dissmissBlock(photos);
-            }
+            [_self.collectionView reloadData];
+            [_self updatePreviewButton];
         }];
-        controller.item = _dataItems[indexPath.item];
         [self.navigationController pushViewController:controller animated:YES];
     }else {
-        
-        if (_showPreview) {
-            PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
-            controller.assets = _dataItems;
-            controller.dissmissBlock = _dissmissBlock;
-            controller.indexPath = indexPath;
-            controller.maxCount = _imageMaxCount;
-            [controller setPreviewBackBlock:^{
+        PhotoOldListItem* item = _dataItems[indexPath.item];
+        if ([self updateSelectedImageListWithItem:item]) {
+            [self.collectionView performBatchUpdates:^{
                 
-                [_self.collectionView reloadData];
-                [_self updatePreviewButton];
-            }];
-            [self.navigationController pushViewController:controller animated:YES];
-        }else {
-            PhotoOldListItem* item = _dataItems[indexPath.item];
-            if ([self updateSelectedImageListWithItem:item]) {
-                [self.collectionView performBatchUpdates:^{
-                    
-                    [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
-                } completion: NULL];
-            }
+                [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+            } completion: NULL];
         }
     }
 }

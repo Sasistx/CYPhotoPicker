@@ -14,7 +14,6 @@
 @property (nonatomic, strong) PHFetchResult* fetchResult;
 @property (nonatomic, strong) PHAssetCollection* collection;
 @property (nonatomic, copy) PhotoPickerDismissBlock dissmissBlock;
-@property (nonatomic, assign) BOOL isOne;               //default is NO
 @property (nonatomic, assign) BOOL showPreview;         //default is NO  多选照片功能赞不支持预览功能
 @property (nonatomic, assign) NSInteger imageMaxCount;
 @end

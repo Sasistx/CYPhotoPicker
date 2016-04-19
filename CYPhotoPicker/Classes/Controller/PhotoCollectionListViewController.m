@@ -35,10 +35,6 @@
     [self.view setBackgroundColor:[UIColor whiteColor]];
     self.title = _collection.localizedTitle;
     
-    if (_isOne) {
-        _imageMaxCount = 1;
-    }
-    
     if ([PhotoConfigureManager sharedManager].naviStyle == PhotoNaviButtonStyleCYStyle) {
         [self createNaviButton];
     }
@@ -203,32 +199,26 @@
         }
     }
     
-    if (!_isOne) {
+    __block NSInteger index = -1;
+    [selectArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        __block NSInteger index = -1;
-        [selectArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        PhotoListItem* innerItem = obj;
+        if ([innerItem.asset.localIdentifier isEqualToString:item.asset.localIdentifier]) {
             
-            PhotoListItem* innerItem = obj;
-            if ([innerItem.asset.localIdentifier isEqualToString:item.asset.localIdentifier]) {
-                
-                index = idx;
-                *stop = YES;
-            }
-        }];
-        
-        if (index >= 0) {
-            
-            [selectArray removeObjectAtIndex:index];
-        }else {
-            [selectArray addObject:item];
+            index = idx;
+            *stop = YES;
         }
+    }];
+    
+    if (index >= 0) {
         
-        item.isSelected = !item.isSelected;
-        [self updateImageCountView];
+        [selectArray removeObjectAtIndex:index];
     }else {
-        [selectArray removeAllObjects];
         [selectArray addObject:item];
     }
+    
+    item.isSelected = !item.isSelected;
+    [self updateImageCountView];
     
     return YES;
 }
@@ -327,36 +317,21 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PH_WEAK_VAR(self);
-    if (_isOne) {
-        PhotoPreviewImageViewController* controller = [[PhotoPreviewImageViewController alloc] init];
-        [controller setChoosedAssetImageBlock:^(NSArray *photos) {
+    if (_showPreview) {
+        PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
+        controller.assets = _dataItems;
+        controller.dissmissBlock = _dissmissBlock;
+        controller.indexPath = indexPath;
+        controller.maxCount = _imageMaxCount;
+        [controller setPreviewBackBlock:^{
             
-            if (_self.dissmissBlock) {
-                
-                _self.dissmissBlock(photos);
-            }
-            [PhotoConfigureManager sharedManager].currentPicker = nil;
+            [_self.collectionView reloadData];
+            [_self updatePreviewButton];
         }];
-        controller.item = _dataItems[indexPath.item];
         [self.navigationController pushViewController:controller animated:YES];
     }else {
         
-        if (_showPreview) {
-            PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
-            controller.assets = _dataItems;
-            controller.dissmissBlock = _dissmissBlock;
-            controller.indexPath = indexPath;
-            controller.maxCount = _imageMaxCount;
-            [controller setPreviewBackBlock:^{
-                
-                [_self.collectionView reloadData];
-                [_self updatePreviewButton];
-            }];
-            [self.navigationController pushViewController:controller animated:YES];
-        }else {
-        
-            [self didTapImageInCell:[collectionView cellForItemAtIndexPath:indexPath] object:_dataItems[indexPath.item]];
-        }
+        [self didTapImageInCell:[collectionView cellForItemAtIndexPath:indexPath] object:_dataItems[indexPath.item]];
     }
 }
 

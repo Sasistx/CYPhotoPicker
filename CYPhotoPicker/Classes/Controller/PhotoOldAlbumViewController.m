@@ -150,7 +150,6 @@
     PhotoOldCollectionViewController* controller = [[PhotoOldCollectionViewController alloc] init];
     PhotoOldAlbumItem* item = self.assetGroups[row];
     controller.assetGroup = item.group;
-    controller.isOne = self.isOne;
     controller.showPreview = self.showPreview;
     controller.dissmissBlock = self.dissmissBlock;
     controller.imageMaxCount = _maxCount;

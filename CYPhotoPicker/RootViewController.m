@@ -57,14 +57,14 @@
 
 - (void)buttonClicked:(id)sender
 {
-    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:YES compeletionBlock:^(NSArray *imageAssets) {
+    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera showPreview:YES compeletionBlock:^(NSArray *imageAssets) {
         
         [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:imageAssets[0] completion:^(UIImage *image) {
            
             
         }];
     }];
-    picker.maxCount = 3;
+    picker.maxCount = 1;
     
     [picker show];
 }
@@ -85,7 +85,7 @@
 {
     PH_WEAK_VAR(self);
     
-    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera isOne:NO showPreview:NO compeletionBlock:^(NSArray *imageAssets) {
+    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera showPreview:NO compeletionBlock:^(NSArray *imageAssets) {
         
 //        PhotoBaseListItem* temp = imageAssets[0];
 //        [_self savePhoto:temp.originImage];

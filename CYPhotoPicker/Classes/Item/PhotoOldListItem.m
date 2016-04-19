@@ -35,7 +35,8 @@
         
         PhotoOldListItem *innerItem = _self.item;
         if ([[innerItem.url absoluteString] isEqualToString:[asset.defaultRepresentation.url absoluteString]]) {
-            _self.thumbImageView.image = [UIImage imageWithCGImage: asset.thumbnail];
+            _self.thumbImageView.image = [UIImage imageWithCGImage: asset.aspectRatioThumbnail];
+            ((PhotoBaseListItem*)_self.item).thumbImage = _self.thumbImageView.image;
         }
     } failureBlock:^(NSError *error) {
         

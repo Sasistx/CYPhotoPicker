@@ -146,7 +146,6 @@
 - (void)pushToCollectionList:(NSInteger)row animate:(BOOL)animated
 {
     PhotoCollectionListViewController* controller = [[PhotoCollectionListViewController alloc] init];
-    controller.isOne = self.isOne;
     controller.showPreview = self.showPreview;
     controller.dissmissBlock = self.dissmissBlock;
     controller.imageMaxCount = _maxCount;

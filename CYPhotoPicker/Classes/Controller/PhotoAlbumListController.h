@@ -10,7 +10,6 @@
 #import "CYPhotoPickerDefines.h"
 
 @interface PhotoAlbumListController : UIViewController
-@property (nonatomic, assign) BOOL isOne;               //default is NO
 @property (nonatomic, assign) BOOL showPreview;         //default is NO
 @property (nonatomic, assign) NSInteger maxCount;
 @property (nonatomic, copy) PhotoPickerDismissBlock dissmissBlock;
