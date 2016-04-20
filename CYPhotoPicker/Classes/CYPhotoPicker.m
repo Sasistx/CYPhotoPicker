@@ -24,6 +24,29 @@ static NSInteger kDefaultMax = 9;
 
 @implementation CYPhotoPicker
 
++ (instancetype _Nullable)showFromController:(UIViewController* _Nonnull)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock _Nullable)dissmissBlock
+{
+    CYPhotoPicker* sharedPicker = [[self alloc] initWithCurrentController:controller option:option isOne:isOne showPreview:showPreview compeletionBlock:dissmissBlock];
+    return sharedPicker;
+}
+
+
+- (instancetype)initWithCurrentController:(UIViewController*)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
+{
+    self = [super init];
+    if (self) {
+        
+        _showPreview = showPreview;
+        _pickerOption = option;
+        _currentController = controller;
+        _maxCount = isOne ? 1 : kDefaultMax;
+        [self clearManager];
+        [PhotoConfigureManager sharedManager].currentPicker = self;
+        self.dissmissBlock = dissmissBlock;
+    }
+    return self;
+}
+
 + (instancetype _Nullable)showFromController:(UIViewController* _Nonnull)controller option:(PhotoPickerOption)option showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock _Nullable)dissmissBlock
 {
     CYPhotoPicker* sharedPicker = [[self alloc] initWithCurrentController:controller option:option showPreview:showPreview compeletionBlock:dissmissBlock];
