@@ -43,10 +43,15 @@
     }
     
     [self createCollectionView];
-    
     [self bottomView];
-    [self updateImageCountView];
     [self loadPhotoAsset];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self updatePreviewButton];
+    [self updateImageCountView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -293,7 +298,7 @@
     
     PH_WEAK_VAR(self);
     PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
-    controller.assets = [PhotoPickerManager sharedManager].selectedArray;
+    controller.assets = [[PhotoPickerManager sharedManager].selectedArray copy];
     controller.dissmissBlock = _dissmissBlock;
     controller.maxCount = _imageMaxCount;
     [controller setPreviewBackBlock:^{

@@ -107,6 +107,7 @@
         [_itemAttributes addObject:attributes];
         _columnHeights[columnIndex] = @(yOffset + itemHeight + _interitemSpacing);
     }
+    
     NSLog(@"attr:%zi", [_itemAttributes count]);
 }
 

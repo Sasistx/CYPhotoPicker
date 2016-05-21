@@ -64,7 +64,7 @@
             
         }];
     }];
-    picker.maxCount = 1;
+    picker.maxCount = 9;
     
     [picker show];
 }
@@ -85,11 +85,12 @@
 {
     PH_WEAK_VAR(self);
     
-    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera showPreview:NO compeletionBlock:^(NSArray *imageAssets) {
+    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera showPreview:YES compeletionBlock:^(NSArray *imageAssets) {
         
 //        PhotoBaseListItem* temp = imageAssets[0];
 //        [_self savePhoto:temp.originImage];
     }];
+    picker.maxCount = 9;
     [picker show];
 }
 
