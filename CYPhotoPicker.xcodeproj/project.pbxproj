@@ -271,7 +271,6 @@
 				F39BA5D11C44AF9600C8A0D7 /* View */,
 				F39BA5CD1C44A3BA00C8A0D7 /* Utility */,
 				F39BA5C01C43AC4E00C8A0D7 /* Controller */,
-				F39BA5A21C3F563E00C8A0D7 /* Layout */,
 				F39BA59E1C3E58FD00C8A0D7 /* Item */,
 				F39BA59D1C3E528A00C8A0D7 /* CYPhotoPickerDefines.h */,
 				F39BA5EE1C4798F000C8A0D7 /* CYPhotoPicker.h */,
@@ -312,7 +311,8 @@
 				F33DEC4F1C4F6F2400D028E3 /* PhotoPreviewCell.h */,
 				F33DEC501C4F6F2400D028E3 /* PhotoPreviewCell.m */,
 			);
-			path = Layout;
+			name = Layout;
+			path = ../Layout;
 			sourceTree = "<group>";
 		};
 		F39BA5C01C43AC4E00C8A0D7 /* Controller */ = {
@@ -327,6 +327,7 @@
 				F39BA5E11C47440F00C8A0D7 /* PhotoOldAlbumViewController.h */,
 				F39BA5E21C47440F00C8A0D7 /* PhotoOldAlbumViewController.m */,
 				F33DEC381C4CF25E00D028E3 /* PhotoPreviewImageViewController.h */,
+				F39BA5A21C3F563E00C8A0D7 /* Layout */,
 				F33DEC391C4CF25E00D028E3 /* PhotoPreviewImageViewController.m */,
 				F33DEC491C4F389600D028E3 /* PhotoScrollPreviewController.h */,
 				F33DEC4A1C4F389600D028E3 /* PhotoScrollPreviewController.m */,
