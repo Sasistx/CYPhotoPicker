@@ -327,8 +327,8 @@
 				F39BA5E11C47440F00C8A0D7 /* PhotoOldAlbumViewController.h */,
 				F39BA5E21C47440F00C8A0D7 /* PhotoOldAlbumViewController.m */,
 				F33DEC381C4CF25E00D028E3 /* PhotoPreviewImageViewController.h */,
-				F39BA5A21C3F563E00C8A0D7 /* Layout */,
 				F33DEC391C4CF25E00D028E3 /* PhotoPreviewImageViewController.m */,
+				F39BA5A21C3F563E00C8A0D7 /* Layout */,
 				F33DEC491C4F389600D028E3 /* PhotoScrollPreviewController.h */,
 				F33DEC4A1C4F389600D028E3 /* PhotoScrollPreviewController.m */,
 			);

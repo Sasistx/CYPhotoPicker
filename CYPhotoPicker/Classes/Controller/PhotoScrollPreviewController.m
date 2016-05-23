@@ -171,6 +171,7 @@
             
         }];
         [PhotoConfigureManager sharedManager].currentPicker = nil;
+        [[PhotoPickerManager sharedManager] clearSelectedArray];
     }
 }
 
