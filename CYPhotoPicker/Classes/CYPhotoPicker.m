@@ -15,7 +15,9 @@ static NSString* kAlbumTitle = @"从手机相册选择";
 static NSString* kCameraTitle = @"拍照";
 static NSString* kCancelTitle = @"取消";
 static NSString* kAlbumDefaultName = @"CY";
+static NSString* kSendButtonTitle = @"发送";
 static NSInteger kDefaultMax = 9;
+
 
 @interface CYPhotoPicker () <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, weak) UIViewController* currentController;
@@ -63,6 +65,7 @@ static NSInteger kDefaultMax = 9;
         _maxCount = kDefaultMax;
         [self clearManager];
         [PhotoConfigureManager sharedManager].currentPicker = self;
+        [PhotoConfigureManager sharedManager].sendButtonTitle = kSendButtonTitle;
         self.dissmissBlock = dissmissBlock;
     }
     return self;
@@ -98,6 +101,16 @@ static NSInteger kDefaultMax = 9;
 {
     _naviStyle = naviStyle;
     [PhotoConfigureManager sharedManager].naviStyle = naviStyle;
+}
+
+- (void)setSendButtonTitle:(NSString *)sendButtonTitle
+{
+    if (_sendButtonTitle && [_sendButtonTitle isEqualToString:sendButtonTitle]) {
+        
+        _sendButtonTitle = nil;
+    }
+    _sendButtonTitle = sendButtonTitle;
+    [PhotoConfigureManager sharedManager].sendButtonTitle = sendButtonTitle;
 }
 
 #pragma mark -

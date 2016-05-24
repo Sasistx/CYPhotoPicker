@@ -65,7 +65,7 @@
         }];
     }];
     picker.maxCount = 9;
-    
+    picker.sendButtonTitle = @"确定";
     [picker show];
 }
 

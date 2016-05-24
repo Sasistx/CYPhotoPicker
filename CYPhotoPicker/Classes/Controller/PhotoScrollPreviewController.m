@@ -118,9 +118,10 @@
     UIColor* buttonColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor;
     UIColor* textColor = [PhotoConfigureManager sharedManager].sendButtontextColor;
     
+    NSString* sendTitle = ([PhotoConfigureManager sharedManager].sendButtonTitle && ![[PhotoConfigureManager sharedManager].sendButtonTitle isEqualToString:@""]) ? [PhotoConfigureManager sharedManager].sendButtonTitle : @"发送";
     _sendButton = [PHButton buttonWithType:UIButtonTypeCustom];
     [_sendButton setFrame:CGRectMake(bottomView.frame.size.width - 80, 10, 70, 30)];
-    [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
+    [_sendButton setTitle:sendTitle forState:UIControlStateNormal];
     
     if (buttonColor) {
         [_sendButton setBackgroundImage:[PhotoUtility imageWithColor:buttonColor] forState:UIControlStateNormal];
@@ -140,11 +141,12 @@
 - (void)updateSendButtonText
 {
     NSString* buttonTitle = nil;
+    NSString* sendTitle = ([PhotoConfigureManager sharedManager].sendButtonTitle && ![[PhotoConfigureManager sharedManager].sendButtonTitle isEqualToString:@""]) ? [PhotoConfigureManager sharedManager].sendButtonTitle : @"发送";
     if ([PhotoPickerManager sharedManager].selectedArray.count > 0) {
-        buttonTitle = [NSString stringWithFormat:@"发送 %zi/%zi", [PhotoPickerManager sharedManager].selectedArray.count, _maxCount];
+        buttonTitle = [NSString stringWithFormat:@"%@ %zi/%zi",sendTitle, [PhotoPickerManager sharedManager].selectedArray.count, _maxCount];
         [_sendButton setEnabled:YES];
     }else {
-        buttonTitle = @"发送";
+        buttonTitle = sendTitle;
         [_sendButton setEnabled:NO];
     }
     [_sendButton setTitle:buttonTitle forState:UIControlStateNormal];

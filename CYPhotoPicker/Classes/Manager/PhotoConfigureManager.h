@@ -25,6 +25,8 @@ typedef NS_ENUM(NSInteger, PhotoNaviButtonStyle)
 @property (nonatomic, assign) PhotoNaviButtonStyle naviStyle;
 @property (nonatomic, strong) CYPhotoPicker* currentPicker;
 
+@property (nonatomic, copy) NSString* sendButtonTitle;
+
 /**
  *  CYPhotoPicker预设方法，必须在Appdelegate中进行预设
  *

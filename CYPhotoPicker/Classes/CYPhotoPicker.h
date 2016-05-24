@@ -46,6 +46,12 @@
  */
 @property (nonatomic, copy, nullable) NSString* albumName;
 
+
+/**
+ *  发送按钮文案，默认为发送
+ */
+@property (nonatomic, copy, nullable) NSString* sendButtonTitle;
+
 /**
  *  CYPicker初始化方法
  *
