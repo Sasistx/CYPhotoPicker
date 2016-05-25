@@ -57,14 +57,14 @@
 
 - (void)buttonClicked:(id)sender
 {
-    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera showPreview:YES compeletionBlock:^(NSArray *imageAssets) {
+    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera showPreview:NO compeletionBlock:^(NSArray *imageAssets) {
         
         [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:imageAssets[0] completion:^(UIImage *image) {
            
             
         }];
     }];
-    picker.maxCount = 9;
+    picker.maxCount = 1;
     picker.sendButtonTitle = @"确定";
     [picker show];
 }

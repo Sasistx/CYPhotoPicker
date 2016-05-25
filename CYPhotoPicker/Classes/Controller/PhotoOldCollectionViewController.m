@@ -359,8 +359,15 @@
         [self.collectionView performBatchUpdates:^{
             
             if (_isOne && row >= 0) {
+                
+                NSMutableArray* indexArray = [NSMutableArray array];
+                if (indexPath) {
+                    
+                    [indexArray addObject:indexPath];
+                }
                 NSIndexPath* path = [NSIndexPath indexPathForRow:row inSection:0];
-                [_self.collectionView reloadItemsAtIndexPaths:@[path, indexPath]];
+                [indexArray addObject:path];
+                [_self.collectionView reloadItemsAtIndexPaths:indexArray];
             }else {
                 [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
             }
