@@ -28,6 +28,7 @@
 - (void)createZoomView
 {
     _zoomView = [[PhotoPreviewZoomScrollView alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width - 20, self.frame.size.height)];
+    _zoomView.scrollEnabled = NO;
     [self.contentView addSubview:_zoomView];
 }
 
