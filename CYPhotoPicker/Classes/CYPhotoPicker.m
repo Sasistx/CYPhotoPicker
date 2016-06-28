@@ -242,7 +242,7 @@ static NSInteger kDefaultMax = 9;
         [PhotoConfigureManager sharedManager].currentPicker = nil;
     }else {
         //修复在iOS7下，直接将currentPicker = nil引起的崩溃
-        [[PhotoConfigureManager sharedManager] performSelector:@selector(setCurrentPicker:) withObject:nil afterDelay:0.5];
+        [[PhotoConfigureManager sharedManager] performSelector:@selector(setCurrentPicker:) withObject:nil afterDelay:0.3];
     }
     
 }
