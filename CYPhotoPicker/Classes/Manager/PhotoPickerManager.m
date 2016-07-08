@@ -91,7 +91,7 @@ static PhotoPickerManager* sharedManager = nil;
     
     [imageManager requestImageForAsset:asset
                             targetSize:size
-                           contentMode:PHImageContentModeAspectFill
+                           contentMode:PHImageContentModeAspectFit
                                options:phImageRequestOptions
                          resultHandler:^(UIImage *result, NSDictionary *info) {
                              
@@ -100,6 +100,33 @@ static PhotoPickerManager* sharedManager = nil;
                                  completion(result, info);
                              }
                          }];
+}
+
+
+- (void)getImageDataWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache synchronous:(BOOL)synchronous multyCallBack:(BOOL)multiCallback completion:(void (^)(NSData* imageData,NSString * dataUTI, UIImageOrientation orientation ,NSDictionary *resultInfo))completion{
+
+    PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
+    
+    PHImageRequestOptions *phImageRequestOptions = [[PHImageRequestOptions alloc] init];
+    if (!synchronous) {
+        
+        phImageRequestOptions.deliveryMode = multiCallback ? PHImageRequestOptionsDeliveryModeOpportunistic : PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    }
+    phImageRequestOptions.synchronous = synchronous;
+    phImageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
+    phImageRequestOptions.networkAccessAllowed = synchronous ? NO : allowNetwork;
+    if (allowCache) {
+        
+        [imageManager startCachingImagesForAssets:@[asset] targetSize:size contentMode:PHImageContentModeDefault options:phImageRequestOptions];
+    }
+    
+    [imageManager requestImageDataForAsset:asset options:phImageRequestOptions resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+        
+        if (completion) {
+            
+            completion(imageData, dataUTI, orientation, info);
+        }
+    }];
 }
 
 - (void)asyncGetAllSelectedOriginImages:(void (^)(NSArray* images))completion
@@ -137,19 +164,16 @@ static PhotoPickerManager* sharedManager = nil;
     
     if ([asset isKindOfClass:[PhotoListItem class]]) {
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            PHAsset* innerAsset = ((PhotoListItem*)asset).asset;
-            
-            [self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:innerAsset allowNetwork:YES allowCache:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
-                if (completion) {
+        PHAsset* innerAsset = ((PhotoListItem*)asset).asset;
+        
+        [self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:innerAsset allowNetwork:YES allowCache:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+            if (completion) {
                 
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        completion(resultImage);
-                    });
-                }
-            }];
-        });
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(resultImage);
+                });
+            }
+        }];
         
     }else if ([asset isKindOfClass:[PhotoOldListItem class]]){
     
@@ -320,6 +344,11 @@ static PhotoPickerManager* sharedManager = nil;
                                  completion(result, info, exist);
                              }
                          }];
+}
+
+- (void)cancelRequestByRequestId:(PHImageRequestID)requestId
+{
+    
 }
 
 @end

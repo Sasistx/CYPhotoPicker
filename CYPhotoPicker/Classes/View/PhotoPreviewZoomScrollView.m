@@ -20,6 +20,7 @@
  */
 @property (nonatomic, strong) UIView* loadingBackView;
 @property (nonatomic, strong) UIActivityIndicatorView* loadingView;
+@property (nonatomic, strong) UIImageView* thumbImageView;
 
 @end
 
@@ -44,13 +45,12 @@
     [self getZoomImage];
 }
 
-- (void)getZoomImage
+- (void)loadOriginImage
 {
-    PH_WEAK_VAR(self);
-    
     __block id innerAsset = _asset;
     
-    [self showLoadingView];
+    PH_WEAK_VAR(self);
+    
     [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:_asset completion:^(UIImage *image) {
         
         if ([innerAsset isEqual:_self.asset]) {
@@ -61,6 +61,68 @@
     }];
 }
 
+- (void)showThumbImage:(UIImage*)image
+{
+    if (_thumbImageView) {
+        
+        return;
+    }
+    
+    _thumbImageView = [self zoomViewWithImage:image];
+    [self addSubview:_thumbImageView];
+    [_thumbImageView setCenter:self.center];
+}
+
+- (void)hideThumbImage
+{
+    [self bringSubviewToFront:_thumbImageView];
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+       
+        if (_thumbImageView) {
+            
+            [_thumbImageView setAlpha:0];
+        }
+    } completion:^(BOOL finished) {
+        if (_thumbImageView) {
+            
+            [_thumbImageView removeFromSuperview];
+            _thumbImageView = nil;
+        }
+    }];
+}
+
+- (void)getZoomImage
+{
+    PH_WEAK_VAR(self);
+    
+    __block id innerAsset = _asset;
+    
+    if (PH_IOSOVER(8)) {
+        
+        [self showLoadingView];
+        
+        PHAsset* phAsset = ((PhotoListItem*)_asset).asset;
+        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(150, 150) asset:phAsset allowNetwork:YES allowCache:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+        
+            if ([innerAsset isEqual:_self.asset]) {
+                
+                [_self showThumbImage:resultImage];
+            }
+        }];
+    }else {
+    
+        [self showLoadingView];
+        [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:_asset completion:^(UIImage *image) {
+            
+            if ([innerAsset isEqual:_self.asset]) {
+                
+                [_self hideLoadingView];
+                [_self setZoomImageView:image];
+            }
+        }];
+    }
+}
+
 - (void)setZoomImageView:(UIImage*)image
 {
     if (_imageView) {
@@ -68,25 +130,9 @@
         return;
     }
     
-    _imageView = [[UIImageView alloc] initWithImage:image];
-    
-    CGFloat factor = self.frame.size.width / self.frame.size.height;
-    
-    CGFloat imageFactor = image.size.width / image.size.height;
-    
-    CGFloat imageViewWidth = 0;
-    CGFloat imageViewHeight = 0;
-    
-    if (imageFactor >= factor) {
-        
-        imageViewWidth = self.frame.size.width;
-        imageViewHeight = self.frame.size.height / _imageView.frame.size.width * self.frame.size.width;
-    }else {
-        imageViewHeight = self.frame.size.height;
-        imageViewWidth = self.frame.size.width / _imageView.frame.size.height * self.frame.size.height;
-    }
-    _imageView.userInteractionEnabled = YES;
+    _imageView = [self zoomViewWithImage:image];
     [self addSubview:_imageView];
+    [self hideThumbImage];
     UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                        action:@selector(handleDoubleTap:)];
     [doubleTapGesture setNumberOfTapsRequired:2];
@@ -99,12 +145,43 @@
     [self layoutIfNeeded];
 }
 
+- (UIImageView*)zoomViewWithImage:(UIImage*)image
+{
+    UIImageView* imageView = [[UIImageView alloc] initWithImage:image];
+    
+    CGFloat factor = self.frame.size.width / self.frame.size.height;
+    
+    CGFloat imageFactor = image.size.width / image.size.height;
+    
+    CGFloat imageViewWidth = 0;
+    CGFloat imageViewHeight = 0;
+    
+    if (imageFactor >= factor) {
+        
+        imageViewWidth = self.frame.size.width;
+        imageViewHeight = imageView.frame.size.height / imageView.frame.size.width * self.frame.size.width;
+    }else {
+        imageViewHeight = self.frame.size.height;
+        imageViewWidth = imageView.frame.size.width / imageView.frame.size.height * self.frame.size.height;
+    }
+    imageView.userInteractionEnabled = YES;
+    [imageView setFrame:CGRectMake(0, 0, imageViewWidth, imageViewHeight)];
+    
+    return imageView;
+}
+
 - (void)clearZoomView
 {
     if (_imageView) {
         
         [_imageView removeFromSuperview];
         _imageView = nil;
+    }
+    
+    if (_thumbImageView) {
+        
+        [_thumbImageView removeFromSuperview];
+        _thumbImageView = nil;
     }
 }
 
@@ -169,6 +246,15 @@
         [_loadingView stopAnimating];
     }
     return _loadingBackView;
+}
+
+- (UIImageView*)thumbImageView
+{
+    if (!_thumbImageView) {
+        
+        _thumbImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    }
+    return _thumbImageView;
 }
 
 - (void)showLoadingView

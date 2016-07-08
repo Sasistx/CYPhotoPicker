@@ -25,6 +25,7 @@
 @property (nonatomic, strong) UIImageView* selectedImageView;
 @property (nonatomic, strong) UIImageView* deselectedImageView;
 @property (nonatomic, copy) PhotoPreviewBackBlock backBlock;
+@property (nonatomic) BOOL isFirstShowOrigin;
 @end
 
 @implementation PhotoScrollPreviewController
@@ -37,6 +38,7 @@
         self.automaticallyAdjustsScrollViewInsets = YES;
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    _isFirstShowOrigin = YES;
     // Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:YES];
     [self createCollectionView];
@@ -240,6 +242,11 @@
 {
     PhotoPreviewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:PRE_CELL_IDENTIFIER forIndexPath:indexPath];
     [cell setAssetToZoomView:_assets[indexPath.item]];
+    if (_isFirstShowOrigin) {
+        
+        [cell loadOriginImage];
+        _isFirstShowOrigin = NO;
+    }
     return cell;
 }
 
@@ -251,6 +258,25 @@
     }else {
         
         [self updateCurrentImageSelectState:currentPage];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewDidEndDecelerating");
+    NSArray* visibleCells = [_collectionView visibleCells];
+    PhotoPreviewCell* cell = nil;
+    for (PhotoPreviewCell* innerCell in visibleCells) {
+        
+        if (innerCell.frame.origin.x == scrollView.contentOffset.x) {
+            
+            cell = innerCell;
+            break;
+        }
+    }
+    
+    if (cell) {
+        [cell loadOriginImage];
     }
 }
 

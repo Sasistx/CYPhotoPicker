@@ -13,4 +13,5 @@
 @property (nonatomic, strong) id asset;
 - (void)clearZoomView;
 - (BOOL)isImageLoading;
+- (void)loadOriginImage;
 @end

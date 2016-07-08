@@ -6,6 +6,12 @@
 //  Copyright © 2016年 lvjianxiong. All rights reserved.
 //
 
+//　 ∧_∧
+//　( ･ω･)
+//　｜⊃／(＿＿＿
+//／└-(＿＿＿_／
+//￣￣
+
 #import <Photos/Photos.h>
 
 typedef void(^SaveImageCompletion)(NSError* error);
@@ -90,5 +96,7 @@ typedef void(^CheckOriginalImageResult)(UIImage* image, NSDictionary* info, BOOL
  *  @param completion 返回结果，若不包含，则image为nil，info为nil，exist为NO
  */
 - (void)checkOriginalImageExistWithAsset:(PHAsset*)asset completion:(CheckOriginalImageResult)completion;
+
+
 
 @end

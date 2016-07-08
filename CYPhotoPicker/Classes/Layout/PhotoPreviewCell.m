@@ -27,7 +27,7 @@
 
 - (void)createZoomView
 {
-    _zoomView = [[PhotoPreviewZoomScrollView alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width - 20, self.frame.size.height)];
+    _zoomView = [[PhotoPreviewZoomScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     _zoomView.scrollEnabled = NO;
     [self.contentView addSubview:_zoomView];
 }
@@ -40,6 +40,11 @@
 - (BOOL)isOriginImageLoading
 {
     return [_zoomView isImageLoading];
+}
+
+- (void)loadOriginImage
+{
+    [_zoomView loadOriginImage];
 }
 
 - (void)prepareForReuse

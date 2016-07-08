@@ -14,4 +14,6 @@
 
 - (BOOL)isOriginImageLoading;
 
+- (void)loadOriginImage;
+
 @end
