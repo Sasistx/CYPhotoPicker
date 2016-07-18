@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CYPhotoPickerDefines.h"
+#import "PhotoNetworkItem.h"
 
 @interface CYPhotoPicker : NSObject
 
@@ -68,6 +69,17 @@
  *  将相册或相机从当前controller展示的方法
  */
 - (void)show;
+
+/**
+ *  CYPicker 网络图片预览方法
+ *
+ *  @param controller 当前controller
+ *  @param imageList  图片数组<PhotoNetworkItem * >
+ *  @param index      当前位置
+ *
+ *  @return CYPicker
+ */
++ (instancetype _Nullable)showFromeController:(UIViewController* _Nonnull)controller imageList:(NSArray<PhotoNetworkItem * > * _Nonnull)imageList currentIndex:(NSInteger)index;
 
 /**
  *  设置预选择的图片

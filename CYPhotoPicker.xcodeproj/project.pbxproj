@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52A205E7F1C6244D3315159D /* libPods-CYPhotoPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 029577552C24A417A59945FA /* libPods-CYPhotoPicker.a */; };
+		F300D36B1D3778CD00B38972 /* PhotoPreviewNetworkImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = F300D36A1D3778CD00B38972 /* PhotoPreviewNetworkImageController.m */; };
+		F300D36E1D37795D00B38972 /* PhotoNetworkItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F300D36D1D37795D00B38972 /* PhotoNetworkItem.m */; };
+		F300D3711D377BBA00B38972 /* PhotoNetworkPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F300D3701D377BBA00B38972 /* PhotoNetworkPreviewCell.m */; };
 		F31E99BD1C915231005E8CAB /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F31E99BC1C915231005E8CAB /* Photos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F33DEC3A1C4CF25E00D028E3 /* PhotoPreviewImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F33DEC391C4CF25E00D028E3 /* PhotoPreviewImageViewController.m */; };
 		F33DEC401C4CF37C00D028E3 /* ph_imagePicker_choose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F33DEC3B1C4CF37C00D028E3 /* ph_imagePicker_choose@2x.png */; };
@@ -48,8 +52,8 @@
 		F39BA5EA1C4795C700C8A0D7 /* PhotoPickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5E91C4795C700C8A0D7 /* PhotoPickerManager.m */; };
 		F39BA5ED1C4795F800C8A0D7 /* PhotoConfigureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5EC1C4795F800C8A0D7 /* PhotoConfigureManager.m */; };
 		F39BA5F01C4798F000C8A0D7 /* CYPhotoPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5EF1C4798F000C8A0D7 /* CYPhotoPicker.m */; };
+		F39C9ED81D37833800112D84 /* PhotoNetworkZoomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F39C9ED71D37833800112D84 /* PhotoNetworkZoomScrollView.m */; };
 		F3C7BDD41C7DA267008DBB81 /* ALAssetsLibrary+CustomAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C7BDD31C7DA267008DBB81 /* ALAssetsLibrary+CustomAlbum.m */; };
-		F8297AD03124076BF667C22A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94BB8C50C4B3746D296C79D9 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,9 +74,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		69473B1C29915D387526553E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		94BB8C50C4B3746D296C79D9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CCFD0B079C49D68D79C57499 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		029577552C24A417A59945FA /* libPods-CYPhotoPicker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CYPhotoPicker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		142E06ADC75D45A83A57A086 /* Pods-CYPhotoPicker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CYPhotoPicker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CYPhotoPicker/Pods-CYPhotoPicker.debug.xcconfig"; sourceTree = "<group>"; };
+		9409FEC95394D0B9099878BB /* Pods-CYPhotoPicker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CYPhotoPicker.release.xcconfig"; path = "Pods/Target Support Files/Pods-CYPhotoPicker/Pods-CYPhotoPicker.release.xcconfig"; sourceTree = "<group>"; };
+		F300D3691D3778CD00B38972 /* PhotoPreviewNetworkImageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewNetworkImageController.h; sourceTree = "<group>"; };
+		F300D36A1D3778CD00B38972 /* PhotoPreviewNetworkImageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewNetworkImageController.m; sourceTree = "<group>"; };
+		F300D36C1D37795D00B38972 /* PhotoNetworkItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoNetworkItem.h; sourceTree = "<group>"; };
+		F300D36D1D37795D00B38972 /* PhotoNetworkItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoNetworkItem.m; sourceTree = "<group>"; };
+		F300D36F1D377BBA00B38972 /* PhotoNetworkPreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoNetworkPreviewCell.h; sourceTree = "<group>"; };
+		F300D3701D377BBA00B38972 /* PhotoNetworkPreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoNetworkPreviewCell.m; sourceTree = "<group>"; };
 		F31E99BC1C915231005E8CAB /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		F33DEC381C4CF25E00D028E3 /* PhotoPreviewImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewImageViewController.h; sourceTree = "<group>"; };
 		F33DEC391C4CF25E00D028E3 /* PhotoPreviewImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewImageViewController.m; sourceTree = "<group>"; };
@@ -149,6 +159,8 @@
 		F39BA5EC1C4795F800C8A0D7 /* PhotoConfigureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoConfigureManager.m; sourceTree = "<group>"; };
 		F39BA5EE1C4798F000C8A0D7 /* CYPhotoPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYPhotoPicker.h; sourceTree = "<group>"; };
 		F39BA5EF1C4798F000C8A0D7 /* CYPhotoPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYPhotoPicker.m; sourceTree = "<group>"; };
+		F39C9ED61D37833800112D84 /* PhotoNetworkZoomScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoNetworkZoomScrollView.h; sourceTree = "<group>"; };
+		F39C9ED71D37833800112D84 /* PhotoNetworkZoomScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoNetworkZoomScrollView.m; sourceTree = "<group>"; };
 		F3C7BDD21C7DA267008DBB81 /* ALAssetsLibrary+CustomAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomAlbum.h"; sourceTree = "<group>"; };
 		F3C7BDD31C7DA267008DBB81 /* ALAssetsLibrary+CustomAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomAlbum.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -159,7 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F31E99BD1C915231005E8CAB /* Photos.framework in Frameworks */,
-				F8297AD03124076BF667C22A /* libPods.a in Frameworks */,
+				52A205E7F1C6244D3315159D /* libPods-CYPhotoPicker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,11 +192,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AA06BCD7B9527F6D691EB151 /* Pods */ = {
+		54EFD5F0E65462038353DE2F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				CCFD0B079C49D68D79C57499 /* Pods.debug.xcconfig */,
-				69473B1C29915D387526553E /* Pods.release.xcconfig */,
+				142E06ADC75D45A83A57A086 /* Pods-CYPhotoPicker.debug.xcconfig */,
+				9409FEC95394D0B9099878BB /* Pods-CYPhotoPicker.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -193,7 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				F31E99BC1C915231005E8CAB /* Photos.framework */,
-				94BB8C50C4B3746D296C79D9 /* libPods.a */,
+				029577552C24A417A59945FA /* libPods-CYPhotoPicker.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -205,8 +217,8 @@
 				F39BA5741C3E4DF100C8A0D7 /* CYPhotoPickerTests */,
 				F39BA57F1C3E4DF100C8A0D7 /* CYPhotoPickerUITests */,
 				F39BA5561C3E4DF100C8A0D7 /* Products */,
-				AA06BCD7B9527F6D691EB151 /* Pods */,
 				C9AB2F34588CB55BD8E91287 /* Frameworks */,
+				54EFD5F0E65462038353DE2F /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -295,6 +307,8 @@
 				F349B1271C575E34007017FD /* PhotoItemCellProtocol.h */,
 				F349B1281C58C16E007017FD /* PhotoBaseListItem.h */,
 				F349B1291C58C16E007017FD /* PhotoBaseListItem.m */,
+				F300D36C1D37795D00B38972 /* PhotoNetworkItem.h */,
+				F300D36D1D37795D00B38972 /* PhotoNetworkItem.m */,
 			);
 			path = Item;
 			sourceTree = "<group>";
@@ -310,6 +324,8 @@
 				F33DEC4D1C4F691800D028E3 /* PhotoPreviewLayout.m */,
 				F33DEC4F1C4F6F2400D028E3 /* PhotoPreviewCell.h */,
 				F33DEC501C4F6F2400D028E3 /* PhotoPreviewCell.m */,
+				F300D36F1D377BBA00B38972 /* PhotoNetworkPreviewCell.h */,
+				F300D3701D377BBA00B38972 /* PhotoNetworkPreviewCell.m */,
 			);
 			name = Layout;
 			path = ../Layout;
@@ -331,6 +347,8 @@
 				F39BA5A21C3F563E00C8A0D7 /* Layout */,
 				F33DEC491C4F389600D028E3 /* PhotoScrollPreviewController.h */,
 				F33DEC4A1C4F389600D028E3 /* PhotoScrollPreviewController.m */,
+				F300D3691D3778CD00B38972 /* PhotoPreviewNetworkImageController.h */,
+				F300D36A1D3778CD00B38972 /* PhotoPreviewNetworkImageController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -357,6 +375,8 @@
 				F364ED781C8FF896001A2A71 /* PHButton.m */,
 				F35D4AF31C9012D700F128B3 /* PHSelectButton.h */,
 				F35D4AF41C9012D700F128B3 /* PHSelectButton.m */,
+				F39C9ED61D37833800112D84 /* PhotoNetworkZoomScrollView.h */,
+				F39C9ED71D37833800112D84 /* PhotoNetworkZoomScrollView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -403,12 +423,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F39BA5851C3E4DF100C8A0D7 /* Build configuration list for PBXNativeTarget "CYPhotoPicker" */;
 			buildPhases = (
-				0B8717916B4101AEF0A4C957 /* Check Pods Manifest.lock */,
+				FC6BCD6099DF768E0E434C04 /* [CP] Check Pods Manifest.lock */,
 				F39BA5511C3E4DF100C8A0D7 /* Sources */,
 				F39BA5521C3E4DF100C8A0D7 /* Frameworks */,
 				F39BA5531C3E4DF100C8A0D7 /* Resources */,
-				CF886D3E09B9F8354353A5E7 /* Embed Pods Frameworks */,
-				DD8613DE2324BDE637C638BB /* Copy Pods Resources */,
+				1FD2876FC0340AA7EEBBB82D /* [CP] Embed Pods Frameworks */,
+				7C1A849883FDEDD9B102FC05 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -532,49 +552,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0B8717916B4101AEF0A4C957 /* Check Pods Manifest.lock */ = {
+		1FD2876FC0340AA7EEBBB82D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CYPhotoPicker/Pods-CYPhotoPicker-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7C1A849883FDEDD9B102FC05 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CYPhotoPicker/Pods-CYPhotoPicker-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FC6BCD6099DF768E0E434C04 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		CF886D3E09B9F8354353A5E7 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DD8613DE2324BDE637C638BB /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -593,6 +613,8 @@
 				F33DEC3A1C4CF25E00D028E3 /* PhotoPreviewImageViewController.m in Sources */,
 				F39BA5EA1C4795C700C8A0D7 /* PhotoPickerManager.m in Sources */,
 				F39BA5B11C3F5E1700C8A0D7 /* PhotoListItem.m in Sources */,
+				F300D36E1D37795D00B38972 /* PhotoNetworkItem.m in Sources */,
+				F300D3711D377BBA00B38972 /* PhotoNetworkPreviewCell.m in Sources */,
 				F364ED791C8FF896001A2A71 /* PHButton.m in Sources */,
 				F35D4AF51C9012D700F128B3 /* PHSelectButton.m in Sources */,
 				F39BA5D01C44A3E900C8A0D7 /* PhotoUtility.m in Sources */,
@@ -600,6 +622,7 @@
 				F39BA5E01C4500D400C8A0D7 /* PhotoCollectionBaseCell.m in Sources */,
 				F39BA55A1C3E4DF100C8A0D7 /* main.m in Sources */,
 				F39BA5901C3E4EF500C8A0D7 /* RootViewController.m in Sources */,
+				F300D36B1D3778CD00B38972 /* PhotoPreviewNetworkImageController.m in Sources */,
 				F39BA5D71C44E6A200C8A0D7 /* PhotoOldCollectionViewController.m in Sources */,
 				F33DEC541C4F813E00D028E3 /* PhotoPreviewZoomScrollView.m in Sources */,
 				F38B03421C4CD3E0000135FF /* PHNaviButton.m in Sources */,
@@ -612,6 +635,7 @@
 				F39BA5AB1C3F579A00C8A0D7 /* PhotoCollectionViewLayout.m in Sources */,
 				F33DEC4B1C4F389600D028E3 /* PhotoScrollPreviewController.m in Sources */,
 				F39BA5BF1C438C2D00C8A0D7 /* PhotoAlbumItem.m in Sources */,
+				F39C9ED81D37833800112D84 /* PhotoNetworkZoomScrollView.m in Sources */,
 				F39BA5ED1C4795F800C8A0D7 /* PhotoConfigureManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -741,11 +765,11 @@
 		};
 		F39BA5861C3E4DF100C8A0D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CCFD0B079C49D68D79C57499 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 142E06ADC75D45A83A57A086 /* Pods-CYPhotoPicker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = CYPhotoPicker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = chunyu.CYPhotoPicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -754,11 +778,11 @@
 		};
 		F39BA5871C3E4DF100C8A0D7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 69473B1C29915D387526553E /* Pods.release.xcconfig */;
+			baseConfigurationReference = 9409FEC95394D0B9099878BB /* Pods-CYPhotoPicker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = CYPhotoPicker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = chunyu.CYPhotoPicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";

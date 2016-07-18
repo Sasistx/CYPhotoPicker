@@ -10,6 +10,7 @@
 #import "PhotoAlbumListController.h"
 #import "PhotoListItem.h"
 #import "PhotoOldAlbumViewController.h"
+#import "PhotoPreviewNetworkImageController.h"
 
 static NSString* kAlbumTitle = @"从手机相册选择";
 static NSString* kCameraTitle = @"拍照";
@@ -31,7 +32,6 @@ static NSInteger kDefaultMax = 9;
     CYPhotoPicker* sharedPicker = [[self alloc] initWithCurrentController:controller option:option isOne:isOne showPreview:showPreview compeletionBlock:dissmissBlock];
     return sharedPicker;
 }
-
 
 - (instancetype)initWithCurrentController:(UIViewController*)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
 {
@@ -67,6 +67,26 @@ static NSInteger kDefaultMax = 9;
         [PhotoConfigureManager sharedManager].currentPicker = self;
         [PhotoConfigureManager sharedManager].sendButtonTitle = kSendButtonTitle;
         self.dissmissBlock = dissmissBlock;
+    }
+    return self;
+}
+
++ (instancetype _Nullable)showFromeController:(UIViewController* _Nonnull)controller imageList:(NSArray<PhotoNetworkItem * > * _Nonnull)imageList currentIndex:(NSInteger)index
+{
+    CYPhotoPicker* picker = [[CYPhotoPicker alloc] initWithCurrentController:controller imageList:imageList currentIndex:index];
+    return picker;
+}
+
+- (instancetype)initWithCurrentController:(UIViewController*)controller imageList:(NSArray*)imageList currentIndex:(NSInteger)index
+{
+    self = [super init];
+    if (self) {
+        
+        PhotoPreviewNetworkImageController* previewController = [[PhotoPreviewNetworkImageController alloc] init];
+        previewController.indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+        previewController.images = imageList;
+        [controller presentViewController:previewController animated:NO completion:Nil];
+        
     }
     return self;
 }

@@ -137,10 +137,9 @@
                                                                                        action:@selector(handleDoubleTap:)];
     [doubleTapGesture setNumberOfTapsRequired:2];
     [_imageView addGestureRecognizer:doubleTapGesture];
-    
-    CGFloat minimumScale = self.frame.size.width / _imageView.frame.size.width;
-    [self setMinimumZoomScale:minimumScale];
-    [self setZoomScale:minimumScale];
+    [self setMinimumZoomScale:0.7];
+    [self setMaximumZoomScale:1.5];
+    [self setZoomScale:1];
     [self updateZoomCenter];
     [self layoutIfNeeded];
 }
@@ -172,6 +171,11 @@
 
 - (void)clearZoomView
 {
+    if (self.zoomScale != 1) {
+        CGRect zoomRect = [self zoomRectForScale:1 withCenter:self.center];
+        [self zoomToRect:zoomRect animated:NO];
+    }
+    
     if (_imageView) {
         
         [_imageView removeFromSuperview];
@@ -189,15 +193,12 @@
 
 - (void)handleDoubleTap:(UIGestureRecognizer *)gesture
 {
-    //暂未实现
-    /*
-     float newScale = self.zoomScale * 1.5;
-     CGRect zoomRect = [self zoomRectForScale:newScale withCenter:[gesture locationInView:gesture.view]];
-     [self zoomToRect:zoomRect animated:YES];
-     */
+    CGFloat newScale = self.zoomScale != 1 ? 1 : 1.5;
+    CGRect zoomRect = [self zoomRectForScale:newScale withCenter:self.center];
+    [self zoomToRect:zoomRect animated:YES];
 }
 
-- (CGRect)zoomRectForScale:(float)scale withCenter:(CGPoint)center
+- (CGRect)zoomRectForScale:(CGFloat)scale withCenter:(CGPoint)center
 {
     CGRect zoomRect;
     zoomRect.size.height = self.frame.size.height / scale;
@@ -261,6 +262,7 @@
 {
     [self.loadingBackView setHidden:NO];
     [self.loadingView startAnimating];
+    [self bringSubviewToFront:self.loadingBackView];
 }
 
 - (void)hideLoadingView

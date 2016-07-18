@@ -263,7 +263,6 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    NSLog(@"scrollViewDidEndDecelerating");
     NSArray* visibleCells = [_collectionView visibleCells];
     PhotoPreviewCell* cell = nil;
     for (PhotoPreviewCell* innerCell in visibleCells) {

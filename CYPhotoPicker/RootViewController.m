@@ -48,6 +48,13 @@
     [addPhotoButton setFrame:CGRectMake(100, 500, 200, 30)];
     [addPhotoButton addTarget:self action:@selector(addPhotoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:addPhotoButton];
+    
+    UIButton* preButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [preButton setTitle:@"预览网络图片" forState:UIControlStateNormal];
+    [preButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [preButton setFrame:CGRectMake(100, 600, 200, 30)];
+    [preButton addTarget:self action:@selector(prePhotoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:preButton];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -92,6 +99,15 @@
     }];
     picker.maxCount = 9;
     [picker show];
+}
+
+- (void)prePhotoButtonClicked:(id)sender
+{
+    PhotoNetworkItem* item1 = [[PhotoNetworkItem alloc] init];
+    item1.url = @"https://support.apple.com/content/dam/edam/applecare/images/en_US/ipad/ipad/featured-promo-ipad-photos_2x.jpg";
+    PhotoNetworkItem* item2 = [[PhotoNetworkItem alloc] init];
+    item2.url = @"https://support.apple.com/content/dam/edam/applecare/images/en_US/ipad/featured_content_appleid-4up_icon_2x.png";
+    [CYPhotoPicker showFromeController:self imageList:@[item1, item2] currentIndex:0];
 }
 
 - (void)savePhoto:(UIImage*)image

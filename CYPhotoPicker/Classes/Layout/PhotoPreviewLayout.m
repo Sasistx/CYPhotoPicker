@@ -18,11 +18,7 @@
 #pragma mark - Init
 - (void)commonInit
 {
-//    _columnCount = kColumnCount;
-//    _itemWidth = ([UIScreen mainScreen].bounds.size.width / _columnCount) - 2;
-//    _sectionInset = UIEdgeInsetsZero;
     _itemAttributes = [NSMutableArray arrayWithCapacity:0];
-//    _columnHeights = [NSMutableArray arrayWithCapacity:0];
 }
 
 - (instancetype)init
