@@ -44,7 +44,7 @@
 - (void)shouldUpdateItemCellWithObject:(id)obj
 {
     [super shouldUpdateItemCellWithObject:obj];
-    PH_WEAK_VAR(self);
+    @weakify(self);
     __block PhotoListItem *item = obj;
     if (item.thumbImage) {
         self.thumbImageView.image = item.thumbImage;
@@ -52,10 +52,10 @@
         if (item.asset) {
             
             [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(150, 150) asset:item.asset allowNetwork:YES allowCache:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
-                
-                PhotoListItem *currentItem = _self.item;
+                @strongify(self);
+                PhotoListItem *currentItem = self.item;
                 if ([item.asset.localIdentifier isEqualToString:currentItem.asset.localIdentifier]) {
-                    _self.thumbImageView.image = resultImage;
+                    self.thumbImageView.image = resultImage;
                 }
             }];
         }

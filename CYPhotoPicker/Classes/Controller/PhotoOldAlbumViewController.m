@@ -211,7 +211,7 @@
 
 - (void)libraryChanged:(NSNotification*)note
 {
-    PH_WEAK_VAR(self);
+    @weakify(self);
     NSLog(@"libraryChanged:%@", note.userInfo);
     NSSet* AssetsKey = note.userInfo[@"ALAssetLibraryUpdatedAssetsKey"];
     NSLog(@"url:%@", AssetsKey);
@@ -219,8 +219,9 @@
         
         [AssetsKey enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
             
+            @strongify(self);
             NSURL* urlStr = obj;
-            [_self.library assetForURL:urlStr resultBlock:^(ALAsset *asset) {
+            [self.library assetForURL:urlStr resultBlock:^(ALAsset *asset) {
                 
                 NSLog(@"date:%@", [asset valueForProperty:ALAssetPropertyDate]);
             } failureBlock:^(NSError *error) {

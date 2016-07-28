@@ -55,11 +55,12 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
     
-    PH_WEAK_VAR(self);
+    @weakify(self);
     if (_item) {
         [PhotoUtility loadChunyuPhoto:_item success:^(UIImage *image) {
             
-            [_self createZoomScrollViewWithImage:image];
+            @strongify(self);
+            [self createZoomScrollViewWithImage:image];
         } failure:^(NSError *error) {
             
             
@@ -68,7 +69,8 @@
     }else {
         
         [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:_phItem.asset allowNetwork:YES  multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
-            [_self createZoomScrollViewWithImage:resultImage];
+            @strongify(self);
+            [self createZoomScrollViewWithImage:resultImage];
         }];
     }
     

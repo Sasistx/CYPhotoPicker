@@ -49,14 +49,14 @@
 {
     __block id innerAsset = _asset;
     
-    PH_WEAK_VAR(self);
-    
+    @weakify(self);
     [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:_asset completion:^(UIImage *image) {
         
-        if ([innerAsset isEqual:_self.asset]) {
+        @strongify(self);
+        if ([innerAsset isEqual:self.asset]) {
             
-            [_self hideLoadingView];
-            [_self setZoomImageView:image];
+            [self hideLoadingView];
+            [self setZoomImageView:image];
         }
     }];
 }
@@ -93,31 +93,32 @@
 
 - (void)getZoomImage
 {
-    PH_WEAK_VAR(self);
-    
     __block id innerAsset = _asset;
     
     if (PH_IOSOVER(8)) {
         
         [self showLoadingView];
-        
+        @weakify(self);
         PHAsset* phAsset = ((PhotoListItem*)_asset).asset;
         [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(150, 150) asset:phAsset allowNetwork:YES allowCache:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
         
-            if ([innerAsset isEqual:_self.asset]) {
+            @strongify(self);
+            if ([innerAsset isEqual:self.asset]) {
                 
-                [_self showThumbImage:resultImage];
+                [self showThumbImage:resultImage];
             }
         }];
     }else {
     
         [self showLoadingView];
+        @weakify(self);
         [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:_asset completion:^(UIImage *image) {
             
-            if ([innerAsset isEqual:_self.asset]) {
+            @strongify(self);
+            if ([innerAsset isEqual:self.asset]) {
                 
-                [_self hideLoadingView];
-                [_self setZoomImageView:image];
+                [self hideLoadingView];
+                [self setZoomImageView:image];
             }
         }];
     }

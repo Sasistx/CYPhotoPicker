@@ -138,29 +138,29 @@
         [_dataItems removeAllObjects];
     }
     
-    PH_WEAK_VAR(self);
-    
+    @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         _isDataLoading = YES;
         
-        [_self.assetGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+        [self.assetGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
             
             if(result == nil) {
                 return;
             }
+            @strongify(self);
             PhotoOldListItem *item = [[PhotoOldListItem alloc] init];
             item.url = result.defaultRepresentation.url;
-            item.isSelected = [_self itemHasBeenSelected: item];
+            item.isSelected = [self itemHasBeenSelected: item];
             item.delegate = self;
-            [_self.dataItems addObject:item];
+            [self.dataItems addObject:item];
         }];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             
             _isDataLoading = NO;
-            
-            [_self didFinishLoadItem];
+            @strongify(self);
+            [self didFinishLoadItem];
         });
     });
 }
@@ -252,15 +252,16 @@
 {
     if ([PhotoPickerManager sharedManager].selectedArray.count > 0) {
         
-        PH_WEAK_VAR(self);
+        @weakify(self);
         PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
         controller.assets = [[PhotoPickerManager sharedManager].selectedArray copy];
         controller.dissmissBlock = _dissmissBlock;
         controller.maxCount = _imageMaxCount;
         [controller setPreviewBackBlock:^{
             
-            [_self.collectionView reloadData];
-            [_self updatePreviewButton];
+            @strongify(self);
+            [self.collectionView reloadData];
+            [self updatePreviewButton];
         }];
         [self.navigationController pushViewController:controller animated:YES];
     }
@@ -310,8 +311,6 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    PH_WEAK_VAR(self);
-    
     if (_isDataLoading) {
         
         //防止数据正在加载中，点击之后崩溃
@@ -319,15 +318,17 @@
     }
     
     if (_showPreview) {
+        
+        @weakify(self);
         PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
         controller.assets = _dataItems;
         controller.dissmissBlock = _dissmissBlock;
         controller.indexPath = indexPath;
         controller.maxCount = _imageMaxCount;
         [controller setPreviewBackBlock:^{
-            
-            [_self.collectionView reloadData];
-            [_self updatePreviewButton];
+            @strongify(self);
+            [self.collectionView reloadData];
+            [self updatePreviewButton];
         }];
         [self.navigationController pushViewController:controller animated:YES];
     }else {
@@ -338,8 +339,6 @@
 
 - (void)didTapImageInCell:(UICollectionViewCell *)cell object:(id)obj
 {
-    PH_WEAK_VAR(self);
-    
     NSMutableArray* selectArray = [PhotoPickerManager sharedManager].selectedArray;
     
     __block NSInteger row = -1;
@@ -351,13 +350,15 @@
             return;
         }
         
-        row = [_self.dataItems indexOfObject:selectItem];
+        row = [self.dataItems indexOfObject:selectItem];
     }
     NSIndexPath* indexPath = [_collectionView indexPathForCell:cell];
     
+    @weakify(self);
     if ([self updateSelectedImageListWithItem:obj]) {
         [self.collectionView performBatchUpdates:^{
             
+            @strongify(self);
             if (_isOne && row >= 0) {
                 
                 NSMutableArray* indexArray = [NSMutableArray array];
@@ -367,9 +368,9 @@
                 }
                 NSIndexPath* path = [NSIndexPath indexPathForRow:row inSection:0];
                 [indexArray addObject:path];
-                [_self.collectionView reloadItemsAtIndexPaths:indexArray];
+                [self.collectionView reloadItemsAtIndexPaths:indexArray];
             }else {
-                [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+                [self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
             }
         } completion: NULL];
     }

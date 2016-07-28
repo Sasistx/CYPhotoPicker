@@ -9,9 +9,6 @@
 #ifndef CYPhotoPickerDefines_h
 #define CYPhotoPickerDefines_h
 
-#define PH_WEAK_VAR(v) \
-__weak typeof(v) _##v = v
-
 #define PH_RGBCOLOR_HEX(hexColor) [UIColor colorWithRed: (((hexColor >> 16) & 0xFF))/255.0f         \
 green: (((hexColor >> 8) & 0xFF))/255.0f          \
 blue: ((hexColor & 0xFF))/255.0f                 \
@@ -23,6 +20,38 @@ alpha: 1]
 #define kPHSendBtnBorderColor [UIColor clearColor]
 
 #define kCYAlbumItemCellHeight 60
+
+#ifndef weakify
+#if DEBUG
+#if __has_feature(objc_arc)
+#define weakify(object) autoreleasepool{} __weak __typeof__(object) weak##_##object = object;
+#else
+#define weakify(object) autoreleasepool{} __block __typeof__(object) block##_##object = object;
+#endif
+#else
+#if __has_feature(objc_arc)
+#define weakify(object) try{} @finally{} {} __weak __typeof__(object) weak##_##object = object;
+#else
+#define weakify(object) try{} @finally{} {} __block __typeof__(object) block##_##object = object;
+#endif
+#endif
+#endif
+
+#ifndef strongify
+#if DEBUG
+#if __has_feature(objc_arc)
+#define strongify(object) autoreleasepool{} __typeof__(object) object = weak##_##object;
+#else
+#define strongify(object) autoreleasepool{} __typeof__(object) object = block##_##object;
+#endif
+#else
+#if __has_feature(objc_arc)
+#define strongify(object) try{} @finally{} __typeof__(object) object = weak##_##object;
+#else
+#define strongify(object) try{} @finally{} __typeof__(object) object = block##_##object;
+#endif
+#endif
+#endif
 
 #import <Photos/Photos.h>
 #import <AssetsLibrary/ALAssetsLibrary.h>

@@ -154,24 +154,28 @@ static NSInteger kDefaultMax = 9;
     else if (_pickerOption == (PhotoPickerOptionAlbum | PhotoPickerOptionCamera)) {
 
         if (PH_IOSOVER(8)) {
-            PH_WEAK_VAR(self);
+            @weakify(self);
             UIAlertController* actionSheet = [UIAlertController alertControllerWithTitle:nil
                                                                                  message:nil
                                                                           preferredStyle:UIAlertControllerStyleActionSheet];
             UIAlertAction* albumAction = [UIAlertAction actionWithTitle:kAlbumTitle
                                                                   style:UIAlertActionStyleDefault
                                                                 handler:^(UIAlertAction* action) {
-                                                                    [_self showAlbum];
+                                                                    
+                                                                    @strongify(self);
+                                                                    [self showAlbum];
                                                                 }];
             UIAlertAction* cameraAction = [UIAlertAction actionWithTitle:kCameraTitle
                                                                    style:UIAlertActionStyleDefault
                                                                  handler:^(UIAlertAction* action) {
 
-                                                                     [_self showCamera];
+                                                                     @strongify(self);
+                                                                     [self showCamera];
                                                                  }];
             UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:kCancelTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction* _Nonnull action) {
 
-                [_self showCancel];
+                @strongify(self);
+                [self showCancel];
             }];
             [actionSheet addAction:albumAction];
             [actionSheet addAction:cameraAction];

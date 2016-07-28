@@ -20,9 +20,9 @@
             // 如果是相册的照片
             ALAssetsLibrary  *lib = [[ALAssetsLibrary alloc] init];
             NSURL *url = ((PhotoOldListItem*)item).url;
-            PH_WEAK_VAR(self);
-            PH_WEAK_VAR(lib);
-            PH_WEAK_VAR(url);
+            @weakify(self);
+            @weakify(lib);
+            @weakify(url);
             [lib assetForURL:url resultBlock:^(ALAsset *asset) {
                 //在这里使用asset来获取图片
                 if (asset) {
@@ -39,8 +39,10 @@
                     }
                 } else {
                     // 在iOS 8.1中,[library assetForUrl] Photo Streams 返回是nil. 改用下面这种方式转化
-                    
-                    [_self getImageWithAssessLibrary:_lib url:_url onCompletion:^(UIImage *image) {
+                    @strongify(self);
+                    @strongify(lib);
+                    @strongify(url);
+                    [self getImageWithAssessLibrary:lib url:url onCompletion:^(UIImage *image) {
                         if (image) {
                             success(image);
                         }
@@ -130,6 +132,21 @@
     UIImage *resImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return resImage;
+}
+
++ (BOOL)isLocalUrlString:(NSString*)urlStr
+{
+    if ([urlStr isKindOfClass:[NSString class]]) {
+        
+        if ([urlStr hasPrefix:@"file:"] || [urlStr hasPrefix:@"/"]) {
+         
+            return YES;
+        }else {
+            return NO;
+        }
+    }else {
+        return NO;
+    }
 }
 
 @end

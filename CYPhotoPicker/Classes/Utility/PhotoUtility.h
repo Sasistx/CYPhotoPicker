@@ -22,4 +22,6 @@ typedef void (^PhotoFailureBlock)(NSError *error);
 
 + (UIImage*)combineSameSizeImageWithContextImage:(UIImage*)contextImage headerImage:(UIImage*)headerImage;
 
++ (BOOL)isLocalUrlString:(NSString*)urlStr;
+
 @end

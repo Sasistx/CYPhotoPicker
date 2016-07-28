@@ -155,7 +155,7 @@
         [_dataItems removeAllObjects];
     }
     
-    PH_WEAK_VAR(self);
+    @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         __block NSMutableArray *dataItems = [NSMutableArray array];
@@ -180,9 +180,10 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            [_self.dataItems addObjectsFromArray:dataItems];
+            @strongify(self);
+            [self.dataItems addObjectsFromArray:dataItems];
             
-            [_self didFinishLoadItem];
+            [self didFinishLoadItem];
         });
     });
 }
@@ -275,7 +276,6 @@
 - (void)onSendBtnPressed:(UIButton*)sender
 {
     if (_dissmissBlock) {
-        PH_WEAK_VAR(self);
         
         NSArray* array = [[NSArray alloc] initWithArray:[PhotoPickerManager sharedManager].selectedArray];
         
@@ -284,7 +284,7 @@
                 self.dissmissBlock(array);
             }
             [[PhotoPickerManager sharedManager] clearSelectedArray];
-            [_self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
         }else {
             return;
         }
@@ -297,16 +297,16 @@
 
 - (void)preButtonClicked:(id)sender
 {
-    
-    PH_WEAK_VAR(self);
+    @weakify(self);
     PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
     controller.assets = [[PhotoPickerManager sharedManager].selectedArray copy];
     controller.dissmissBlock = _dissmissBlock;
     controller.maxCount = _imageMaxCount;
     [controller setPreviewBackBlock:^{
         
-        [_self.collectionView reloadData];
-        [_self updatePreviewButton];
+        @strongify(self);
+        [self.collectionView reloadData];
+        [self updatePreviewButton];
     }];
     [self.navigationController pushViewController:controller animated:YES];
 }
@@ -342,7 +342,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    PH_WEAK_VAR(self);
+    @weakify(self);
     if (_showPreview) {
         PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
         controller.assets = _dataItems;
@@ -351,8 +351,9 @@
         controller.maxCount = _imageMaxCount;
         [controller setPreviewBackBlock:^{
             
-            [_self.collectionView reloadData];
-            [_self updatePreviewButton];
+            @strongify(self);
+            [self.collectionView reloadData];
+            [self updatePreviewButton];
         }];
         [self.navigationController pushViewController:controller animated:YES];
     }else {
@@ -363,12 +364,12 @@
 
 - (void)didTapImageInCell:(UICollectionViewCell *)cell object:(id)obj
 {
-    PH_WEAK_VAR(self);
-    
+    @weakify(self);
     NSIndexPath* indexPath = [_collectionView indexPathForCell:cell];
     __block PhotoListItem* item = obj;
     [[PhotoPickerManager sharedManager] checkOriginalImageExistWithAsset:item.asset completion:^(UIImage *image, NSDictionary *info, BOOL exist) {
         
+        @strongify(self);
         if (exist) {
             
             //存在选中
@@ -382,13 +383,13 @@
                     
                     return ;
                 }
-                row = [_self.dataItems indexOfObject:item];
+                row = [self.dataItems indexOfObject:item];
             }
             
-            if ([_self updateSelectedImageListWithItem:item]) {
-                [_self.collectionView performBatchUpdates:^{
+            if ([self updateSelectedImageListWithItem:item]) {
+                [self.collectionView performBatchUpdates:^{
                     
-                    if (_self.isOne && row >= 0) {
+                    if (self.isOne && row >= 0) {
                         
                         NSMutableArray* indexArray = [NSMutableArray array];
                         if (indexPath) {
@@ -397,33 +398,34 @@
                         }
                         NSIndexPath* path = [NSIndexPath indexPathForRow:row inSection:0];
                         [indexArray addObject:path];
-                        [_self.collectionView reloadItemsAtIndexPaths:indexArray];
+                        [self.collectionView reloadItemsAtIndexPaths:indexArray];
                     }else {
-                        [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+                        [self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
                     }
                     
                 } completion: NULL];
             }
             
-            [_self updatePreviewButton];
+            [self updatePreviewButton];
         }else {
             
             //不存在下载
             item.isLoading = YES;
-            [_self.collectionView performBatchUpdates:^{
+            [self.collectionView performBatchUpdates:^{
                 
-                [_self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
+                [self.collectionView reloadItemsAtIndexPaths: @[indexPath]];
             } completion: NULL];
-            [_self downloadImageWithAsset:item.asset];
+            [self downloadImageWithAsset:item.asset];
         }
     }];
 }
 
 - (void)downloadImageWithAsset:(PHAsset*)asset
 {
-    PH_WEAK_VAR(self);
+    @weakify(self);
     [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:asset allowNetwork:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
        
+        @strongify(self);
         if (!resultImage) {
             
             [SVProgressHUD showErrorWithStatus:@"图片下载失败"];
@@ -431,18 +433,20 @@
             
         }
         
-        [_self updateCollectionItemWithPHAsset:asset];
+        [self updateCollectionItemWithPHAsset:asset];
     }];
 }
 
 - (void)updateCollectionItemWithPHAsset:(PHAsset*)asset
 {
-    PH_WEAK_VAR(self);
+    
+    @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
        
         __block NSInteger row = -1;
         
-        [_self.dataItems enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        @strongify(self);
+        [self.dataItems enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             PhotoListItem* item = obj;
             if ([item.asset.localIdentifier isEqualToString:asset.localIdentifier]) {
@@ -453,12 +457,15 @@
             }
         }];
         
+        @weakify(self);
         dispatch_async(dispatch_get_main_queue(), ^{
             
+            @strongify(self);
             if (row >= 0) {
-                [_self.collectionView performBatchUpdates:^{
-                    
-                    [_self.collectionView reloadItemsAtIndexPaths: @[[NSIndexPath indexPathForRow:row inSection:0]]];
+                @weakify(self);
+                [self.collectionView performBatchUpdates:^{
+                    @strongify(self);
+                    [self.collectionView reloadItemsAtIndexPaths: @[[NSIndexPath indexPathForRow:row inSection:0]]];
                 } completion: NULL];
             }
         });

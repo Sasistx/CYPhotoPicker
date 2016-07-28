@@ -38,7 +38,6 @@
 
 - (void)phCellShouldUpdateWithObject:(id)obj
 {
-    PH_WEAK_VAR(self);
     self.item = obj;
     
     __block PhotoAlbumItem* item = obj;
@@ -48,18 +47,21 @@
     
     if (item.thumbImage) {
         
-        [_self.imageView setImage:item.thumbImage];
+        [self.imageView setImage:item.thumbImage];
     }else {
+        
+        @weakify(self);
         [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(200, 200) asset:asset allowNetwork:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
             
-            PhotoAlbumItem* currentItem = _self.item;
+            @strongify(self);
+            PhotoAlbumItem* currentItem = self.item;
             
             if (currentItem.assetsFetchResult > 0) {
                 
                 PHAsset* currentAsset = currentItem.assetsFetchResult[0];
                 if ([asset.localIdentifier isEqualToString:currentAsset.localIdentifier]) {
                     
-                    [_self.thumbImageView setImage:resultImage];
+                    [self.thumbImageView setImage:resultImage];
                 }
             }
 

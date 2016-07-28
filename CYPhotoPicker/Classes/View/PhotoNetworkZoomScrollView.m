@@ -9,9 +9,11 @@
 #import "PhotoNetworkZoomScrollView.h"
 #import "UIImageView+WebCache.h"
 #import "CYPhotoPickerDefines.h"
+#import "PhotoUtility.h"
 
 @interface PhotoNetworkZoomScrollView () <UIScrollViewDelegate>
 @property (nonatomic, strong) UIImageView* imageView;
+@property (nonatomic, strong) UIButton* retryButton;
 @end
 
 @implementation PhotoNetworkZoomScrollView
@@ -44,35 +46,39 @@
     }
     
     _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+    [_imageView setBackgroundColor:[UIColor redColor]];
+    _retryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_retryButton setTitle:@"点击重试" forState:UIControlStateNormal];
+    [_retryButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [_retryButton sizeToFit];
+    [_retryButton setCenter:self.center];
+    [_retryButton addTarget:self action:@selector(reloadNetworkImage:) forControlEvents:UIControlEventTouchUpInside];
+    [_retryButton setHidden:YES];
     
     if (_item.originImage) {
         
         [self updateZoomImage:_item.originImage];
     }else {
     
-        PH_WEAK_VAR(self);
-        [_imageView setShowActivityIndicatorView:YES];
-        [_imageView sd_setImageWithURL:[NSURL URLWithString:image.url] placeholderImage:nil options:SDWebImageRetryFailed | SDWebImageAvoidAutoSetImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        if ([PhotoUtility isLocalUrlString:image.url]) {
             
-            if (image) {
+            UIImage* localImage = [[UIImage alloc] initWithContentsOfFile:image.url];
+            if (localImage) {
                 
-                [_self updateZoomImage:image];
-            }else {
-                
+                [self updateZoomImage:localImage];
             }
-            
-        }];
+        }else {
+            [self setImageWithUrlString:image.url];
+        }
+        
     }
     [self addSubview:_imageView];
     
-//    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
-//                                                                                       action:@selector(handleDoubleTap:)];
-//    [doubleTapGesture setNumberOfTapsRequired:2];
-//    [_imageView addGestureRecognizer:doubleTapGesture];
+    [self addSubview:_retryButton];
     
     UITapGestureRecognizer* oneTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleOneTap:)];
     [oneTapGesture setNumberOfTapsRequired:1];
-    [_imageView addGestureRecognizer:oneTapGesture];
+    [self addGestureRecognizer:oneTapGesture];
     
     [self setMinimumZoomScale:0.7];
     [self setMaximumZoomScale:1.5];
@@ -100,10 +106,8 @@
     }
     _imageView.userInteractionEnabled = YES;
     [_imageView setFrame:CGRectMake(0, 0, imageViewWidth, imageViewHeight)];
-//    [_imageView setCenter:self.center];
+    [_imageView setCenter:self.center];
     [_imageView setImage:image];
-    CGRect rect = [self zoomRectForScale:1 withCenter:self.center];
-    [self zoomToRect:rect animated:YES];
 }
 
 #pragma mark - Zoom methods
@@ -166,6 +170,46 @@
         
         [_imageView removeFromSuperview];
         _imageView = nil;
+    }
+    
+    if (_retryButton) {
+        
+        [_retryButton removeFromSuperview];
+        _retryButton = nil;
+    }
+}
+
+#pragma mark - set image with url
+
+- (void)setImageWithUrlString:(NSString*)urlStr
+{
+    @weakify(self);
+    [_imageView setShowActivityIndicatorView:YES];
+    [_imageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:nil options:SDWebImageRetryFailed | SDWebImageAvoidAutoSetImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        
+        @strongify(self);
+        if (image) {
+            
+            [_retryButton setHidden:YES];
+            [self updateZoomImage:image];
+        }else {
+            
+            [_retryButton setHidden:NO];
+        }
+        
+    }];
+}
+
+#pragma mark -
+#pragma mark - button event
+
+- (void)reloadNetworkImage:(id)sender
+{
+    if (_item && _imageView) {
+        
+        UIButton* button = sender;
+        [button setHidden:YES];
+        [self setImageWithUrlString:_item.url];
     }
 }
 

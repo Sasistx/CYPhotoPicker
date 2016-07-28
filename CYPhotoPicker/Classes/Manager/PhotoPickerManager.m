@@ -131,14 +131,15 @@ static PhotoPickerManager* sharedManager = nil;
 
 - (void)asyncGetAllSelectedOriginImages:(void (^)(NSArray* images))completion
 {
-    PH_WEAK_VAR(self);
+    @weakify(self);
     __block NSMutableArray* imageAssets = [self.selectedArray copy];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
        
         __block NSMutableArray* images = [NSMutableArray array];
         [imageAssets enumerateObjectsUsingBlock:^(PHAsset* asset, NSUInteger idx, BOOL * _Nonnull stop) {
            
-            [_self syncTumbnailWithSize:PHImageManagerMaximumSize asset:asset  completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+            @strongify(self);
+            [self syncTumbnailWithSize:PHImageManagerMaximumSize asset:asset  completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
                 
                 [images addObject:resultImage];
             }];
@@ -201,12 +202,12 @@ static PhotoPickerManager* sharedManager = nil;
 {
     if (PH_IOSOVER(8)) {
         
-        PH_WEAK_VAR(self);
+        @weakify(self);
         PHAssetCollection* albumCollection = [self checkCollectionWithAlbumName:album];
         
         if (albumCollection) {
             
-            [_self saveImage:image toCollection:albumCollection completion:completion];
+            [self saveImage:image toCollection:albumCollection completion:completion];
         }else {
         
             __block PHAssetCollectionChangeRequest* request = nil;
@@ -226,9 +227,9 @@ static PhotoPickerManager* sharedManager = nil;
                         
                     } completionHandler:^(BOOL success, NSError * _Nullable error) {
                         
-                        
+                        @strongify(self);
                         if (result.count > 0) {
-                            [_self saveImage:image toCollection:result.firstObject completion:completion];
+                            [self saveImage:image toCollection:result.firstObject completion:completion];
                         }
                     }];
                 

@@ -10,7 +10,7 @@
 #import "CYPhotoPicker.h"
 #import "PhotoBaseListItem.h"
 
-@interface RootViewController () 
+@interface RootViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) CYPhotoPicker* picker;
 @property (nonatomic, strong) NSArray* temp;
 @property (nonatomic, assign) NSInteger count;
@@ -19,42 +19,13 @@
 @implementation RootViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"弹出相册" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [button setFrame:CGRectMake(100, 100, 100, 30)];
-    [button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:button];
     
-    UIButton* testbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [testbutton setTitle:@"测试数组" forState:UIControlStateNormal];
-    [testbutton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [testbutton setFrame:CGRectMake(100, 300, 100, 30)];
-    [testbutton addTarget:self action:@selector(testbuttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:testbutton];
-    
-    UIButton* albumButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [albumButton setTitle:@"创建相册" forState:UIControlStateNormal];
-    [albumButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [albumButton setFrame:CGRectMake(100, 400, 100, 30)];
-    [albumButton addTarget:self action:@selector(albumButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:albumButton];
-    
-    UIButton* addPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [addPhotoButton setTitle:@"保存200次照片" forState:UIControlStateNormal];
-    [addPhotoButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [addPhotoButton setFrame:CGRectMake(100, 500, 200, 30)];
-    [addPhotoButton addTarget:self action:@selector(addPhotoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:addPhotoButton];
-    
-    UIButton* preButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [preButton setTitle:@"预览网络图片" forState:UIControlStateNormal];
-    [preButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [preButton setFrame:CGRectMake(100, 600, 200, 30)];
-    [preButton addTarget:self action:@selector(prePhotoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:preButton];
+    UITableView* tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    [self.view addSubview:tableView];
+    tableView.delegate = self;
+    tableView.dataSource = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,18 +33,128 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 90;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 6;
+}
+
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString* cellid = @"cellid";
+    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellid];
+    if (!cell) {
+        
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellid];
+    }
+    
+    switch (indexPath.row) {
+        case 0:
+            cell.textLabel.text = @"弹出相册";
+            break;
+        case 1:
+            cell.textLabel.text = @"测试数组";
+            break;
+        case 2:
+            cell.textLabel.text = @"创建相册";
+            break;
+        case 3:
+            cell.textLabel.text = @"保存照片200次";
+            break;
+        case 4:
+            cell.textLabel.text = @"预览网络图片";
+            break;
+        case 5:
+            cell.textLabel.text = @"保存image到沙盒";
+            break;
+        default:
+            break;
+    }
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    switch (indexPath.row) {
+        case 0:
+        {
+            CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera showPreview:YES compeletionBlock:^(NSArray *imageAssets) {
+                
+                [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:imageAssets[0] completion:^(UIImage *image) {
+                    
+                    
+                }];
+            }];
+            picker.maxCount = 9;
+            picker.sendButtonTitle = @"确定";
+            [picker show];
+        }
+            
+            break;
+        case 1:
+        {
+            NSLog(@"=----%@", _temp);
+        }
+            break;
+        case 2:
+        {
+            [[PhotoPickerManager sharedManager] saveImage:[UIImage imageNamed:@"0.jpg"] toAlbum:@"春雨" completion:^(NSError *error) {
+                
+            }];
+        }
+            break;
+        case 3:
+        {
+            CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera showPreview:YES compeletionBlock:^(NSArray *imageAssets) {
+                
+                //        PhotoBaseListItem* temp = imageAssets[0];
+                //        [_self savePhoto:temp.originImage];
+            }];
+            picker.maxCount = 9;
+            [picker show];
+        }
+            break;
+        case 4:
+        {
+            PhotoNetworkItem* item1 = [[PhotoNetworkItem alloc] init];
+            item1.url = @"https://support.apple.com/content/dam/edam/applecare/images/en_US/ipad/ipad/featured-promo-ipad-photos_2x.jpg";
+            PhotoNetworkItem* item2 = [[PhotoNetworkItem alloc] init];
+            item2.url = @"https://support.apple.com/content/dam/edam/applecare/images/en_US/ipad/featured_content_appleid-4up_icon_2x.png";
+            PhotoNetworkItem* item3 = [[PhotoNetworkItem alloc] init];
+            item3.url = @"https://support.apple.com/content/da/edam/applecare/images/en_US/ipad/featured_content_appleid-4up_icon_2x.png";
+            PhotoNetworkItem* item4 = [[PhotoNetworkItem alloc] init];
+            item4.url = [NSTemporaryDirectory() stringByAppendingPathComponent:@"test"];
+            [CYPhotoPicker showFromeController:self imageList:@[item1, item2, item3, item4] currentIndex:1];
+        }
+            break;
+        case 5:
+        {
+            UIImage* image = [UIImage imageNamed:@"ph_photo_selected_arrow"];
+            NSFileManager* manager = [NSFileManager defaultManager];
+            NSString* tempPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"test"];
+            if (![manager fileExistsAtPath:tempPath]) {
+                
+                NSData* data = UIImagePNGRepresentation(image);
+                [data writeToFile:tempPath atomically:YES];
+            }
+            
+        }
+            break;
+        default:
+            break;
+    }
+}
+
 - (void)buttonClicked:(id)sender
 {
-    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera showPreview:YES compeletionBlock:^(NSArray *imageAssets) {
-        
-        [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:imageAssets[0] completion:^(UIImage *image) {
-           
-            
-        }];
-    }];
-    picker.maxCount = 9;
-    picker.sendButtonTitle = @"确定";
-    [picker show];
+
 }
 
 - (void)testbuttonClicked:(id)sender
@@ -83,47 +164,34 @@
 
 - (void)albumButtonClicked:(id)sender
 {
-    [[PhotoPickerManager sharedManager] saveImage:[UIImage imageNamed:@"0.jpg"] toAlbum:@"春雨" completion:^(NSError *error) {
-        
-    }];
+
 }
 
 - (void)addPhotoButtonClicked:(id)sender
 {
-    PH_WEAK_VAR(self);
     
-    CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera showPreview:YES compeletionBlock:^(NSArray *imageAssets) {
-        
-//        PhotoBaseListItem* temp = imageAssets[0];
-//        [_self savePhoto:temp.originImage];
-    }];
-    picker.maxCount = 9;
-    [picker show];
+
 }
 
 - (void)prePhotoButtonClicked:(id)sender
 {
-    PhotoNetworkItem* item1 = [[PhotoNetworkItem alloc] init];
-    item1.url = @"https://support.apple.com/content/dam/edam/applecare/images/en_US/ipad/ipad/featured-promo-ipad-photos_2x.jpg";
-    PhotoNetworkItem* item2 = [[PhotoNetworkItem alloc] init];
-    item2.url = @"https://support.apple.com/content/dam/edam/applecare/images/en_US/ipad/featured_content_appleid-4up_icon_2x.png";
-    [CYPhotoPicker showFromeController:self imageList:@[item1, item2] currentIndex:0];
+
 }
 
 - (void)savePhoto:(UIImage*)image
 {
-    PH_WEAK_VAR(self);
-    
+    @weakify(self);
     [[PhotoPickerManager sharedManager] saveImage:image toAlbum:@"春雨" completion:^(NSError* error){
         
-        _self.count ++;
+        @strongify(self);
+        self.count ++;
         
-        NSLog(@"%-----zi", _self.count);
-        if (_self.count > 1200) {
+        NSLog(@"%-----zi", self.count);
+        if (self.count > 1200) {
             
             [SVProgressHUD showSuccessWithStatus:@"保存完成"];
         }else {
-            [_self savePhoto:image];
+            [self savePhoto:image];
         }
     }];
 }
