@@ -46,7 +46,6 @@
     }
     
     _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-    [_imageView setBackgroundColor:[UIColor redColor]];
     _retryButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_retryButton setTitle:@"点击重试" forState:UIControlStateNormal];
     [_retryButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
