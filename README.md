@@ -21,8 +21,6 @@ iOS 相册预览，图片预览控件。提供方便的从相册，或读取本�
             picker.maxCount = 9;
             picker.sendButtonTitle = @"确定";
             [picker show];
-
-###CYPhotoPicker.h
 ```
 
 初始化本地、网络图片预览功能
