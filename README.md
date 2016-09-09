@@ -4,7 +4,37 @@ CYPhotoPicker
 iOS 相册预览，图片预览控件。提供方便的从相册，或读取本地，远程图片功能。同时支持在iOS8及以上系统，从用户iCloud中读取照片功能。
 
 ##使用方式：
+
+###引入相关头文件CYPhotoPicker.h  PhotoConfigureManager.h
+
+初始化相册，相机功能:
+```objc
+            CYPhotoPicker* picker = [CYPhotoPicker showFromController:self option:PhotoPickerOptionAlbum | PhotoPickerOptionCamera showPreview:YES compeletionBlock:^(NSArray *imageAssets) {
+                
+                [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:imageAssets[0] completion:^(UIImage *image) {
+                    
+                    
+                }];
+            }];
+            picker.maxCount = 9;
+            picker.sendButtonTitle = @"确定";
+            [picker show];
+
 ###CYPhotoPicker.h
+```
+
+初始化本地、网络图片预览功能
+```objc
+            PhotoNetworkItem* item1 = [[PhotoNetworkItem alloc] init];
+            item1.url = @"https://support.apple.com/content/dam/edam/applecare/images/en_US/ipad/ipad/featured-promo-ipad-photos_2x.jpg";
+            PhotoNetworkItem* item2 = [[PhotoNetworkItem alloc] init];
+            item2.url = @"https://support.apple.com/content/dam/edam/applecare/images/en_US/ipad/featured_content_appleid-4up_icon_2x.png";
+            PhotoNetworkItem* item3 = [[PhotoNetworkItem alloc] init];
+            item3.url = @"https://support.apple.com/content/da/edam/applecare/images/en_US/ipad/featured_content_appleid-4up_icon_2x.png";
+            PhotoNetworkItem* item4 = [[PhotoNetworkItem alloc] init];
+            item4.url = [NSTemporaryDirectory() stringByAppendingPathComponent:@"test"];
+            [CYPhotoPicker showFromeController:self imageList:@[item1, item2, item3, item4] currentIndex:1];
+```
 
 ```objc
 @interface CYPhotoPicker : NSObject
