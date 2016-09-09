@@ -94,3 +94,31 @@ iOS 相册预览，图片预览控件。提供方便的从相册，或读取本�
 @end
 ```
 
+###PhotoConfigureManager.h
+```objc
+@interface PhotoConfigureManager : NSObject
+
+@property (nonatomic, strong) UIColor* buttonBackgroundColor; //default is white
+@property (nonatomic, strong) UIColor* sendButtontextColor; //default is black
+
+@property (nonatomic, assign) PhotoNaviButtonStyle naviStyle;
+@property (nonatomic, strong) CYPhotoPicker* currentPicker;
+
+@property (nonatomic, copy) NSString* sendButtonTitle;
+
+/**
+ *  CYPhotoPicker预设方法，必须在Appdelegate中进行预设
+ *
+ *  @param buttonBackgourndColor 按钮背景色
+ *  @param buttonTextColor       文字颜色
+ */
++ (void)preConfigureWithButtonBackgourndColor:(UIColor*)buttonBackgourndColor buttonTextColor:(UIColor*)buttonTextColor;
+
++ (PhotoConfigureManager*)sharedManager;
+
+- (void)clearColor;
+
+@end
+```
+
+
