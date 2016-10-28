@@ -9,6 +9,7 @@
 #import "RootViewController.h"
 #import "CYPhotoPicker.h"
 #import "PhotoBaseListItem.h"
+#import "PhotoUtility.h"
 
 @interface RootViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) CYPhotoPicker* picker;
@@ -188,8 +189,7 @@
         
         NSLog(@"%-----zi", self.count);
         if (self.count > 1200) {
-            
-            [SVProgressHUD showSuccessWithStatus:@"保存完成"];
+            [PhotoUtility showAlertWithMsg:@"保存完成" controller:self];
         }else {
             [self savePhoto:image];
         }

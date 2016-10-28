@@ -486,6 +486,7 @@
 				TargetAttributes = {
 					F39BA5541C3E4DF100C8A0D7 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = YRMH84M93J;
 					};
 					F39BA5701C3E4DF100C8A0D7 = {
 						CreatedOnToolsVersion = 7.2;
@@ -768,6 +769,7 @@
 			baseConfigurationReference = 142E06ADC75D45A83A57A086 /* Pods-CYPhotoPicker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = YRMH84M93J;
 				INFOPLIST_FILE = CYPhotoPicker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -781,6 +783,7 @@
 			baseConfigurationReference = 9409FEC95394D0B9099878BB /* Pods-CYPhotoPicker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = YRMH84M93J;
 				INFOPLIST_FILE = CYPhotoPicker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

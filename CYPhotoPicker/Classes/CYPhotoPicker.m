@@ -11,6 +11,7 @@
 #import "PhotoListItem.h"
 #import "PhotoOldAlbumViewController.h"
 #import "PhotoPreviewNetworkImageController.h"
+#import "PhotoUtility.h"
 
 static NSString* kAlbumTitle = @"从手机相册选择";
 static NSString* kCameraTitle = @"拍照";
@@ -209,7 +210,8 @@ static NSInteger kDefaultMax = 9;
         NSString* mediaType = AVMediaTypeVideo; // Or AVMediaTypeAudio
         AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
         if (authStatus == AVAuthorizationStatusDenied) {
-            [SVProgressHUD showErrorWithStatus:@"请在“设置-隐私-相机”中允许访问相机"];
+            
+            [PhotoUtility showAlertWithMsg:@"请在“设置-隐私-相机”中允许访问相机" controller:_currentController];
             return;
         }
     }
@@ -226,8 +228,7 @@ static NSInteger kDefaultMax = 9;
         }];
     }
     else {
-
-        [SVProgressHUD showErrorWithStatus:@"相机不可用"];
+        [PhotoUtility showAlertWithMsg:@"相机不可用" controller:_currentController];
     }
 }
 

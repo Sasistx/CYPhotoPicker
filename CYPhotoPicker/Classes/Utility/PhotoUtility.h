@@ -24,4 +24,6 @@ typedef void (^PhotoFailureBlock)(NSError *error);
 
 + (BOOL)isLocalUrlString:(NSString*)urlStr;
 
++ (void)showAlertWithMsg:(NSString*)msg controller:(UIViewController*)controller;
+
 @end

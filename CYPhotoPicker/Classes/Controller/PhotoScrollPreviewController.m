@@ -205,8 +205,7 @@
             }else {
                 
                 if (!item.isSelected && tempArray.count >= _maxCount) {
-                    
-                    [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
+                    [PhotoUtility showAlertWithMsg:@"选择照片数已达上限" controller:self];
                     return;
                 }
                 

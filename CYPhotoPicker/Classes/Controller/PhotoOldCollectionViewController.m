@@ -242,7 +242,7 @@
 
 - (void)alertMaxSelection
 {
-    [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
+    [PhotoUtility showAlertWithMsg:@"选择照片数已达上限" controller:self];
 }
 
 #pragma mark - 

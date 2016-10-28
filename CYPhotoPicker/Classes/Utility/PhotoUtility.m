@@ -149,4 +149,23 @@
     }
 }
 
++ (void)showAlertWithMsg:(NSString*)msg controller:(UIViewController*)controller{
+
+    if (PH_IOSOVER(8)) {
+        
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle:msg message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"我知道了"
+                                                          style:UIAlertActionStyleCancel
+                                                        handler:^(UIAlertAction *action) {
+                                                            
+                                                        }];
+        [alertController addAction:action];
+        [controller presentViewController:alertController animated:YES completion:Nil];
+        
+    }else {
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:msg message:nil delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil];
+        [alertView show];
+    }
+}
+
 @end

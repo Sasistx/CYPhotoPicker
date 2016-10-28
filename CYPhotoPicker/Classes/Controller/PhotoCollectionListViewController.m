@@ -251,7 +251,7 @@
 
 - (void)alertMaxSelection
 {
-    [SVProgressHUD showErrorWithStatus:@"选择照片数已达上限"];
+    [PhotoUtility showAlertWithMsg:@"选择照片数已达上限" controller:self];
 }
 
 - (void)updateImageCountView
@@ -427,8 +427,7 @@
        
         @strongify(self);
         if (!resultImage) {
-            
-            [SVProgressHUD showErrorWithStatus:@"图片下载失败"];
+            [PhotoUtility showAlertWithMsg:@"图片下载失败" controller:self];
         }else {
             
         }

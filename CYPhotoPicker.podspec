@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "CYPhotoPicker"
-  s.version      = "1.3.1"
+  s.version      = "1.3.2"
   s.summary      = "CYPhotoPicker include ALAsset & PHPhoto"
   s.description  = <<-DESC
                    DESC
@@ -21,7 +21,6 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/Sasistx/CYPhotoPicker.git", :tag => s.version }
   s.source_files  = "CYPhotoPicker/Classes/**/*.{h,m}"
   s.resources = "CYPhotoPicker/Resource/*.png"
-  s.dependency "SVProgressHUD", "~> 1.1"
   s.weak_framework = 'Photos'
   s.license      = "MIT"
   s.description  = "CYPhotoPicker include ALAsset & PHPhoto"
