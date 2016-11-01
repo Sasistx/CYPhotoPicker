@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   s.resources = "CYPhotoPicker/Resource/*.png"
   s.weak_framework = 'Photos'
   s.license      = "MIT"
-  s.description  = "CYPhotoPicker include ALAsset & PHPhoto"
+  s.description  = "CYPhotoPicker is a photo library tools"
   s.dependency 'SDWebImage', '~> 3.8'
 
 
