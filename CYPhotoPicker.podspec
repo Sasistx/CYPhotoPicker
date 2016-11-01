@@ -24,6 +24,7 @@ Pod::Spec.new do |s|
   s.weak_framework = 'Photos'
   s.license      = "MIT"
   s.description  = "CYPhotoPicker include ALAsset & PHPhoto"
+  s.dependency 'SDWebImage', '~> 3.8'
 
 
 end
