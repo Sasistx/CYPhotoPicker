@@ -7,7 +7,7 @@
 //
 
 #import "PhotoNetworkZoomScrollView.h"
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "CYPhotoPickerDefines.h"
 #import "PhotoUtility.h"
 
