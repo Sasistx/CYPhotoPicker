@@ -92,6 +92,6 @@
 #pragma mark -
 #pragma mark - deprecated
 + (instancetype _Nullable)showFromController:(UIViewController* _Nonnull)controller option:(PhotoPickerOption)option isOne:(BOOL)isOne showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock _Nullable)dissmissBlock
-    __deprecated_msg("Use 'showFromController:option:showPreview:ompeletionBlock:'");
+    __deprecated_msg("Use 'showFromController:option:showPreview:compeletionBlock:'");
 
 @end
