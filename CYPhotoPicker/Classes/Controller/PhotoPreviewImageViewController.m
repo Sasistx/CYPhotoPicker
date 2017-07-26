@@ -56,23 +56,11 @@
     [self.navigationController setNavigationBarHidden:YES];
     
     @weakify(self);
-    if (_item) {
-        [PhotoUtility loadChunyuPhoto:_item success:^(UIImage *image) {
-            
-            @strongify(self);
-            [self createZoomScrollViewWithImage:image];
-        } failure:^(NSError *error) {
-            
-            
-        }];
-        
-    }else {
-        
-        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:_phItem.asset allowNetwork:YES  multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
-            @strongify(self);
-            [self createZoomScrollViewWithImage:resultImage];
-        }];
-    }
+    
+    [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:_phItem.asset allowNetwork:YES  multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+        @strongify(self);
+        [self createZoomScrollViewWithImage:resultImage];
+    }];
     
     [_backView setFrame:CGRectMake(_backView.frame.origin.x, self.view.frame.size.height - _backView.frame.size.height, _backView.frame.size.width, _backView.frame.size.height)];
 }
@@ -118,7 +106,7 @@
 {
     [[PhotoPickerManager sharedManager] clearSelectedArray];
     if (_choosePHAssetImageBlock) {
-        _choosePHAssetImageBlock(_item ? @[_item] : @[_phItem]);
+        _choosePHAssetImageBlock(@[_phItem]);
     }
     [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil];
 }

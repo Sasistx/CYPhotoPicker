@@ -9,15 +9,15 @@
 Pod::Spec.new do |s|
 
   s.name         = "CYPhotoPicker"
-  s.version      = "1.3.4"
-  s.summary      = "CYPhotoPicker include ALAsset & PHPhoto"
+  s.version      = "1.3.5"
+  s.summary      = "CYPhotoPicker include PHPhoto"
   s.description  = <<-DESC
                    DESC
 
   s.homepage     = "https://github.com/Sasistx/CYPhotoPicker"
   s.license      = "MIT (example)"
   s.author             = { "gaotianxiang" => "gaotianxiang@chunyu.me" }
-  s.platform     = :ios, '7.0'
+  s.platform     = :ios, '8.0'
   s.source       = { :git => "https://github.com/Sasistx/CYPhotoPicker.git", :tag => s.version }
   s.source_files  = "CYPhotoPicker/Classes/**/*.{h,m}"
   s.resources = "CYPhotoPicker/Resource/*.png"

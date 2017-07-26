@@ -8,14 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "CYPhotoPickerDefines.h"
-#import "PhotoOldListItem.h"
 #import "PhotoListItem.h"
 
 typedef void(^ChoosePHAssetImage)(NSArray* photos);
 
 @interface PhotoPreviewImageViewController : UIViewController
 
-@property (nonatomic, strong) PhotoOldListItem* item;
 @property (nonatomic, strong) PhotoListItem* phItem;
 
 - (void)setChoosedAssetImageBlock:(ChoosePHAssetImage)chooseBlock;

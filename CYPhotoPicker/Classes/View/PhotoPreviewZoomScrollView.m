@@ -10,7 +10,6 @@
 #import "PhotoPreviewZoomScrollView.h"
 #import "CYPhotoPickerDefines.h"
 #import "PhotoListItem.h"
-#import "PhotoOldListItem.h"
 #import "PhotoPickerManager.h"
 
 @interface PhotoPreviewZoomScrollView () <UIScrollViewDelegate>
@@ -95,39 +94,24 @@
 {
     __block id innerAsset = _asset;
     
-    if (PH_IOSOVER(8)) {
+    [self showLoadingView];
+    @weakify(self);
+    PHAsset* phAsset = ((PhotoListItem*)_asset).asset;
+    [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(150, 150) asset:phAsset allowNetwork:YES allowCache:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
         
-        [self showLoadingView];
-        @weakify(self);
-        PHAsset* phAsset = ((PhotoListItem*)_asset).asset;
-        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(150, 150) asset:phAsset allowNetwork:YES allowCache:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
-        
-            @strongify(self);
-            if ([innerAsset isEqual:self.asset]) {
-                
-                [self showThumbImage:resultImage];
-            }
-        }];
-    }else {
-    
-        [self showLoadingView];
-        @weakify(self);
-        [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:_asset completion:^(UIImage *image) {
+        @strongify(self);
+        if ([innerAsset isEqual:self.asset]) {
             
-            @strongify(self);
-            if ([innerAsset isEqual:self.asset]) {
-                
-                [self hideLoadingView];
-                [self setZoomImageView:image];
-            }
-        }];
-    }
+            [self showThumbImage:resultImage];
+        }
+    }];
 }
 
 - (void)setZoomImageView:(UIImage*)image
 {
     if (_imageView) {
         
+        [self hideThumbImage];
         return;
     }
     

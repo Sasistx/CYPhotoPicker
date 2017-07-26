@@ -9,7 +9,6 @@
 #import "CYPhotoPicker.h"
 #import "PhotoAlbumListController.h"
 #import "PhotoListItem.h"
-#import "PhotoOldAlbumViewController.h"
 #import "PhotoPreviewNetworkImageController.h"
 #import "PhotoUtility.h"
 
@@ -72,22 +71,22 @@ static NSInteger kDefaultMax = 9;
     return self;
 }
 
-+ (instancetype _Nullable)showFromeController:(UIViewController* _Nonnull)controller imageList:(NSArray<PhotoNetworkItem * > * _Nonnull)imageList currentIndex:(NSInteger)index
++ (instancetype _Nullable)showFromeController:(UIViewController* _Nonnull)controller imageList:(NSArray<PhotoNetworkItem * > * _Nonnull)imageList currentIndex:(NSUInteger)index
 {
     CYPhotoPicker* picker = [[CYPhotoPicker alloc] initWithCurrentController:controller imageList:imageList currentIndex:index];
     return picker;
 }
 
-- (instancetype)initWithCurrentController:(UIViewController*)controller imageList:(NSArray*)imageList currentIndex:(NSInteger)index
+- (instancetype)initWithCurrentController:(UIViewController*)controller imageList:(NSArray*)imageList currentIndex:(NSUInteger)index
 {
     self = [super init];
     if (self) {
         
+        NSInteger currentIndex = index < imageList.count ? : 0;
         PhotoPreviewNetworkImageController* previewController = [[PhotoPreviewNetworkImageController alloc] init];
-        previewController.indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+        previewController.indexPath = [NSIndexPath indexPathForItem:currentIndex inSection:0];
         previewController.images = imageList;
         [controller presentViewController:previewController animated:NO completion:Nil];
-        
     }
     return self;
 }
@@ -154,39 +153,33 @@ static NSInteger kDefaultMax = 9;
     }
     else if (_pickerOption == (PhotoPickerOptionAlbum | PhotoPickerOptionCamera)) {
 
-        if (PH_IOSOVER(8)) {
-            @weakify(self);
-            UIAlertController* actionSheet = [UIAlertController alertControllerWithTitle:nil
-                                                                                 message:nil
-                                                                          preferredStyle:UIAlertControllerStyleActionSheet];
-            UIAlertAction* albumAction = [UIAlertAction actionWithTitle:kAlbumTitle
-                                                                  style:UIAlertActionStyleDefault
-                                                                handler:^(UIAlertAction* action) {
-                                                                    
-                                                                    @strongify(self);
-                                                                    [self showAlbum];
-                                                                }];
-            UIAlertAction* cameraAction = [UIAlertAction actionWithTitle:kCameraTitle
-                                                                   style:UIAlertActionStyleDefault
-                                                                 handler:^(UIAlertAction* action) {
-
-                                                                     @strongify(self);
-                                                                     [self showCamera];
-                                                                 }];
-            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:kCancelTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction* _Nonnull action) {
-
-                @strongify(self);
-                [self showCancel];
-            }];
-            [actionSheet addAction:albumAction];
-            [actionSheet addAction:cameraAction];
-            [actionSheet addAction:cancelAction];
-            [_currentController presentViewController:actionSheet animated:YES completion:Nil];
-        }
-        else {
-            UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:kCancelTitle destructiveButtonTitle:nil otherButtonTitles:kAlbumTitle, kCameraTitle, nil];
-            [sheet showInView:_currentController.view];
-        }
+        @weakify(self);
+        UIAlertController* actionSheet = [UIAlertController alertControllerWithTitle:nil
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction* albumAction = [UIAlertAction actionWithTitle:kAlbumTitle
+                                                              style:UIAlertActionStyleDefault
+                                                            handler:^(UIAlertAction* action) {
+                                                                
+                                                                @strongify(self);
+                                                                [self showAlbum];
+                                                            }];
+        UIAlertAction* cameraAction = [UIAlertAction actionWithTitle:kCameraTitle
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction* action) {
+                                                                 
+                                                                 @strongify(self);
+                                                                 [self showCamera];
+                                                             }];
+        UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:kCancelTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction* _Nonnull action) {
+            
+            @strongify(self);
+            [self showCancel];
+        }];
+        [actionSheet addAction:albumAction];
+        [actionSheet addAction:cameraAction];
+        [actionSheet addAction:cancelAction];
+        [_currentController presentViewController:actionSheet animated:YES completion:Nil];
     }
     else {
         [self showCancel];
@@ -234,27 +227,14 @@ static NSInteger kDefaultMax = 9;
 
 - (void)showAlbum
 {
-    if (PH_IOSOVER(8)) {
-        PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
-        controller.showPreview = _showPreview;
-        controller.dissmissBlock = self.dissmissBlock;
-        controller.maxCount = _maxCount;
-        UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
-        [_currentController presentViewController:navi animated:YES completion:^{
-
-        }];
-    }
-    else {
-
-        PhotoOldAlbumViewController* controller = [[PhotoOldAlbumViewController alloc] init];
-        controller.showPreview = _showPreview;
-        controller.dissmissBlock = self.dissmissBlock;
-        controller.maxCount = _maxCount;
-        UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
-        [_currentController presentViewController:navi animated:YES completion:^{
-
-        }];
-    }
+    PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
+    controller.showPreview = _showPreview;
+    controller.dissmissBlock = self.dissmissBlock;
+    controller.maxCount = _maxCount;
+    UINavigationController* navi = [[UINavigationController alloc] initWithRootViewController:controller];
+    [_currentController presentViewController:navi animated:YES completion:^{
+        
+    }];
 }
 
 - (void)showCancel
@@ -263,13 +243,7 @@ static NSInteger kDefaultMax = 9;
         _dissmissBlock(nil);
     }
     
-    if (PH_IOSOVER(8)) {
-        [PhotoConfigureManager sharedManager].currentPicker = nil;
-    }else {
-        //修复在iOS7下，直接将currentPicker = nil引起的崩溃
-        [[PhotoConfigureManager sharedManager] performSelector:@selector(setCurrentPicker:) withObject:nil afterDelay:0.3];
-    }
-    
+    [PhotoConfigureManager sharedManager].currentPicker = nil;
 }
 
 - (void)clearManager

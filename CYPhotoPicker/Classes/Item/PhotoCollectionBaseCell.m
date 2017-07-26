@@ -8,6 +8,7 @@
 
 #import "PhotoCollectionBaseCell.h"
 #import "PhotoUtility.h"
+#import "PhotoBaseListItem.h"
 
 @implementation PhotoCollectionBaseCell
 

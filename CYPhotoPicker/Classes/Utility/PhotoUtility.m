@@ -8,65 +8,21 @@
 
 #import "PhotoUtility.h"
 #import "PhotoListItem.h"
-#import "PhotoOldListItem.h"
 #import "PhotoPickerManager.h"
 
 @implementation PhotoUtility
 
 + (void)loadChunyuPhoto:(id)item success:(void(^)(UIImage *image))success failure:(PhotoFailureBlock)failure
 {
-    if ([item isKindOfClass:[PhotoOldListItem class]]) {
-        if (((PhotoOldListItem*)item).url) {
-            // 如果是相册的照片
-            ALAssetsLibrary  *lib = [[ALAssetsLibrary alloc] init];
-            NSURL *url = ((PhotoOldListItem*)item).url;
-            @weakify(self);
-            @weakify(lib);
-            @weakify(url);
-            [lib assetForURL:url resultBlock:^(ALAsset *asset) {
-                //在这里使用asset来获取图片
-                if (asset) {
-                    ALAssetRepresentation *assetRep = [asset defaultRepresentation];
-                    CGImageRef imgRef = [assetRep fullResolutionImage];
-                    UIImage *img = [UIImage imageWithCGImage:imgRef
-                                                       scale:assetRep.scale
-                                                 orientation:(UIImageOrientation)assetRep.orientation];
-                    if (img) {
-                        success(img);
-                    }
-                    else {
-                        failure(nil);
-                    }
-                } else {
-                    // 在iOS 8.1中,[library assetForUrl] Photo Streams 返回是nil. 改用下面这种方式转化
-                    @strongify(self);
-                    @strongify(lib);
-                    @strongify(url);
-                    [self getImageWithAssessLibrary:lib url:url onCompletion:^(UIImage *image) {
-                        if (image) {
-                            success(image);
-                        }
-                        else {
-                            failure(nil);
-                        }
-                    }];
-                }
-            } failureBlock:^(NSError *error) {
-                failure(error);
-            }];
+    [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:item completion:^(UIImage *image) {
+        
+        if (image) {
+            success(image);
         }
-    }else {
-    
-        [[PhotoPickerManager sharedManager] asyncGetOriginImageWithAsset:item completion:^(UIImage *image) {
-           
-            if (image) {
-                success(image);
-            }
-            else {
-                failure(nil);
-            }
-        }];
-    }
+        else {
+            failure(nil);
+        }
+    }];
 }
 
 // get a image or nil
@@ -151,21 +107,14 @@
 
 + (void)showAlertWithMsg:(NSString*)msg controller:(UIViewController*)controller{
 
-    if (PH_IOSOVER(8)) {
-        
-        UIAlertController* alertController = [UIAlertController alertControllerWithTitle:msg message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"我知道了"
-                                                          style:UIAlertActionStyleCancel
-                                                        handler:^(UIAlertAction *action) {
-                                                            
-                                                        }];
-        [alertController addAction:action];
-        [controller presentViewController:alertController animated:YES completion:Nil];
-        
-    }else {
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:msg message:nil delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil];
-        [alertView show];
-    }
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:msg message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"我知道了"
+                                                     style:UIAlertActionStyleCancel
+                                                   handler:^(UIAlertAction *action) {
+                                                       
+                                                   }];
+    [alertController addAction:action];
+    [controller presentViewController:alertController animated:YES completion:Nil];
 }
 
 @end

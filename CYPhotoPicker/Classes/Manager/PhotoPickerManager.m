@@ -8,7 +8,6 @@
 
 #import "PhotoPickerManager.h"
 #import "CYPhotoPickerDefines.h"
-#import "PhotoOldListItem.h"
 #import "PhotoUtility.h"
 #import "PhotoListItem.h"
 #import "ALAssetsLibrary+CustomAlbum.h"
@@ -176,22 +175,11 @@ static PhotoPickerManager* sharedManager = nil;
             }
         }];
         
-    }else if ([asset isKindOfClass:[PhotoOldListItem class]]){
-    
-        [PhotoUtility loadChunyuPhoto:asset success:^(UIImage *image) {
-            
-            if (completion) {
-                completion(image);
-            }
-        } failure:^(NSError *error) {
-            if (completion) {
-                completion(nil);
-            }
-        }];
-    }else if ([asset isKindOfClass:[PHAsset class]]){
+    } else if ([asset isKindOfClass:[PHAsset class]]){
     
         
-    }else{
+    } else {
+        
         if (completion) {
             completion(nil);
         }
@@ -200,62 +188,46 @@ static PhotoPickerManager* sharedManager = nil;
 
 - (void)saveImage:(nonnull UIImage*)image toAlbum:(nonnull NSString*)album completion:(SaveImageCompletion)completion
 {
-    if (PH_IOSOVER(8)) {
+    @weakify(self);
+    PHAssetCollection* albumCollection = [self checkCollectionWithAlbumName:album];
+    
+    if (albumCollection) {
         
-        @weakify(self);
-        PHAssetCollection* albumCollection = [self checkCollectionWithAlbumName:album];
-        
-        if (albumCollection) {
-            
-            [self saveImage:image toCollection:albumCollection completion:completion];
-        }else {
-        
-            __block PHAssetCollectionChangeRequest* request = nil;
-            
-            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-                
-                request = [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:album ? album : saveAlbumName];
-                
-            } completionHandler:^(BOOL success, NSError * _Nullable error) {
-                
-                if (success) {
-                    
-                    __block PHFetchResult* result = nil;
-                    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-                       
-                        result = [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[request.placeholderForCreatedAssetCollection.localIdentifier] options:nil];
-                        
-                    } completionHandler:^(BOOL success, NSError * _Nullable error) {
-                        
-                        @strongify(self);
-                        if (result.count > 0) {
-                            [self saveImage:image toCollection:result.firstObject completion:completion];
-                        }
-                    }];
-                
-                }else {
-                    
-                    if (completion) {
-                        
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            
-                            completion(error);
-                        });
-                    }
-                }
-            }];
-        }
-        
+        [self saveImage:image toCollection:albumCollection completion:completion];
     }else {
         
-        ALAssetsLibrary* library = [[ALAssetsLibrary alloc] init];
-        [library saveImage:image toAlbum:album withCompletionBlock:^(NSError *error) {
+        __block PHAssetCollectionChangeRequest* request = nil;
+        
+        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
             
-            if (completion) {
-                dispatch_async(dispatch_get_main_queue(), ^{
+            request = [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:album ? album : saveAlbumName];
+            
+        } completionHandler:^(BOOL success, NSError * _Nullable error) {
+            
+            if (success) {
+                
+                __block PHFetchResult* result = nil;
+                [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
                     
-                    completion(error);
-                });
+                    result = [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[request.placeholderForCreatedAssetCollection.localIdentifier] options:nil];
+                    
+                } completionHandler:^(BOOL success, NSError * _Nullable error) {
+                    
+                    @strongify(self);
+                    if (result.count > 0) {
+                        [self saveImage:image toCollection:result.firstObject completion:completion];
+                    }
+                }];
+                
+            }else {
+                
+                if (completion) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        completion(error);
+                    });
+                }
             }
         }];
     }

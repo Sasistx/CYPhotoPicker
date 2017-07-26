@@ -79,7 +79,7 @@
  *
  *  @return CYPicker
  */
-+ (instancetype _Nullable)showFromeController:(UIViewController* _Nonnull)controller imageList:(NSArray<PhotoNetworkItem * > * _Nonnull)imageList currentIndex:(NSInteger)index;
++ (instancetype _Nullable)showFromeController:(UIViewController* _Nonnull)controller imageList:(NSArray<PhotoNetworkItem * > * _Nonnull)imageList currentIndex:(NSUInteger)index;
 
 /**
  *  设置预选择的图片

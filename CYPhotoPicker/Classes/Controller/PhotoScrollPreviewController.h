@@ -12,7 +12,7 @@
 typedef void (^PhotoPreviewBackBlock)(void);
 
 @interface PhotoScrollPreviewController : UIViewController
-@property (nonatomic, strong) NSMutableArray* assets;
+@property (nonatomic, copy) NSMutableArray* assets;
 @property (nonatomic, copy) PhotoPickerDismissBlock dissmissBlock;
 @property (nonatomic, copy) NSIndexPath* indexPath;
 @property (nonatomic, assign) NSInteger maxCount;

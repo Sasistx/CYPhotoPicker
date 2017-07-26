@@ -44,11 +44,7 @@
 		F39BA5C81C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5C41C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m */; };
 		F39BA5D01C44A3E900C8A0D7 /* PhotoUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5CF1C44A3E900C8A0D7 /* PhotoUtility.m */; };
 		F39BA5D41C44AFA200C8A0D7 /* PhotoZoomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5D31C44AFA200C8A0D7 /* PhotoZoomScrollView.m */; };
-		F39BA5D71C44E6A200C8A0D7 /* PhotoOldCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5D61C44E6A200C8A0D7 /* PhotoOldCollectionViewController.m */; };
-		F39BA5DD1C45005E00C8A0D7 /* PhotoOldListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5DC1C45005E00C8A0D7 /* PhotoOldListItem.m */; };
 		F39BA5E01C4500D400C8A0D7 /* PhotoCollectionBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5DF1C4500D400C8A0D7 /* PhotoCollectionBaseCell.m */; };
-		F39BA5E31C47440F00C8A0D7 /* PhotoOldAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5E21C47440F00C8A0D7 /* PhotoOldAlbumViewController.m */; };
-		F39BA5E61C474B6500C8A0D7 /* PhotoOldAlbumItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5E51C474B6500C8A0D7 /* PhotoOldAlbumItem.m */; };
 		F39BA5EA1C4795C700C8A0D7 /* PhotoPickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5E91C4795C700C8A0D7 /* PhotoPickerManager.m */; };
 		F39BA5ED1C4795F800C8A0D7 /* PhotoConfigureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5EC1C4795F800C8A0D7 /* PhotoConfigureManager.m */; };
 		F39BA5F01C4798F000C8A0D7 /* CYPhotoPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = F39BA5EF1C4798F000C8A0D7 /* CYPhotoPicker.m */; };
@@ -143,16 +139,8 @@
 		F39BA5CF1C44A3E900C8A0D7 /* PhotoUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoUtility.m; sourceTree = "<group>"; };
 		F39BA5D21C44AFA200C8A0D7 /* PhotoZoomScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoZoomScrollView.h; sourceTree = "<group>"; };
 		F39BA5D31C44AFA200C8A0D7 /* PhotoZoomScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoZoomScrollView.m; sourceTree = "<group>"; };
-		F39BA5D51C44E6A200C8A0D7 /* PhotoOldCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoOldCollectionViewController.h; sourceTree = "<group>"; };
-		F39BA5D61C44E6A200C8A0D7 /* PhotoOldCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoOldCollectionViewController.m; sourceTree = "<group>"; };
-		F39BA5DB1C45005E00C8A0D7 /* PhotoOldListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoOldListItem.h; sourceTree = "<group>"; };
-		F39BA5DC1C45005E00C8A0D7 /* PhotoOldListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoOldListItem.m; sourceTree = "<group>"; };
 		F39BA5DE1C4500D400C8A0D7 /* PhotoCollectionBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCollectionBaseCell.h; sourceTree = "<group>"; };
 		F39BA5DF1C4500D400C8A0D7 /* PhotoCollectionBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCollectionBaseCell.m; sourceTree = "<group>"; };
-		F39BA5E11C47440F00C8A0D7 /* PhotoOldAlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoOldAlbumViewController.h; sourceTree = "<group>"; };
-		F39BA5E21C47440F00C8A0D7 /* PhotoOldAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoOldAlbumViewController.m; sourceTree = "<group>"; };
-		F39BA5E41C474B6500C8A0D7 /* PhotoOldAlbumItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoOldAlbumItem.h; sourceTree = "<group>"; };
-		F39BA5E51C474B6500C8A0D7 /* PhotoOldAlbumItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoOldAlbumItem.m; sourceTree = "<group>"; };
 		F39BA5E81C4795C700C8A0D7 /* PhotoPickerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPickerManager.h; sourceTree = "<group>"; };
 		F39BA5E91C4795C700C8A0D7 /* PhotoPickerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPickerManager.m; sourceTree = "<group>"; };
 		F39BA5EB1C4795F800C8A0D7 /* PhotoConfigureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoConfigureManager.h; sourceTree = "<group>"; };
@@ -298,12 +286,8 @@
 				F39BA5B01C3F5E1700C8A0D7 /* PhotoListItem.m */,
 				F39BA5BD1C438C2D00C8A0D7 /* PhotoAlbumItem.h */,
 				F39BA5BE1C438C2D00C8A0D7 /* PhotoAlbumItem.m */,
-				F39BA5DB1C45005E00C8A0D7 /* PhotoOldListItem.h */,
-				F39BA5DC1C45005E00C8A0D7 /* PhotoOldListItem.m */,
 				F39BA5DE1C4500D400C8A0D7 /* PhotoCollectionBaseCell.h */,
 				F39BA5DF1C4500D400C8A0D7 /* PhotoCollectionBaseCell.m */,
-				F39BA5E41C474B6500C8A0D7 /* PhotoOldAlbumItem.h */,
-				F39BA5E51C474B6500C8A0D7 /* PhotoOldAlbumItem.m */,
 				F349B1271C575E34007017FD /* PhotoItemCellProtocol.h */,
 				F349B1281C58C16E007017FD /* PhotoBaseListItem.h */,
 				F349B1291C58C16E007017FD /* PhotoBaseListItem.m */,
@@ -338,10 +322,6 @@
 				F39BA5C21C43AC4E00C8A0D7 /* PhotoAlbumListController.m */,
 				F39BA5C31C43AC4E00C8A0D7 /* PhotoCollectionListViewController.h */,
 				F39BA5C41C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m */,
-				F39BA5D51C44E6A200C8A0D7 /* PhotoOldCollectionViewController.h */,
-				F39BA5D61C44E6A200C8A0D7 /* PhotoOldCollectionViewController.m */,
-				F39BA5E11C47440F00C8A0D7 /* PhotoOldAlbumViewController.h */,
-				F39BA5E21C47440F00C8A0D7 /* PhotoOldAlbumViewController.m */,
 				F33DEC381C4CF25E00D028E3 /* PhotoPreviewImageViewController.h */,
 				F33DEC391C4CF25E00D028E3 /* PhotoPreviewImageViewController.m */,
 				F39BA5A21C3F563E00C8A0D7 /* Layout */,
@@ -624,15 +604,11 @@
 				F39BA55A1C3E4DF100C8A0D7 /* main.m in Sources */,
 				F39BA5901C3E4EF500C8A0D7 /* RootViewController.m in Sources */,
 				F300D36B1D3778CD00B38972 /* PhotoPreviewNetworkImageController.m in Sources */,
-				F39BA5D71C44E6A200C8A0D7 /* PhotoOldCollectionViewController.m in Sources */,
 				F33DEC541C4F813E00D028E3 /* PhotoPreviewZoomScrollView.m in Sources */,
 				F38B03421C4CD3E0000135FF /* PHNaviButton.m in Sources */,
 				F39BA5C81C43AC4E00C8A0D7 /* PhotoCollectionListViewController.m in Sources */,
-				F39BA5E31C47440F00C8A0D7 /* PhotoOldAlbumViewController.m in Sources */,
-				F39BA5DD1C45005E00C8A0D7 /* PhotoOldListItem.m in Sources */,
 				F39BA5F01C4798F000C8A0D7 /* CYPhotoPicker.m in Sources */,
 				F39BA5D41C44AFA200C8A0D7 /* PhotoZoomScrollView.m in Sources */,
-				F39BA5E61C474B6500C8A0D7 /* PhotoOldAlbumItem.m in Sources */,
 				F39BA5AB1C3F579A00C8A0D7 /* PhotoCollectionViewLayout.m in Sources */,
 				F33DEC4B1C4F389600D028E3 /* PhotoScrollPreviewController.m in Sources */,
 				F39BA5BF1C438C2D00C8A0D7 /* PhotoAlbumItem.m in Sources */,
@@ -720,7 +696,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -757,7 +733,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -771,7 +747,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = YRMH84M93J;
 				INFOPLIST_FILE = CYPhotoPicker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = chunyu.CYPhotoPicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -785,7 +761,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = YRMH84M93J;
 				INFOPLIST_FILE = CYPhotoPicker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = chunyu.CYPhotoPicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";

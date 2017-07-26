@@ -14,6 +14,7 @@
 #import "PhotoBaseListItem.h"
 #import "PhotoUtility.h"
 #import "PHButton.h"
+#import "PHSelectButton.h"
 
 #define PRE_CELL_IDENTIFIER @"prePhotoPickerCell"
 

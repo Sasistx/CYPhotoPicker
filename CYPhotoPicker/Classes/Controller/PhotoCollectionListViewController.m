@@ -299,7 +299,7 @@
 {
     @weakify(self);
     PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
-    controller.assets = [[PhotoPickerManager sharedManager].selectedArray copy];
+    controller.assets = [[PhotoPickerManager sharedManager].selectedArray mutableCopy];
     controller.dissmissBlock = _dissmissBlock;
     controller.maxCount = _imageMaxCount;
     [controller setPreviewBackBlock:^{
@@ -345,7 +345,7 @@
     @weakify(self);
     if (_showPreview) {
         PhotoScrollPreviewController* controller = [[PhotoScrollPreviewController alloc] init];
-        controller.assets = _dataItems;
+        controller.assets = [_dataItems mutableCopy];
         controller.dissmissBlock = _dissmissBlock;
         controller.indexPath = indexPath;
         controller.maxCount = _imageMaxCount;

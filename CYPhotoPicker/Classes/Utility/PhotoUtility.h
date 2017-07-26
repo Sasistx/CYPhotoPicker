@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "CYPhotoPickerDefines.h"
-#import "PhotoOldListItem.h"
 
 typedef void (^PhotoFailureBlock)(NSError *error);
 
