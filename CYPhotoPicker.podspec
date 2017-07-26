@@ -15,8 +15,8 @@ Pod::Spec.new do |s|
                    DESC
 
   s.homepage     = "https://github.com/Sasistx/CYPhotoPicker"
-  s.license      = "MIT (example)"
-  s.author             = { "gaotianxiang" => "gaotianxiang@chunyu.me" }
+  s.license      = "MIT"
+  s.author       = { "gaotianxiang" => "gaotianxiang@chunyu.me" }
   s.platform     = :ios, '8.0'
   s.source       = { :git => "https://github.com/Sasistx/CYPhotoPicker.git", :tag => s.version }
   s.source_files  = "CYPhotoPicker/Classes/**/*.{h,m}"
