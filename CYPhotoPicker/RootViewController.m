@@ -130,7 +130,7 @@
             item3.url = @"https://support.apple.com/content/da/edam/applecare/images/en_US/ipad/featured_content_appleid-4up_icon_2x.png";
             PhotoNetworkItem* item4 = [[PhotoNetworkItem alloc] init];
             item4.url = [NSTemporaryDirectory() stringByAppendingPathComponent:@"test"];
-            [CYPhotoPicker showFromeController:self imageList:@[item1, item2, item3, item4] currentIndex:1];
+            [CYPhotoPicker showFromeController:self imageList:@[item1, item2, item3, item4] currentIndex:0];
         }
             break;
         case 5:

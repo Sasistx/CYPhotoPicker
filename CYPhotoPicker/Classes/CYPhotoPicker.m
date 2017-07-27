@@ -82,7 +82,7 @@ static NSInteger kDefaultMax = 9;
     self = [super init];
     if (self) {
         
-        NSInteger currentIndex = index < imageList.count ? : 0;
+        NSUInteger currentIndex = index < imageList.count ? index : 0;
         PhotoPreviewNetworkImageController* previewController = [[PhotoPreviewNetworkImageController alloc] init];
         previewController.indexPath = [NSIndexPath indexPathForItem:currentIndex inSection:0];
         previewController.images = imageList;

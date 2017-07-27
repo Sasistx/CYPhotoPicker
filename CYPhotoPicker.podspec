@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "CYPhotoPicker"
-  s.version      = "1.3.5"
+  s.version      = "1.3.6"
   s.summary      = "CYPhotoPicker include PHPhoto"
   s.description  = <<-DESC
                    DESC
