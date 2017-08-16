@@ -47,7 +47,7 @@
     
     _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
     _retryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_retryButton setTitle:@"点击重试" forState:UIControlStateNormal];
+    [_retryButton setTitle:@"点击此处重试" forState:UIControlStateNormal];
     [_retryButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [_retryButton sizeToFit];
     [_retryButton setCenter:self.center];
@@ -78,10 +78,7 @@
     UITapGestureRecognizer* oneTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleOneTap:)];
     [oneTapGesture setNumberOfTapsRequired:1];
     [self addGestureRecognizer:oneTapGesture];
-    
-    [self setMinimumZoomScale:0.7];
-    [self setMaximumZoomScale:1.5];
-    [self setZoomScale:1];
+    //[self imageZoomEnable:YES];
     [self updateZoomCenter];
     [self layoutIfNeeded];
 }
@@ -178,22 +175,46 @@
     }
 }
 
+- (void)imageZoomEnable:(BOOL)enable {
+
+    if (enable) {
+        
+        [self setMinimumZoomScale:0.7];
+        [self setMaximumZoomScale:1.5];
+        
+    } else {
+        
+        [self setMinimumZoomScale:1.0];
+        [self setMaximumZoomScale:1.0];
+    }
+    
+    [self setZoomScale:1];
+}
+
 #pragma mark - set image with url
 
 - (void)setImageWithUrlString:(NSString*)urlStr
 {
     @weakify(self);
     [_imageView setShowActivityIndicatorView:YES];
-    [_imageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:nil options:SDWebImageRetryFailed | SDWebImageAvoidAutoSetImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    
+    if (_placeHolderImage) {
+        
+        [self updateZoomImage:_placeHolderImage];
+        [self imageZoomEnable:NO];
+    }
+    
+    [_imageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:_placeHolderImage options:SDWebImageRetryFailed | SDWebImageAvoidAutoSetImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
         @strongify(self);
         if (image) {
             
-            [_retryButton setHidden:YES];
+            [self.retryButton setHidden:YES];
             [self updateZoomImage:image];
+            [self imageZoomEnable:YES];
         }else {
             
-            [_retryButton setHidden:NO];
+            [self.retryButton setHidden:NO];
         }
         
     }];

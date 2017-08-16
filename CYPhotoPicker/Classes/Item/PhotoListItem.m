@@ -51,7 +51,7 @@
     }else {
         if (item.asset) {
             
-            [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(150, 150) asset:item.asset allowNetwork:YES allowCache:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+            [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(150, 150) asset:item.asset allowNetwork:YES allowCache:YES multiCallback:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
                 @strongify(self);
                 PhotoListItem *currentItem = self.item;
                 if ([item.asset.localIdentifier isEqualToString:currentItem.asset.localIdentifier]) {

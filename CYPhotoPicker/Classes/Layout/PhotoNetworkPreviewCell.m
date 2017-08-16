@@ -25,6 +25,14 @@
     _zoomView.currentController = currentController;
 }
 
+- (void)setPlaceHolderImage:(UIImage *)placeHolderImage {
+
+    if (placeHolderImage != _placeHolderImage) {
+        
+        _placeHolderImage = placeHolderImage;
+        _zoomView.placeHolderImage = placeHolderImage;
+    }
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {

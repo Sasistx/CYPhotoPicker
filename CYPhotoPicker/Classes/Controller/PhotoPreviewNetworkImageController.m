@@ -76,6 +76,7 @@
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PhotoNetworkPreviewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:PRE_NETWORK_CELL_IDENTIFIER forIndexPath:indexPath];
+    [cell setPlaceHolderImage:_placeholderImage];
     [cell setItemToZoomView:_images[indexPath.item]];
     cell.currentController = self;
     return cell;

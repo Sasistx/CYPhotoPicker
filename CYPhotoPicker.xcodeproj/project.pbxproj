@@ -26,6 +26,7 @@
 		F349B12A1C58C16E007017FD /* PhotoBaseListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F349B1291C58C16E007017FD /* PhotoBaseListItem.m */; };
 		F35D4AF51C9012D700F128B3 /* PHSelectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F35D4AF41C9012D700F128B3 /* PHSelectButton.m */; };
 		F364ED791C8FF896001A2A71 /* PHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F364ED781C8FF896001A2A71 /* PHButton.m */; };
+		F37B1BE51F44311700DFAC57 /* ph_holder.png in Resources */ = {isa = PBXBuildFile; fileRef = F37B1BE41F44311700DFAC57 /* ph_holder.png */; };
 		F38B03421C4CD3E0000135FF /* PHNaviButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F38B03411C4CD3E0000135FF /* PHNaviButton.m */; };
 		F38B03451C4CDD87000135FF /* ph_navi_white_left_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F38B03431C4CDD87000135FF /* ph_navi_white_left_arrow.png */; };
 		F38B03461C4CDD87000135FF /* ph_navi_white_left_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F38B03441C4CDD87000135FF /* ph_navi_white_left_arrow@2x.png */; };
@@ -103,6 +104,7 @@
 		F35D4AF41C9012D700F128B3 /* PHSelectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSelectButton.m; sourceTree = "<group>"; };
 		F364ED771C8FF896001A2A71 /* PHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHButton.h; sourceTree = "<group>"; };
 		F364ED781C8FF896001A2A71 /* PHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHButton.m; sourceTree = "<group>"; };
+		F37B1BE41F44311700DFAC57 /* ph_holder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ph_holder.png; sourceTree = "<group>"; };
 		F38B03401C4CD3E0000135FF /* PHNaviButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNaviButton.h; sourceTree = "<group>"; };
 		F38B03411C4CD3E0000135FF /* PHNaviButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNaviButton.m; sourceTree = "<group>"; };
 		F38B03431C4CDD87000135FF /* ph_navi_white_left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ph_navi_white_left_arrow.png; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 		F39BA5F11C47B2BC00C8A0D7 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				F37B1BE41F44311700DFAC57 /* ph_holder.png */,
 				F33DEC471C4E194200D028E3 /* ph_photo_selected_arrow.png */,
 				F33DEC451C4E183600D028E3 /* ph_photo_selected_round.png */,
 				F33DEC3B1C4CF37C00D028E3 /* ph_imagePicker_choose@2x.png */,
@@ -512,6 +515,7 @@
 				F39BA56B1C3E4DF100C8A0D7 /* LaunchScreen.storyboard in Resources */,
 				F39BA5681C3E4DF100C8A0D7 /* Assets.xcassets in Resources */,
 				F33DEC431C4CF37C00D028E3 /* ph_imagePicker_close@3x.png in Resources */,
+				F37B1BE51F44311700DFAC57 /* ph_holder.png in Resources */,
 				F33DEC401C4CF37C00D028E3 /* ph_imagePicker_choose@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -97,7 +97,7 @@
     [self showLoadingView];
     @weakify(self);
     PHAsset* phAsset = ((PhotoListItem*)_asset).asset;
-    [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(150, 150) asset:phAsset allowNetwork:YES allowCache:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+    [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(150, 150) asset:phAsset allowNetwork:YES allowCache:YES multiCallback:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
         
         @strongify(self);
         if ([innerAsset isEqual:self.asset]) {

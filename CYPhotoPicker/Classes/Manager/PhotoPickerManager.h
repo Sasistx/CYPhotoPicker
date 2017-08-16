@@ -49,10 +49,10 @@ typedef void(^CheckOriginalImageResult)(UIImage* image, NSDictionary* info, BOOL
  *  @param size         图片尺寸
  *  @param asset        所持有的PHAsset对象
  *  @param allowNetwork 是否允许网络请求
- *  @param multyCallBack    是否多次回调结果
+ *  @param multiCallback    是否多次回调结果
  *  @param completion   获取结果
  */
-- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork multyCallBack:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork multiCallback:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
 
 /**
  *  从相册获取图片ios8.0之后的api，completion会被回掉多次
@@ -61,10 +61,10 @@ typedef void(^CheckOriginalImageResult)(UIImage* image, NSDictionary* info, BOOL
  *  @param asset        所持有的PHAsset对象
  *  @param allowNetwork 是否允许网络请求
  *  @param allowCache   是否允许缓存
- *  @param multyCallBack    是否多次回调结果
+ *  @param multiCallback    是否多次回调结果
  *  @param completion   获取结果
  */
-- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache multyCallBack:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache multiCallback:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion;
 
 /**
  *  异步从相册获取图片 (通用接口)

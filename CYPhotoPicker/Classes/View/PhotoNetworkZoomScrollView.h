@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) PhotoNetworkItem* item;
 @property (nonatomic, weak) PhotoPreviewNetworkImageController* currentController;
+@property (nonatomic, strong) UIImage* placeHolderImage;
 
 - (void)clearZoomView;
 

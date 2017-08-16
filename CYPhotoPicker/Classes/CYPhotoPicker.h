@@ -75,11 +75,23 @@
  *
  *  @param controller 当前controller
  *  @param imageList  图片数组<PhotoNetworkItem * >
- *  @param index      当前位置
+ *  @param index      图片展示的位置
  *
  *  @return CYPicker
  */
 + (instancetype _Nullable)showFromeController:(UIViewController* _Nonnull)controller imageList:(NSArray<PhotoNetworkItem * > * _Nonnull)imageList currentIndex:(NSUInteger)index;
+
+
+/**
+ CYPicker 网络图片预览方法
+
+ @param controller 当前controller
+ @param imageList 图片数组<PhotoNetworkItem * >
+ @param index 当前位置
+ @param image 占位图
+ @return CYPicker
+ */
++ (instancetype _Nullable)showFromeController:(UIViewController* _Nonnull)controller imageList:(NSArray<PhotoNetworkItem * > * _Nonnull)imageList currentIndex:(NSUInteger)index placeholderImage:(UIImage *_Nullable)image;
 
 /**
  *  设置预选择的图片

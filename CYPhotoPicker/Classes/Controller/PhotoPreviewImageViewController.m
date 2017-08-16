@@ -57,7 +57,7 @@
     
     @weakify(self);
     
-    [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:_phItem.asset allowNetwork:YES  multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+    [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:_phItem.asset allowNetwork:YES  multiCallback:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
         @strongify(self);
         [self createZoomScrollViewWithImage:resultImage];
     }];

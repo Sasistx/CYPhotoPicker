@@ -73,11 +73,16 @@ static NSInteger kDefaultMax = 9;
 
 + (instancetype _Nullable)showFromeController:(UIViewController* _Nonnull)controller imageList:(NSArray<PhotoNetworkItem * > * _Nonnull)imageList currentIndex:(NSUInteger)index
 {
-    CYPhotoPicker* picker = [[CYPhotoPicker alloc] initWithCurrentController:controller imageList:imageList currentIndex:index];
+    return [CYPhotoPicker showFromeController:controller imageList:imageList currentIndex:index placeholderImage:nil];
+}
+
++ (instancetype _Nullable)showFromeController:(UIViewController* _Nonnull)controller imageList:(NSArray<PhotoNetworkItem * > * _Nonnull)imageList currentIndex:(NSUInteger)index placeholderImage:(UIImage *_Nullable)image {
+
+    CYPhotoPicker* picker = [[CYPhotoPicker alloc] initWithCurrentController:controller imageList:imageList currentIndex:index placeholderImage:image];
     return picker;
 }
 
-- (instancetype)initWithCurrentController:(UIViewController*)controller imageList:(NSArray*)imageList currentIndex:(NSUInteger)index
+- (instancetype)initWithCurrentController:(UIViewController*)controller imageList:(NSArray*)imageList currentIndex:(NSUInteger)index placeholderImage:(UIImage *)image
 {
     self = [super init];
     if (self) {
@@ -86,6 +91,7 @@ static NSInteger kDefaultMax = 9;
         PhotoPreviewNetworkImageController* previewController = [[PhotoPreviewNetworkImageController alloc] init];
         previewController.indexPath = [NSIndexPath indexPathForItem:currentIndex inSection:0];
         previewController.images = imageList;
+        previewController.placeholderImage = image;
         [controller presentViewController:previewController animated:NO completion:Nil];
     }
     return self;

@@ -423,7 +423,7 @@
 - (void)downloadImageWithAsset:(PHAsset*)asset
 {
     @weakify(self);
-    [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:asset allowNetwork:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+    [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:PHImageManagerMaximumSize asset:asset allowNetwork:YES multiCallback:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
        
         @strongify(self);
         if (!resultImage) {

@@ -51,7 +51,7 @@
     }else {
         
         @weakify(self);
-        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(200, 200) asset:asset allowNetwork:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+        [[PhotoPickerManager sharedManager] asyncTumbnailWithSize:CGSizeMake(200, 200) asset:asset allowNetwork:YES multiCallback:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
             
             @strongify(self);
             PhotoAlbumItem* currentItem = self.item;

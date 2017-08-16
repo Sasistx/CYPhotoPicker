@@ -54,20 +54,20 @@ static PhotoPickerManager* sharedManager = nil;
 
 - (void)syncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowCache:(BOOL)allowCache completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
-    [self getImageWithSize:size asset:asset allowNetwork:NO allowCache:allowCache synchronous:YES multyCallBack:NO completion:completion];
+    [self getImageWithSize:size asset:asset allowNetwork:NO allowCache:allowCache synchronous:YES multiCallback:NO completion:completion];
 }
 
-- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork multyCallBack:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork multiCallback:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
-    [self asyncTumbnailWithSize:size asset:asset allowNetwork:allowNetwork allowCache:YES multyCallBack:multiCallback completion:completion];
+    [self asyncTumbnailWithSize:size asset:asset allowNetwork:allowNetwork allowCache:YES multiCallback:multiCallback completion:completion];
 }
 
-- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache multyCallBack:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+- (void)asyncTumbnailWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache multiCallback:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
-    [self getImageWithSize:size asset:asset allowNetwork:allowNetwork allowCache:allowCache synchronous:NO multyCallBack:multiCallback completion:completion];
+    [self getImageWithSize:size asset:asset allowNetwork:allowNetwork allowCache:allowCache synchronous:NO multiCallback:multiCallback completion:completion];
 }
 
-- (void)getImageWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache synchronous:(BOOL)synchronous multyCallBack:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
+- (void)getImageWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache synchronous:(BOOL)synchronous multiCallback:(BOOL)multiCallback completion:(void (^)(UIImage* resultImage, NSDictionary *resultInfo))completion
 {
     PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
     
@@ -102,7 +102,7 @@ static PhotoPickerManager* sharedManager = nil;
 }
 
 
-- (void)getImageDataWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache synchronous:(BOOL)synchronous multyCallBack:(BOOL)multiCallback completion:(void (^)(NSData* imageData,NSString * dataUTI, UIImageOrientation orientation ,NSDictionary *resultInfo))completion{
+- (void)getImageDataWithSize:(CGSize)size asset:(PHAsset*)asset allowNetwork:(BOOL)allowNetwork allowCache:(BOOL)allowCache synchronous:(BOOL)synchronous multiCallback:(BOOL)multiCallback completion:(void (^)(NSData* imageData,NSString * dataUTI, UIImageOrientation orientation ,NSDictionary *resultInfo))completion{
 
     PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
     
@@ -166,7 +166,7 @@ static PhotoPickerManager* sharedManager = nil;
         
         PHAsset* innerAsset = ((PhotoListItem*)asset).asset;
         
-        [self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:innerAsset allowNetwork:YES allowCache:YES multyCallBack:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
+        [self asyncTumbnailWithSize:PHImageManagerMaximumSize asset:innerAsset allowNetwork:YES allowCache:YES multiCallback:NO completion:^(UIImage *resultImage, NSDictionary *resultInfo) {
             if (completion) {
                 
                 dispatch_async(dispatch_get_main_queue(), ^{

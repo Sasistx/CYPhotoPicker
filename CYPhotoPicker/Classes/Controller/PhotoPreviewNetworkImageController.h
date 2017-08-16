@@ -12,4 +12,5 @@
 @interface PhotoPreviewNetworkImageController : UIViewController
 @property (nonatomic, strong) NSArray <PhotoNetworkItem *> * images;
 @property (nonatomic, strong) NSIndexPath* indexPath;
+@property (nonatomic, strong) UIImage* placeholderImage;
 @end
