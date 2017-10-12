@@ -25,6 +25,8 @@
 @property (nonatomic, strong) PHButton* sendButton;
 @property (nonatomic, strong) UIImageView* selectedImageView;
 @property (nonatomic, strong) UIImageView* deselectedImageView;
+@property (nonatomic, strong) UIView* bottomView;
+@property (nonatomic, strong) UIView* naviView;
 @property (nonatomic, copy) PhotoPreviewBackBlock backBlock;
 @property (nonatomic) BOOL isFirstShowOrigin;
 @end
@@ -34,14 +36,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.navigationController setNavigationBarHidden:YES];
+    
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         self.extendedLayoutIncludesOpaqueBars = YES;
         self.automaticallyAdjustsScrollViewInsets = YES;
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    self.view.backgroundColor = [UIColor blackColor];
     _isFirstShowOrigin = YES;
     // Do any additional setup after loading the view.
-    [self.navigationController setNavigationBarHidden:YES];
     [self createCollectionView];
     [self createNaviView];
     [self createBottomView];
@@ -59,6 +63,17 @@
     [self.navigationController setNavigationBarHidden:NO];
 }
 
+- (void)viewSafeAreaInsetsDidChange {
+    
+    [super viewSafeAreaInsetsDidChange];
+    
+    CGFloat bottomViewTop = self.view.frame.size.height - self.view.safeAreaInsets.bottom - 50;
+    CGFloat naviViewTopHeight = self.view.safeAreaInsets.top;
+    
+    [_naviView setFrame:CGRectMake(0, 0, _naviView.frame.size.width, 60 + naviViewTopHeight)];
+    [_bottomView setFrame:CGRectMake(0, bottomViewTop, _bottomView.frame.size.width, _bottomView.frame.size.height)];
+}
+
 #pragma mark -
 #pragma mark -
 
@@ -72,16 +87,18 @@
 
 - (void)createNaviView
 {
-    UIView* naviView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.height - 60, 60)];
-    [naviView setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.3]];
-    [self.view addSubview:naviView];
+    _naviView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.height - 60, 60)];
+    [_naviView setBackgroundColor:[UIColor colorWithWhite:0.3 alpha:0.3]];
+    [self.view addSubview:_naviView];
     
     UIButton* naviButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [naviButton setImageEdgeInsets:UIEdgeInsetsMake(0, 8, 0, 8)];
     [naviButton setImage:[UIImage imageNamed:@"ph_navi_white_left_arrow"] forState:UIControlStateNormal];
     [naviButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [naviButton setFrame:CGRectMake(10, 25, 30, 20)];
-    [naviView addSubview:naviButton];
+    naviButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    naviButton.autoresizesSubviews = YES;
+    [_naviView addSubview:naviButton];
     
     _selectButton = [PHSelectButton buttonWithType:UIButtonTypeCustom];
     [_selectButton setFrame:CGRectMake(self.view.frame.size.width - 45, 20, 30, 30)];
@@ -92,8 +109,10 @@
     }
     
     [_selectButton addTarget:self action:@selector(selectButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    _selectButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    _selectButton.autoresizesSubviews = YES;
     _selectButton.selected = NO;
-    [naviView addSubview:_selectButton];
+    [_naviView addSubview:_selectButton];
     
     [self updateCurrentImageSelectState:_indexPath.item];
 }
@@ -106,7 +125,17 @@
     [_collectionView setBackgroundColor:[UIColor blackColor]];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
+    _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    _collectionView.autoresizesSubviews = YES;
     [_collectionView registerClass:[PhotoPreviewCell class] forCellWithReuseIdentifier:PRE_CELL_IDENTIFIER];
+    if (@available(iOS 11.0, *)) {
+        _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        _collectionView.contentInset = UIEdgeInsetsZero;
+        _collectionView.scrollIndicatorInsets = _collectionView.contentInset;
+    } else {
+        // Fallback on earlier versions
+    }
+    
     [self.view addSubview:_collectionView];
     
     [_collectionView scrollToItemAtIndexPath:_indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
@@ -114,16 +143,18 @@
 
 - (void)createBottomView
 {
-    UIView* bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, self.view.frame.size.width, 50)];
-    [bottomView setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.3]];
-    [self.view addSubview:bottomView];
+    _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, self.view.frame.size.width, 50)];
+    [_bottomView setBackgroundColor:[UIColor colorWithWhite:0.3 alpha:0.3]];
+    _bottomView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    _bottomView.autoresizesSubviews = YES;
+    [self.view addSubview:_bottomView];
     
     UIColor* buttonColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor;
     UIColor* textColor = [PhotoConfigureManager sharedManager].sendButtontextColor;
     
     NSString* sendTitle = ([PhotoConfigureManager sharedManager].sendButtonTitle && ![[PhotoConfigureManager sharedManager].sendButtonTitle isEqualToString:@""]) ? [PhotoConfigureManager sharedManager].sendButtonTitle : @"发送";
     _sendButton = [PHButton buttonWithType:UIButtonTypeCustom];
-    [_sendButton setFrame:CGRectMake(bottomView.frame.size.width - 80, 10, 70, 30)];
+    [_sendButton setFrame:CGRectMake(_bottomView.frame.size.width - 80, 10, 70, 30)];
     [_sendButton setTitle:sendTitle forState:UIControlStateNormal];
     
     if (buttonColor) {
@@ -136,7 +167,7 @@
 
     [_sendButton addTarget:self action:@selector(sendButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_sendButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
-    [bottomView addSubview:_sendButton];
+    [_bottomView addSubview:_sendButton];
     
     [self updateSendButtonText];
 }

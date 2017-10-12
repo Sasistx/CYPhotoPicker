@@ -27,6 +27,8 @@
 
 - (void)createZoomView
 {
+    self.contentView.backgroundColor = [UIColor blackColor];
+    
     _zoomView = [[PhotoPreviewZoomScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     _zoomView.scrollEnabled = YES;
     [self.contentView addSubview:_zoomView];

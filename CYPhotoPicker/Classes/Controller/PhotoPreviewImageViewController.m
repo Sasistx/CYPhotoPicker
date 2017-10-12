@@ -27,10 +27,14 @@
     
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     [self.view addSubview:_scrollView];
+    _scrollView.autoresizesSubviews = YES;
+    _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
     [_scrollView setBackgroundColor:[UIColor blackColor]];
     
     _backView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width , 60)];
     [_backView setBackgroundColor:[UIColor colorWithRed:50/255.0 green:50/255.0 blue:50/255.0 alpha:1]];
+    _backView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+    _backView.autoresizesSubviews = YES;
     [self.view addSubview:_backView];
     
     UIButton* cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -74,6 +78,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewSafeAreaInsetsDidChange {
+    
+    [super viewSafeAreaInsetsDidChange];
+    NSLog(@"%@", NSStringFromCGRect(self.view.safeAreaLayoutGuide.layoutFrame));
 }
 
 #pragma mark - set block

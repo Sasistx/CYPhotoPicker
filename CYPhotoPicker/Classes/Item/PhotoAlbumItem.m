@@ -27,6 +27,8 @@
         [self setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         
         _thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 0, 60, 60)];
+        _thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _thumbImageView.clipsToBounds = YES;
         [self.contentView addSubview:_thumbImageView];
         
         _thumbTitle = [[UILabel alloc] initWithFrame:CGRectMake(90, 15, [UIScreen mainScreen].bounds.size.width - 90 - 20, 30)];
