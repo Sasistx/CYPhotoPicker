@@ -65,6 +65,19 @@
  */
 + (instancetype _Nullable)showFromController:(UIViewController* _Nonnull)controller option:(PhotoPickerOption)option showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock _Nullable)dissmissBlock;
 
+
+/**
+ CYPicker初始化方法
+
+ @param controller 当前controller
+ @param option 所展示的相册选项，目前支持，PhotoPickerOptionAlbum，PhotoPickerOptionCamera，PhotoPickerOptionAlbum | PhotoPickerOptionCamera 3种
+ @param showPreview 相册选择是否展示预览
+ @param dissmissBlock 选择回掉方法
+ @param denyBlock 若用户为授权，调用相册，相机被deny后会回掉此方法
+ @return CYPicker
+ */
++ (instancetype _Nullable)showFromController:(UIViewController* _Nonnull)controller option:(PhotoPickerOption)option showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock _Nullable)dissmissBlock denyBlock:(PhotoPickerPermissionDeniedBlock _Nullable)denyBlock;
+
 /**
  *  将相册或相机从当前controller展示的方法
  */

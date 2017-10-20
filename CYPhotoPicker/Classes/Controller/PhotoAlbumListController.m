@@ -59,6 +59,12 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
+    
+    if (@available(iOS 11.0, *)) {
+        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAlways;
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 - (void)getAlbumsList

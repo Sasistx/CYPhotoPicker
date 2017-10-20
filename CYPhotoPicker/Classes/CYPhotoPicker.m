@@ -23,6 +23,7 @@ static NSInteger kDefaultMax = 9;
 @interface CYPhotoPicker () <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, weak) UIViewController* currentController;
 @property (nonatomic, copy) PhotoPickerDismissBlock dissmissBlock;
+@property (nonatomic, copy) PhotoPickerPermissionDeniedBlock denyBlock;
 @end
 
 @implementation CYPhotoPicker
@@ -51,11 +52,16 @@ static NSInteger kDefaultMax = 9;
 
 + (instancetype _Nullable)showFromController:(UIViewController* _Nonnull)controller option:(PhotoPickerOption)option showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock _Nullable)dissmissBlock
 {
-    CYPhotoPicker* sharedPicker = [[self alloc] initWithCurrentController:controller option:option showPreview:showPreview compeletionBlock:dissmissBlock];
+    return [CYPhotoPicker showFromController:controller option:option showPreview:showPreview compeletionBlock:dissmissBlock denyBlock:nil];
+}
+
++ (instancetype _Nullable)showFromController:(UIViewController* _Nonnull)controller option:(PhotoPickerOption)option showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock _Nullable)dissmissBlock denyBlock:(PhotoPickerPermissionDeniedBlock _Nullable)denyBlock {
+    
+    CYPhotoPicker* sharedPicker = [[self alloc] initWithCurrentController:controller option:option showPreview:showPreview compeletionBlock:dissmissBlock denyBlock:denyBlock];
     return sharedPicker;
 }
 
-- (instancetype)initWithCurrentController:(UIViewController*)controller option:(PhotoPickerOption)option showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock)dissmissBlock
+- (instancetype)initWithCurrentController:(UIViewController*)controller option:(PhotoPickerOption)option showPreview:(BOOL)showPreview compeletionBlock:(PhotoPickerDismissBlock)dissmissBlock denyBlock:(PhotoPickerPermissionDeniedBlock)denyBlock
 {
     self = [super init];
     if (self) {
@@ -67,6 +73,7 @@ static NSInteger kDefaultMax = 9;
         [PhotoConfigureManager sharedManager].currentPicker = self;
         [PhotoConfigureManager sharedManager].sendButtonTitle = kSendButtonTitle;
         self.dissmissBlock = dissmissBlock;
+        self.denyBlock = denyBlock;
     }
     return self;
 }
@@ -205,14 +212,18 @@ static NSInteger kDefaultMax = 9;
 
 - (void)showCamera
 {
-    if (PH_IOSOVER(7)) {
-        NSString* mediaType = AVMediaTypeVideo; // Or AVMediaTypeAudio
-        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
-        if (authStatus == AVAuthorizationStatusDenied) {
+    NSString* mediaType = AVMediaTypeVideo; // Or AVMediaTypeAudio
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+    if (authStatus == AVAuthorizationStatusDenied) {
+        
+        if (self.denyBlock) {
+            
+            self.denyBlock(PhotoPickerDenyTypeCamera);
+        } else {
             
             [PhotoUtility showAlertWithMsg:@"请在“设置-隐私-相机”中允许访问相机" controller:_currentController];
-            return;
         }
+        return;
     }
 
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -233,6 +244,21 @@ static NSInteger kDefaultMax = 9;
 
 - (void)showAlbum
 {
+    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+    if (status == PHAuthorizationStatusRestricted ||
+        status == PHAuthorizationStatusDenied) {
+        
+        if (self.denyBlock) {
+            
+            self.denyBlock(PhotoPickerDenyTypeAlbum);
+        } else {
+            
+            [PhotoUtility showAlertWithMsg:@"请在“设置-隐私-相册”中允许访问相册" controller:_currentController];
+        }
+        
+        return;
+    }
+    
     PhotoAlbumListController* controller = [[PhotoAlbumListController alloc] init];
     controller.showPreview = _showPreview;
     controller.dissmissBlock = self.dissmissBlock;

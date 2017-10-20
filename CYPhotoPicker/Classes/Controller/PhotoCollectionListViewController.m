@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSMutableArray* dataItems;
 @property (nonatomic, strong) PHButton* sendButton;
 @property (nonatomic, strong) PHButton* previewButton;
+@property (nonatomic, strong) UIView* bottomView;
 @property (nonatomic, assign) BOOL isOne;
 @end
 
@@ -43,7 +44,7 @@
     }
     
     [self createCollectionView];
-    [self bottomView];
+    [self createBottomView];
     [self loadPhotoAsset];
 }
 
@@ -102,31 +103,37 @@
     [_collectionView registerClass:[PhotoListItemCell class]
         forCellWithReuseIdentifier:CELL_IDENTIFIER];
     [self.view addSubview:self.collectionView];
+    
+    if (@available(iOS 11.0, *)) {
+        _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAlways;
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
-- (void)bottomView
+- (void)createBottomView
 {
-    UIView* bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, self.view.frame.size.width, 50)];
-    [bottomView setBackgroundColor:[UIColor whiteColor]];
-    bottomView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, self.view.frame.size.width, 50)];
+    [_bottomView setBackgroundColor:[UIColor whiteColor]];
+    _bottomView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     UIColor* buttonColor = [PhotoConfigureManager sharedManager].buttonBackgroundColor;
     UIColor* textColor = [PhotoConfigureManager sharedManager].sendButtontextColor;
     
     NSString* sendTitle = ([PhotoConfigureManager sharedManager].sendButtonTitle && ![[PhotoConfigureManager sharedManager].sendButtonTitle isEqualToString:@""]) ? [PhotoConfigureManager sharedManager].sendButtonTitle : @"发送";
     _sendButton = [PHButton buttonWithType:UIButtonTypeCustom];
-    [_sendButton setFrame:CGRectMake(bottomView.frame.size.width - 80, 10, 70, 31)];
+    [_sendButton setFrame:CGRectMake(_bottomView.frame.size.width - 80, 10, 70, 31)];
     [_sendButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
     [_sendButton setTitle:sendTitle forState:UIControlStateNormal];
     [_sendButton addTarget:self action:@selector(onSendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [bottomView addSubview:_sendButton];
+    [_bottomView addSubview:_sendButton];
     
     if (_showPreview) {
         _previewButton = [PHButton buttonWithType:UIButtonTypeCustom];
         [_previewButton setFrame:CGRectMake(10, 10, 70, 31)];
         [_previewButton setTitle:@"预览" forState:UIControlStateNormal];
         [_previewButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [bottomView addSubview:_previewButton];
+        [_bottomView addSubview:_previewButton];
     }
 
     if (buttonColor) {
@@ -140,11 +147,23 @@
         [_previewButton setTitleColor:textColor forState:UIControlStateNormal];
     }
     
-    [self.view addSubview:bottomView];
+    [self.view addSubview:_bottomView];
     
-    [_collectionView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - bottomView.frame.size.height)];
+    [_collectionView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - _bottomView.frame.size.height)];
     
     [self updatePreviewButton];
+}
+
+- (void)viewSafeAreaInsetsDidChange {
+    
+    [super viewSafeAreaInsetsDidChange];
+    CGFloat safeHeight = 0;
+    if (@available(iOS 11.0, *)) {
+        safeHeight = self.view.safeAreaLayoutGuide.layoutFrame.size.height + self.view.safeAreaInsets.top;
+    } else {
+        safeHeight = self.view.frame.size.height;
+    }
+    _bottomView.frame = CGRectMake(0, safeHeight - 50, self.view.frame.size.width, 50);
 }
 
 - (void)loadPhotoAsset

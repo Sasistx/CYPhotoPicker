@@ -59,14 +59,21 @@ alpha: 1]
 #import "PhotoPickerManager.h"
 #import "PhotoConfigureManager.h"
 
-
-typedef void (^PhotoPickerDismissBlock)(NSArray *imageAssets);
-
 typedef NS_ENUM(NSInteger, PhotoPickerOption)
 {
     PhotoPickerOptionAlbum            =   1 << 0,
     PhotoPickerOptionCamera           =   1 << 1,
 };
+
+typedef NS_ENUM(NSInteger, PhotoPickerDenyType)
+{
+    PhotoPickerDenyTypeAlbum            =   1 << 0,
+    PhotoPickerDenyTypeCamera           =   1 << 1,
+};
+
+typedef void (^PhotoPickerDismissBlock)(NSArray *imageAssets);
+
+typedef void (^PhotoPickerPermissionDeniedBlock)(PhotoPickerDenyType denyType);
 
 #endif /* CYPhotoPickerDefines_h */
 
